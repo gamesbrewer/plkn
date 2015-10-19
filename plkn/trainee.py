@@ -155,7 +155,7 @@ def Update_Trainee(ic_no, new_name, new_company_id, new_index_no, new_blok_no,
         update_trainee.bed_no = new_bed_no
         update_trainee.gender = new_gender
         update_trainee.race = None if new_race_id == "" else Races.select().where(Races.id==new_race_id).get()
-        update_trainee.religion = Religions.select().where(Religions.id==new_religion_id).get()
+        update_trainee.religion = None if new_religion_id == "" else Religions.select().where(Religions.id==new_religion_id).get()
         update_trainee.age = new_age
         update_trainee.phone1 = new_phone1
         update_trainee.phone2 = new_phone2
