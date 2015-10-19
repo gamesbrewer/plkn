@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Restaurant Management System</title>
+
+    <!-- Core CSS - Include with every page -->
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='font-awesome/css/font-awesome.css') }}" rel="stylesheet">
+
+    <!-- Page-Level Plugin CSS - Dashboard -->
+    <link href="{{ url_for('static', filename='css/plugins/morris/morris-0.4.3.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/plugins/timeline/timeline.css') }}" rel="stylesheet">
+
+    <!-- SB Admin CSS - Include with every page -->
+    <link href="{{ url_for('static', filename='css/sb-admin.css') }}" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="./Dashboard">Dashboard</a>
+            </div>
+            <!-- /.navbar-header -->
+
+            <ul class="nav navbar-top-links navbar-right">
+				Welcome {{ user_name }}({{ level }})
+                <!-- /.dropdown -->
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                        </li>
+                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li><a href="/Sign-Out"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-user -->
+                </li>
+                <!-- /.dropdown -->
+            </ul>
+            <!-- /.navbar-top-links -->
+
+            <div class="navbar-default navbar-static-side" role="navigation">
+                <div class="sidebar-collapse">
+                    <ul class="nav" id="side-menu">
+                        <li class="sidebar-search">
+                            <div class="input-group custom-search-form">
+                                <input type="text" class="form-control" placeholder="Search...">
+                                <span class="input-group-btn">
+                                <button class="btn btn-default" type="button">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                            </div>
+                            <!-- /input-group -->
+                        </li>
+                        <li>
+                            <a href="./Dashboard"><i class="fa fa-dashboard fa-fw"></i>Dashboard</a>
+                        </li>
+						
+						<li>
+							<a href="#"><i class="fa fa-check-square-o fa-fw"></i>Management<span class="fa arrow"></span></a>
+							<ul class="nav nav-second-level">
+								{% if level <= "2" %}
+									<li><a href="./Menus-Management"><i class="fa fa-coffee fa-fw"></i>F & B Menu</a></li>
+									<li><a href="./Tables-Management"><i class="fa fa-compass fa-fw"></i>Table</a></li>
+								{% endif %}
+								{% if level <= "3" %}
+									<li><a href="./Waiters-Management"><i class="fa fa-female fa-fw"></i>Waiter</a></li>
+								{% endif %}
+								{% if level <= "3" %}
+									<li><a href="./Kitchens-Management"><i class="fa fa-fire fa-fw"></i>Kitchen</a></li>
+								{% endif %}
+								{% if level <= "3" %}
+									<li><a href="./Cashiers-Management"><i class="fa fa-dollar fa-fw"></i>Cashier</a></li>
+								{% endif %}
+								{% if level <= "2" %}
+									<li><a href="./Orders-Management"><i class="fa fa-cutlery fa-fw"></i>Orders</a></li>
+									<li><a href="./Suppliers-Management"><i class="fa fa-truck fa-fw"></i>Suppliers</a></li>
+									<li><a href="./Customers-Management"><i class="fa fa-user fa-fw"></i>Customers Management</a></li>
+								{% endif %}
+							</ul>
+						</li>
+						
+						{% if level <= "2" %}
+							<li>
+								<a href="#"><i class="fa fa-pie-chart fa-fw"></i>Reports<span class="fa arrow"></span></a>
+								<ul class="nav nav-second-level">
+									<li><a href="./Sales-Report"><i class="fa fa-area-chart fa-fw"></i>Sales Report</a></li>
+									<li><a href="./Shift-Closing-Report"><i class="fa fa-bar-chart fa-fw"></i>Shift Closing Report</a></li>
+									<li><a href="./Employee-Attendance-Report"><i class="fa fa-line-chart fa-fw"></i>Employee Attendance Report</a></li>
+								</ul>
+							</li>
+						{% endif %}
+						
+						{% if level <= "2" %}
+							<li>
+								<a href="#"><i class="fa fa-sitemap fa-fw"></i>Operation<span class="fa arrow"></span></a>
+								<ul class="nav nav-second-level">
+									<li><a href="#"><i class="fa fa-coffee fa-fw"></i>F & B Menu Admin<span class="fa arrow"></span></a>
+										<ul class="nav nav-third-level">
+											<li><a href="./Menus-Categories"><i class="fa fa-table fa-fw"></i>Categories</a>
+											<li><a href="./Menus-Admin"><i class="fa fa-coffee fa-fw"></i>F & B Menu</a>
+										</ul>
+										<!-- /.nav-third-level -->
+									</li>
+									<li><a href="./Tables-Admin"><i class="fa fa-compass fa-fw"></i>Table Admin</a></li>
+									<li><a href="#"><i class="fa fa-users fa-fw"></i>Employee & Type<span class="fa arrow"></span></a>
+										<ul class="nav nav-third-level">
+											<li><a href="./Employees"><i class="fa fa-users fa-fw"></i>Employee</a></li>
+											<li><a href="./Time-Attendance"><i class="fa fa-users fa-fw"></i>Time Attendance</a></li>
+											<li><a href="./Employee-Types"><i class="fa fa-users fa-fw"></i>Employee Types</a></li>
+											<li><a href="./Shifts"><i class="fa fa-clock-o fa-fw"></i>Shifts</a></li>
+										</ul>
+										<!-- /.nav-third-level -->
+									</li>
+								</ul>
+								<!-- /.nav-second-level -->
+							</li>
+						{% endif %}
+						
+						{% if level <= "1" %}
+							<li>
+								<a href="#"><i class="fa fa-sitemap fa-fw"></i>Administration<span class="fa arrow"></span></a>
+								<ul class="nav nav-second-level">
+									<li>
+										<a href="#"><i class="fa fa-male fa-fw"></i>Users & Access<span class="fa arrow"></span></a>
+										<ul class="nav nav-third-level">
+											<li><a href="./Users"><i class="fa fa-male fa-fw"></i>Users</a></li>
+											<li><a href="./Access-Control"><i class="fa fa-male fa-fw"></i>Access Control List</a></li>
+										</ul>
+										<!-- /.nav-third-level -->
+									</li>
+									<li><a href="./Configs"><i class="fa fa-cog fa-fw"></i>System Configuration</a></li>
+								</ul>
+								<!-- /.nav-second-level -->
+							</li>
+						{% endif %}
+                    </ul>
+                    <!-- /#side-menu -->
+                </div>
+                <!-- /.sidebar-collapse -->
+            </div>
+            <!-- /.navbar-static-side -->
+        </nav>
+
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Add New Menu Item</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Menu Item Details
+							<h5 class="panel-title" style="color:red;font-weight:bold;">{{error}}</h5>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+								<div class="col-lg-10">
+									<form action="{{ upload_uri }}" role="form" method="POST" enctype="multipart/form-data">
+										<div class="form-group">
+											<label>Image</label>
+											<input type="file" name="file" class="form-control" placeholder="Enter Image">
+										</div>
+										<button type="submit" class="btn btn-default">Submit</button>
+										<button type="reset" class="btn btn-default">Reset</button>
+										<button type="back" class="btn btn-default" onClick="history.go(-1);return true;">Back</button>
+									</form>
+								</div>
+                                <!-- /.col-lg-10 (nested) -->
+                            </div>
+                            <!-- /.row (nested) -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /#page-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- Core Scripts - Include with every page -->
+    <script src="{{ url_for('static', filename='js/jquery-1.10.2.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/plugins/metisMenu/jquery.metisMenu.js') }}"></script>
+
+    <!-- Page-Level Plugin Scripts - Dashboard -->
+    <script src="{{ url_for('static', filename='js/plugins/morris/raphael-2.1.0.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/plugins/morris/morris.js') }}"></script>
+
+    <!-- SB Admin Scripts - Include with every page -->
+    <script src="{{ url_for('static', filename='js/sb-admin.js') }}"></script>
+
+    <!-- Page-Level Demo Scripts - Dashboard - Use for reference -->
+    <script src="{{ url_for('static', filename='js/demo/dashboard-demo.js') }}"></script>
+
+</body>
+
+</html>
