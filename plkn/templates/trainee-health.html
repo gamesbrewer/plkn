@@ -33,6 +33,10 @@
                         <div class="panel-body">
                             <div class="table-responsive">
 								{% if trainees %}
+									{% if page > 1 %}
+									<a href="./Management-Healths?pageno={{ page - 1 }}">Prev</a>
+									{% endif %}
+									<a href="./Management-Healths?pageno={{ page + 1 }}">Next</a>
                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                     <thead>
                                         <tr>

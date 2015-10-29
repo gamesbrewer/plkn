@@ -1,0 +1,165 @@
+{% extends "layout.html" %}
+{% block title %} {% endblock %}
+{% block pagewrapper %}
+
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Rawatan Pesakit Luar</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Butiran Pelatih
+							<h5 class="panel-title" style="color:red;font-weight:bold;">{{error}}</h5>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+								<form action="./Management-Healths-Edit" role="form" method="post">
+									<div class="panel panel-primary">
+										<div class="panel-heading">
+											Info
+										</div>
+										<div class="panel-body">
+											<div class="col-lg-6">
+												<div class="form-group">
+													<label>Nama</label>
+													<input disabled=disabled name="name" class="form-control" placeholder="Nama" value="{{ trainee.name }}">
+												</div>
+												
+												<div class="form-group">
+													<label>No KP</label>
+													<input disabled=disabled name="dummy_ic_no" class="form-control" placeholder="No KP"  value="{{ trainee.ic_no }}">
+													<input type="hidden" name="ic_no" value="{{ trainee.ic_no }}">
+												</div>
+											</div>
+											<div class="col-lg-6">
+												<div class="form-group">
+													<label>Kompeni</label>
+													<select disabled=disabled name="company" class="form-control">
+														{% for type in companies: %}
+														<option value="{{ type.id }}" {% if type.id == trainee.company.id %} selected=selected {% endif %}>{{ type.name }}</option>
+														{% endfor %}
+													</select>
+												</div>
+												
+												<div class="form-group">
+													<label>No Indeks</label>
+													<input disabled=disabled name="index_no" class="form-control" placeholder="No Indeks" value="{{ trainee.index_no }}">
+												</div>
+											</div>
+										</div>
+									</div>
+									
+									<div class="panel panel-info">
+										<div class="panel-heading">
+											Kesihatan
+										</div>
+										<div class="panel-body">
+											<div class="col-lg-6">
+												<div class="form-group">
+													<label>Kumpulan Darah</label>
+													<select name="blood_group" class="form-control">
+														{% for type in blood_groups: %}
+														<option value="{{ type.id }}" {% if type.id == trainee.blood_group.id %} selected=selected {% endif %}>{{ type.name }}</option>
+														{% endfor %}
+													</select>
+												</div>
+												<div class="form-group">
+													<label>Tinggi</label>
+													<input name="height" class="form-control" placeholder="Tinggi" value="{{ trainee.height }}">
+												</div>
+											</div>
+											<div class="col-lg-6">
+												<div class="form-group">
+													<label>Berat</label>
+													<input name="weight" class="form-control" placeholder="Berat" value="{{ trainee.weight }}">
+												</div>
+												<div class="form-group">
+													<label>BMI</label>
+													<input name="bmi" class="form-control" placeholder="BMI" value="{{ trainee.bmi }}">
+												</div>
+											</div>
+											<div class="col-lg-12"></div>
+											<div class="col-lg-6">
+												<div class="form-group">
+													<label>Alahan/Penyakit</label>
+													<select name="is_allergic" class="form-control">
+														<option value="False" {% if trainee.is_allergic == False %} selected=selected {% endif %}>Tiada</option>
+														<option value="True" {% if trainee.is_allergic == True %} selected=selected {% endif %}>Ada</option>
+													</select>
+												</div>
+												
+												<div class="form-group">
+													<label>Menu Makanan Khusus</label>
+													<select name="is_food_intolerant" class="form-control">
+														<option value="False" {% if trainee.is_food_intolerant == False %} selected=selected {% endif %}>Tiada</option>
+														<option value="True" {% if trainee.is_food_intolerant == True %} selected=selected {% endif %}>Ada</option>
+													</select>
+												</div>
+											</div>
+											<div class="col-lg-6">
+												<div class="form-group">
+													<label>Jika Ya, nyatakan Alahan/Penyakit</label>
+													<input name="allergies" class="form-control" placeholder="Alahan/Penyakit" value="{{ trainee.allergies }}">
+												</div>
+												
+												<div class="form-group">
+													<label>Jika Ya, nyatakan Menu Makanan Khusus</label>
+													<input name="food_intolerance" class="form-control" placeholder="Menu Makanan Khusus" value="{{ trainee.food_intolerance }}">
+												</div>
+											</div>
+										</div>
+									</div>
+									
+									<div class="panel panel-primary">
+										<div class="panel-heading">
+											Rujukan
+										</div>
+										<div class="panel-body">
+											<div class="col-lg-4">
+												<div class="form-group">
+													<label>No Fail Rujukan</label>
+													<input name="reference_no" class="form-control" placeholder="No Fail Rujukan" value="{{ trainee.reference_no }}">
+												</div>
+											</div>
+											<div class="col-lg-4">
+												<div class="form-group">
+													<label>Telah Mengisi Borang Pengakuan</label>
+													<select name="is_declared" class="form-control">
+														<option value="False">No</option>
+														<option value="True">Yes</option>
+													</select>
+												</div>
+											</div>
+											<div class="col-lg-4">
+												<div class="form-group">
+													<label>Rekod Simpanan Ubat</label>
+													<textarea name="medicine_journal" class="form-control" rows="3"  value="{{ trainee.medicine_journal }}"></textarea>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-12">
+										<button type="submit" class="btn btn-default">{% if delete %} Padam {% else %} Simpan {% endif %}</button>
+										<button type="reset" class="btn btn-default">Reset</button>
+									</div>
+								</form>
+								
+                                <!-- /.col-lg-10 (nested) -->
+                            </div>
+                            <!-- /.row (nested) -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+        </div>
+{% endblock %}

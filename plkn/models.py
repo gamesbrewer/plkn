@@ -220,6 +220,45 @@ class LastPrintCount(peewee.Model):
     class Meta:
         database = database
 
+class Admittances(peewee.Model):
+    trainee = peewee.ForeignKeyField(Trainees, null=True)
+    details = peewee.TextField(null=True)
+    diagnosis = peewee.TextField(null=True)
+    blood_pressure = peewee.CharField(null=True)
+    temperature = peewee.CharField(null=True)
+    pulse = peewee.CharField(null=True)
+    respiration = peewee.CharField(null=True)
+    is_deleted = peewee.BooleanField(default=False)
+    created_by = peewee.ForeignKeyField(Users)
+    timestamp = peewee.DateTimeField(default=datetime.datetime.now)
+    
+    class Meta:
+        database = database
+
+class InventoryCategories(peewee.Model):
+    name = peewee.CharField(null=False)
+    is_deleted = peewee.BooleanField(default=False)
+    created_by = peewee.ForeignKeyField(Users)
+    timestamp = peewee.DateTimeField(default=datetime.datetime.now)
+
+    class Meta:
+        database = database
+
+class Inventories(peewee.Model):
+    item = peewee.CharField(null=False)
+    category = peewee.ForeignKeyField(InventoryCategories, null=True)
+    code = peewee.CharField(null=True)
+    unit_price = peewee.DecimalField(null=True)
+    quantity = peewee.IntegerField(null=True)
+    is_deleted = peewee.BooleanField(default=False)
+    created_by = peewee.ForeignKeyField(Users)
+    timestamp = peewee.DateTimeField(default=datetime.datetime.now)
+    
+    class Meta:
+        database = database
+
+#------------ Database Creation & Initialization ---------------------------------------
+
 if __name__ == "__main__":
     try:
         Users.create_table()
@@ -318,3 +357,19 @@ if __name__ == "__main__":
             Dormitory.create(room_no="BP" + str(x), occupancy=0)
     except peewee.OperationalError:
         print "Dormitory table already exists!"
+
+    try:
+        Admittances.create_table()
+    except peewee.OperationalError:
+        print "Admittances table already exists!"
+        
+    try:
+        InventoryCategories.create_table()
+    except peewee.OperationalError:
+        print "InventoryCategories table already exists!"
+
+    try:
+        Inventories.create_table()
+    except peewee.OperationalError:
+        print "Inventories table already exists!"
+  

@@ -13,7 +13,8 @@ from education import *
 from relation import *
 from blood_group import *
 from trainee import *
-
+from admittance import *
+from inventory import *
 
 general = Blueprint('general', __name__)
 webservice = Blueprint('webservice', __name__)
@@ -191,11 +192,16 @@ def Blood_Group_New():
 @general.route('/Management-Trainees', methods=['POST', 'GET'])
 def Trainee():
     if request.method == 'POST':
-        trainees = Trainees.select().where(Trainees.name.contains(request.form['search']) | Trainees.ic_no.contains(request.form['search'])).where(Trainees.is_deleted==False).order_by(Trainees.id)
+        page_no = 1
+        trainees = Trainees.select().where(Trainees.name.contains(request.form['search']) | Trainees.ic_no.contains(request.form['search'])).where(Trainees.is_deleted==False).order_by(Trainees.id).paginate(page_no, 10)
     else:
-        trainees = [] #Trainees.select().where(Trainees.is_deleted==False).order_by(Trainees.id)
-    #trainees = Trainees.select().order_by(Trainees.id).paginate(1, 20)
-    return render_template('trainee.html', user_name=session['username'], level=session['level'], trainees = trainees)
+        if request.args.get('pageno'):
+            page_no = int(request.args.get('pageno'))
+        else:
+            page_no = 1
+        trainees = []
+        
+    return render_template('trainee.html', user_name=session['username'], level=session['level'], trainees = trainees, page = page_no)
 
 @general.route('/Management-Trainees-New', methods=['POST', 'GET'])
 def Trainee_New():
@@ -206,7 +212,6 @@ def Trainee_New():
     educations = Educations.select().order_by(Educations.id)
     relations = Relations.select().order_by(Relations.id)
     if request.method == 'POST':
-        print request.form['kin_address']
         if request.form['ic_no']:
             if Create_Trainee(request.form['name'], request.form['ic_no'], request.form['company'], request.form['index_no'], 
                               request.form['blok_no'], request.form['room_no'], request.form['bed_no'], 
@@ -290,11 +295,15 @@ def Trainee_Delete():
 @general.route('/Management-Healths', methods=['POST', 'GET'])
 def Trainee_Health():
     if request.method == 'POST':
-        trainees = Trainees.select().where(Trainees.name.contains(request.form['search']) | Trainees.index_no.contains(request.form['search'])).where(Trainees.is_deleted==False).order_by(Trainees.id)
+        page_no = 1
+        trainees = Trainees.select().where(Trainees.name.contains(request.form['search']) | Trainees.index_no.contains(request.form['search'])).where(Trainees.is_deleted==False).order_by(Trainees.id).paginate(page_no, 10)
     else:
-        trainees = [] #Trainees.select().where(Trainees.is_deleted==False).order_by(Trainees.id)
-    #trainees = Trainees.select().order_by(Trainees.id).paginate(1, 20)
-    return render_template('trainee-health.html', user_name=session['username'], level=session['level'], trainees = trainees)
+        if request.args.get('pageno'):
+            page_no = int(request.args.get('pageno'))
+        else:
+            page_no = 1
+        trainees = Trainees.select().where(Trainees.is_deleted==False).order_by(Trainees.id).paginate(page_no, 10)
+    return render_template('trainee-health.html', user_name=session['username'], level=session['level'], trainees = trainees, page = page_no)
 
 @general.route('/Management-Healths-Edit', methods=['POST', 'GET'])
 def Trainee_Health_Edit():
@@ -327,14 +336,50 @@ def Trainee_Health_Edit():
                            companies = companies, religions = religions, educations = educations, relations = relations, blood_groups = blood_groups,
                            error=error)
 
+@general.route('/Management-Admittances', methods=['POST', 'GET'])
+def Trainee_Admittance():    
+    if request.method == 'POST':
+        page_no = 1
+        admittances = Admittances.select().join(Trainees).where(Trainees.name.contains(request.form['search']) | Trainees.index_no.contains(request.form['search'])).where(Trainees.is_deleted==False).order_by(Admittances.id).paginate(page_no, 10)
+    else:
+        if request.args.get('pageno'):
+            page_no = int(request.args.get('pageno'))
+        else:
+            page_no = 1
+        admittances = Admittances.select().join(Trainees).where(Trainees.is_deleted==False).order_by(Admittances.id).paginate(page_no, 10)
+
+    return render_template('trainee-admittance.html', user_name=session['username'], level=session['level'], admittances = admittances, page = page_no)
+
+@general.route('/Management-Admittances-New', methods=['POST', 'GET'])
+def Trainee_Admittance_New():
+    error = ''
+    if request.method == 'POST':
+        if request.form['ic_no']:
+            if Create_Admittance(request.form['ic_no'], request.form['details'], request.form['diagnosis'], 
+                              request.form['blood_pressure'], request.form['temperature'], request.form['pulse'],
+                              request.form['respiration']):
+                return redirect(url_for('.Trainee_Admittance'))
+            else:
+                error = 'Error Occured, Trainee Admittance Already Exist'
+        else:
+            error = 'Please Enter All Values'
+    else:
+        # was GET or error occurred
+        trainees = Trainees.select().where(Trainees.is_deleted==False).order_by(Trainees.id)
+    return render_template('trainee-admittance-form.html', user_name=session['username'], level=session['level'], trainees = trainees, trainee = [], edit = False, delete = False, error=error)
+
 @general.route('/Management-Logistics', methods=['POST', 'GET'])
 def Trainee_Logistic():
     if request.method == 'POST':
-        trainees = Trainees.select().where(Trainees.name.contains(request.form['search']) | Trainees.index_no.contains(request.form['search'])).where(Trainees.is_deleted==False).order_by(Trainees.id)
+        page_no = 1
+        trainees = Trainees.select().where(Trainees.name.contains(request.form['search']) | Trainees.index_no.contains(request.form['search'])).where(Trainees.is_deleted==False).order_by(Trainees.id).paginate(page_no, 10)
     else:
-        trainees = [] #Trainees.select().where(Trainees.is_deleted==False).order_by(Trainees.id)
-    #trainees = Trainees.select().order_by(Trainees.id).paginate(1, 20)
-    return render_template('trainee-logistic.html', user_name=session['username'], level=session['level'], trainees = trainees)
+        if request.args.get('pageno'):
+            page_no = int(request.args.get('pageno'))
+        else:
+            page_no = 1
+        trainees = Trainees.select().where(Trainees.is_deleted==False).order_by(Trainees.id).paginate(page_no, 10)
+    return render_template('trainee-logistic.html', user_name=session['username'], level=session['level'], trainees = trainees, page = page_no)
 
 @general.route('/Management-Logistics-Edit', methods=['POST', 'GET'])
 def Trainee_Logistic_Edit():
@@ -373,6 +418,47 @@ def Trainee_Logistic_Edit():
                            companies = companies, religions = religions, educations = educations, relations = relations, 
                            shirt_sizes = shirt_sizes, pant_sizes = pant_sizes, shoe_sizes = shoe_sizes, free_sizes = free_sizes, beret_sizes = beret_sizes,
                            error=error)
+
+@general.route('/Management-Inventory-Categories')
+def Inventory_Category():
+    categories = InventoryCategories.select().order_by(InventoryCategories.id)
+    return render_template('inventory-category.html', user_name=session['username'], level=session['level'], categories = categories)
+
+@general.route('/Management-Inventory-Categories-New', methods=['POST', 'GET'])
+def Inventory_Category_New():
+    error = ''
+    if request.method == 'POST':
+        if request.form['name']:
+            if Create_Inventory_Category(request.form['name']):
+                return redirect(url_for('.Inventory_Category'))
+            else:
+                error = 'Error Occured, Category Already Exist'
+        else:
+            error = 'Please Enter All Values'
+    # was GET or error occurred
+    return render_template('inventory-category-form.html', user_name=session['username'], level=session['level'], error=error)
+
+@general.route('/Management-Inventories')
+def Inventory():
+    inventories = Inventories.select().order_by(Inventories.id)
+    return render_template('inventory.html', user_name=session['username'], level=session['level'], inventories = inventories)
+
+@general.route('/Management-Inventories-New', methods=['POST', 'GET'])
+def Inventory_New():
+    error = ''
+    if request.method == 'POST':
+        if request.form['item']:
+            if Create_Inventory(request.form['item'], request.form['category'], request.form['code'], request.form['unit_price']):
+                return redirect(url_for('.Inventory'))
+            else:
+                error = 'Error Occured, Inventory Already Exist'
+        else:
+            error = 'Please Enter All Values'
+    # was GET or error occurred
+    categories = InventoryCategories.select().order_by(InventoryCategories.id)
+    return render_template('inventory-form.html', user_name=session['username'], level=session['level'], categories = categories, edit = False, error=error)
+
+#------ REPORTS  --------------------------
 
 @general.route('/Report-Trainees')
 def Report_Trainee():

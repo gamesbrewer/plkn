@@ -54,7 +54,9 @@
 												<td>{{ type.index_no }}</td>
 												<td>
 												    <a href="/Management-Trainees-Edit?ic_no={{ type.ic_no }}"><button>Kemaskini</button></a>
-													<a href="/Management-Trainees-Delete?ic_no={{ type.ic_no }}"><button>Padam</button></a>
+													{% if level <= "2" %}
+														<a href="/Management-Trainees-Delete?ic_no={{ type.ic_no }}"><button>Padam</button></a>
+													{% endif %}
 												</td>
 											</tr>
 										{% endfor %}

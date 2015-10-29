@@ -79,22 +79,17 @@
 								{% if level <= "3" %}
 									<li><a href="./Management-Trainees"><i class="fa fa-male fa-fw"></i>Khidmat Pengurusan</a></li>
 									<li><a href="./Management-Healths"><i class="fa fa-bar-chart fa-fw"></i>Unit Kesihatan</a></li>
+									<ul class="nav nav-third-level">
+										<li><a href="./Management-Admittances"><i class="fa fa-ambulance fa-fw"></i>Admittance Record</a></li>
+									</ul>
 									<li><a href="./Management-Logistics"><i class="fa fa-cutlery fa-fw"></i>Unit Logistik</a></li>
+									<ul class="nav nav-third-level">
+										<li><a href="./Management-Inventory-Categories"><i class="fa fa-coffee fa-fw"></i>Category</a></li>
+										<li><a href="./Management-Inventories"><i class="fa fa-briefcase fa-fw"></i>Inventory</a></li>
+									</ul>
 								{% endif %}
 							</ul>
 						</li>
-{############----------------------------------------------------------------------------------------------------------------------
-						<li>
-							<a href="#"><i class="fa fa-check-square-o fa-fw"></i>Cetak Borang<span class="fa arrow"></span></a>
-							<ul class="nav nav-second-level">
-								{% if level <= "3" %}
-									<li><a href="./Menus-Management"><i class="fa fa-male fa-fw"></i>Pendaftaran</a></li>
-									<li><a href="./Tables-Management"><i class="fa fa-bar-chart fa-fw"></i>Kesihatan</a></li>
-									<li><a href="./Tables-Management"><i class="fa fa-cutlery fa-fw"></i>Logistik</a></li>
-								{% endif %}
-							</ul>
-						</li>
-------------------------------------------------------------------------------------------------------------------------############}
 						{% if level <= "2" %}
 							<li>
 								<a href="#"><i class="fa fa-pie-chart fa-fw"></i>Reports<span class="fa arrow"></span></a>
