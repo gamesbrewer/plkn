@@ -28,9 +28,7 @@
                 <div class="col-lg-12">
                     <div class="panel panel-default">
 						<div class="panel-heading">
-							<form >
-								<INPUT TYPE="button" value="Daftar Baru" onClick="parent.location='./Management-Admittances-New'">
-							</form>
+							
                         </div>
                         <div class="panel-body">
                             <div class="table-responsive">
@@ -42,6 +40,7 @@
 											<th>No KP</th>
                                             <th>Nama</th>
 											<th>No Indeks</th>
+											<th>Tarikh/Masa</th>
 											<th>Tindakan</th>
                                         </tr>
                                     </thead>
@@ -53,7 +52,10 @@
 												<td>{{ type.trainee.name }}</td>
 												<td>{{ type.trainee.index_no }}</td>
 												<td>{{ type.timestamp }}</td>
-												<td><a href="/Management-Admittances-Edit?id={{ type.id }}"><button>Kemaskini</button></a></td>
+												<td>
+													<a href="/Management-Admittances-Edit?id={{ type.id }}"><button>Kemaskini</button></a>
+													<a href="/Print-Admittances?id={{ type.id }}" target="_blank"><button>Cetak</button></a>
+												</td>
 											</tr>
 										{% endfor %}
                                     </tbody>

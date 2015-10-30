@@ -341,14 +341,16 @@ def Trainee_Admittance():
     if request.method == 'POST':
         page_no = 1
         admittances = Admittances.select().join(Trainees).where(Trainees.name.contains(request.form['search']) | Trainees.index_no.contains(request.form['search'])).where(Trainees.is_deleted==False).order_by(Admittances.id).paginate(page_no, 10)
+        trainees = Trainees.select().where(Trainees.name.contains(request.form['search']) | Trainees.index_no.contains(request.form['search'])).where(Trainees.is_deleted==False).order_by(Trainees.id).paginate(page_no, 10)
     else:
         if request.args.get('pageno'):
             page_no = int(request.args.get('pageno'))
         else:
             page_no = 1
-        admittances = Admittances.select().join(Trainees).where(Trainees.is_deleted==False).order_by(Admittances.id).paginate(page_no, 10)
+        admittances = []
+        trainees = []
 
-    return render_template('trainee-admittance.html', user_name=session['username'], level=session['level'], admittances = admittances, page = page_no)
+    return render_template('trainee-admittance.html', user_name=session['username'], level=session['level'], admittances = admittances, trainees = trainees, page = page_no)
 
 @general.route('/Management-Admittances-New', methods=['POST', 'GET'])
 def Trainee_Admittance_New():
@@ -365,8 +367,37 @@ def Trainee_Admittance_New():
             error = 'Please Enter All Values'
     else:
         # was GET or error occurred
-        trainees = Trainees.select().where(Trainees.is_deleted==False).order_by(Trainees.id)
-    return render_template('trainee-admittance-form.html', user_name=session['username'], level=session['level'], trainees = trainees, trainee = [], edit = False, delete = False, error=error)
+        if request.method == 'GET':
+            ic_no = request.args.get('ic_no')
+        trainee = Trainees.select().where(Trainees.ic_no==ic_no).get()
+        admittance = []
+    return render_template('trainee-admittance-form.html', user_name=session['username'], level=session['level'], trainee = trainee,
+                           admittance = admittance, edit = False, delete = False, error=error)
+
+@general.route('/Management-Admittances-Edit', methods=['POST', 'GET'])
+def Trainee_Admittance_Edit():
+    error = ''
+    if request.method == 'POST':
+        if request.form['admittance_id']:
+            admittance_id = request.form['admittance_id']
+            if Update_Admittance(request.form['admittance_id'], request.form['details'], request.form['diagnosis'], 
+                              request.form['blood_pressure'], request.form['temperature'], request.form['pulse'],
+                              request.form['respiration']):
+                #return redirect(url_for('.Trainee_Admittance'))
+                error = "Admittance Updated!"
+            else:
+                error = 'Error Occured, Trainee Admittance Already Exist'
+        else:
+            error = 'Please Enter All Values'
+    else:
+        # was GET or error occurred
+        if request.method == 'GET':
+            admittance_id = request.args.get('id')
+    admittance = Admittances.select().where(Admittances.id==admittance_id).get()
+    companies = Companies.select().order_by(Companies.id)
+    trainee = Trainees.select().where(Trainees.ic_no==admittance.trainee.ic_no).get()
+    return render_template('trainee-admittance-form.html', user_name=session['username'], level=session['level'], trainee = trainee, companies = companies,
+                           admittance = admittance, edit = True, delete = False, error=error)
 
 @general.route('/Management-Logistics', methods=['POST', 'GET'])
 def Trainee_Logistic():
@@ -480,6 +511,13 @@ def Print_Logistic():
     new_print.save()
     trainees = Trainees.select().where(Trainees.ic_no==ic_no).where(Trainees.is_deleted==False).order_by(Trainees.id)
     return render_template('logistic-print.html', user_name=session['username'], level=session['level'], print_id = print_id, trainees = trainees)
+
+@general.route('/Print-Admittances')
+def Print_Medical():
+    admittance_id = request.args.get('id')
+    admittance = Admittances.select().where(Admittances.id==admittance_id).get()
+    companies = Companies.select().order_by(Companies.id)
+    return render_template('medical-print.html', user_name=session['username'], level=session['level'], admittance = admittance, companies = companies)
 #------ Web SERVICES  --------------------------
 
 @webservice.route('/User/<email>')

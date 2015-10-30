@@ -19,8 +19,8 @@
                         </div>
                         <div class="panel-body">
                             <div class="row">
-								<form action="./Management-Healths-Edit" role="form" method="post">
-									<div class="panel panel-primary">
+								<form action="./Management-Admittances-Edit" role="form" method="post">
+									<div class="panel panel-primary">										
 										<div class="panel-heading">
 											Info
 										</div>
@@ -34,7 +34,7 @@
 												<div class="form-group">
 													<label>No KP</label>
 													<input disabled=disabled name="dummy_ic_no" class="form-control" placeholder="No KP"  value="{{ trainee.ic_no }}">
-													<input type="hidden" name="ic_no" value="{{ trainee.ic_no }}">
+													<input type="hidden" name="admittance_id" value="{{ admittance.id }}">
 												</div>
 											</div>
 											<div class="col-lg-6">
@@ -54,92 +54,57 @@
 											</div>
 										</div>
 									</div>
-									
-									<div class="panel panel-info">
-										<div class="panel-heading">
-											Kesihatan
-										</div>
-										<div class="panel-body">
-											<div class="col-lg-6">
-												<div class="form-group">
-													<label>Kumpulan Darah</label>
-													<select name="blood_group" class="form-control">
-														{% for type in blood_groups: %}
-														<option value="{{ type.id }}" {% if type.id == trainee.blood_group.id %} selected=selected {% endif %}>{{ type.name }}</option>
-														{% endfor %}
-													</select>
-												</div>
-												<div class="form-group">
-													<label>Tinggi</label>
-													<input name="height" class="form-control" placeholder="Tinggi" value="{{ trainee.height }}">
-												</div>
-											</div>
-											<div class="col-lg-6">
-												<div class="form-group">
-													<label>Berat</label>
-													<input name="weight" class="form-control" placeholder="Berat" value="{{ trainee.weight }}">
-												</div>
-												<div class="form-group">
-													<label>BMI</label>
-													<input name="bmi" class="form-control" placeholder="BMI" value="{{ trainee.bmi }}">
-												</div>
-											</div>
-											<div class="col-lg-12"></div>
-											<div class="col-lg-6">
-												<div class="form-group">
-													<label>Alahan/Penyakit</label>
-													<select name="is_allergic" class="form-control">
-														<option value="False" {% if trainee.is_allergic == False %} selected=selected {% endif %}>Tiada</option>
-														<option value="True" {% if trainee.is_allergic == True %} selected=selected {% endif %}>Ada</option>
-													</select>
-												</div>
-												
-												<div class="form-group">
-													<label>Menu Makanan Khusus</label>
-													<select name="is_food_intolerant" class="form-control">
-														<option value="False" {% if trainee.is_food_intolerant == False %} selected=selected {% endif %}>Tiada</option>
-														<option value="True" {% if trainee.is_food_intolerant == True %} selected=selected {% endif %}>Ada</option>
-													</select>
-												</div>
-											</div>
-											<div class="col-lg-6">
-												<div class="form-group">
-													<label>Jika Ya, nyatakan Alahan/Penyakit</label>
-													<input name="allergies" class="form-control" placeholder="Alahan/Penyakit" value="{{ trainee.allergies }}">
-												</div>
-												
-												<div class="form-group">
-													<label>Jika Ya, nyatakan Menu Makanan Khusus</label>
-													<input name="food_intolerance" class="form-control" placeholder="Menu Makanan Khusus" value="{{ trainee.food_intolerance }}">
-												</div>
-											</div>
-										</div>
-									</div>
-									
+
 									<div class="panel panel-primary">
 										<div class="panel-heading">
-											Rujukan
+											Butiran Lawatan
 										</div>
 										<div class="panel-body">
-											<div class="col-lg-4">
+											<div class="col-lg-12">
 												<div class="form-group">
-													<label>No Fail Rujukan</label>
-													<input name="reference_no" class="form-control" placeholder="No Fail Rujukan" value="{{ trainee.reference_no }}">
+													<label>Tarikh/Masa</label>
+													<input name="timestamp" class="form-control" placeholder="Otomatik Masuk" value="{{ admittance.timestamp }}">
 												</div>
 											</div>
-											<div class="col-lg-4">
+											
+											<div class="col-lg-6">
 												<div class="form-group">
-													<label>Telah Mengisi Borang Pengakuan</label>
-													<select name="is_declared" class="form-control">
-														<option value="False">No</option>
-														<option value="True">Yes</option>
-													</select>
+													<label>Butiran Aduan/Pemeriksaan</label>
+													<textarea name="details" class="form-control" rows="3">{% if edit %} {{ admittance.details }} {% endif %}</textarea>
 												</div>
 											</div>
-											<div class="col-lg-4">
+											<div class="col-lg-6">
 												<div class="form-group">
-													<label>Rekod Simpanan Ubat</label>
-													<textarea name="medicine_journal" class="form-control" rows="3"  value="{{ trainee.medicine_journal }}"></textarea>
+													<label>Diagnosis</label>
+													<textarea name="diagnosis" class="form-control" rows="3">{% if edit %} {{ admittance.diagnosis }} {% endif %}</textarea>
+												</div>
+											</div>
+											
+											<div class="col-lg-3">
+												<div class="form-group">
+													<label>Blood Pressure</label>
+													<input name="blood_pressure" class="form-control" placeholder="Blood Pressure" value="{{ admittance.blood_pressure }}">
+												</div>
+											</div>
+											
+											<div class="col-lg-3">
+												<div class="form-group">
+													<label>Temperature</label>
+													<input name="temperature" class="form-control" placeholder="Temperature" value="{{ admittance.temperature }}">
+												</div>
+											</div>
+											
+											<div class="col-lg-3">
+												<div class="form-group">
+													<label>Pulse</label>
+													<input name="pulse" class="form-control" placeholder="Pulse" value="{{ admittance.pulse }}">
+												</div>
+											</div>
+											
+											<div class="col-lg-3">
+												<div class="form-group">
+													<label>Respiration</label>
+													<input name="respiration" class="form-control" placeholder="Respiration" value="{{ admittance.respiration }}">
 												</div>
 											</div>
 										</div>

@@ -3,7 +3,7 @@ from models import *
 
 def Create_Admittance(trainee_ic_no, new_details, new_diagnosis, new_blood_pressure, new_temperature, new_pulse, new_respiration):
     try:
-        new_admittance = Admittance.create(trainee = Trainees.select().where(Trainees.ic_no==trainee_ic_no).get(),
+        new_admittance = Admittances.create(trainee = Trainees.select().where(Trainees.ic_no==trainee_ic_no).get(),
                                            details = new_details,
                                            diagnosis = new_diagnosis,
                                            blood_pressure = new_blood_pressure,

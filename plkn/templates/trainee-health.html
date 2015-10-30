@@ -44,7 +44,7 @@
 											<th>No KP</th>
                                             <th>Nama</th>
 											<th>No Indeks</th>
-											<th>Tindakan</th>
+											<th style="width:300px">Tindakan</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -54,7 +54,10 @@
 												<td>{{ type.ic_no }}</td>
 												<td>{{ type.name }}</td>
 												<td>{{ type.index_no }}</td>
-												<td><a href="/Management-Healths-Edit?ic_no={{ type.ic_no }}"><button>Kemaskini</button></a></td>
+												<td>
+												    <a href="/Management-Healths-Edit?ic_no={{ type.ic_no }}"><button>Kemaskini</button></a>
+												    <a href="/Management-Admittances-New?ic_no={{ type.ic_no }}"><button>Tambah Rekod Pesakit Luar</button></a>
+												</td>
 											</tr>
 										{% endfor %}
                                     </tbody>
