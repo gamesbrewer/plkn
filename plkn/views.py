@@ -489,18 +489,80 @@ def Inventory_New():
     categories = InventoryCategories.select().order_by(InventoryCategories.id)
     return render_template('inventory-form.html', user_name=session['username'], level=session['level'], categories = categories, edit = False, error=error)
 
-#------ REPORTS  --------------------------
+#------ REPORTS REPORTS REPORTS REPORTS  --------------------------
 
 @general.route('/Report-Trainees')
 def Report_Trainee():
     report_type = request.args.get('type')
     if report_type == "bsn_account":
         trainees = Trainees.select().where(Trainees.is_deleted==False).where(Trainees.bsn_account_no!="").order_by(Trainees.bsn_account_no)
+        report_view = "list"
     elif report_type == "allergic":
         trainees = Trainees.select().where(Trainees.is_deleted==False).where(Trainees.is_allergic==True).order_by(Trainees.is_allergic)
+        report_view = "list"
+    elif report_type == "is_registered":
+        trainees = Trainees.select().where(Trainees.is_deleted==False)
+        registered = 0
+        unregistered = 0
+        for trainee in trainees:
+            if trainee.is_registered==True:
+                registered += 1
+            else:
+                unregistered += 1
+        items = []
+        items.append("registered:"+str(registered))
+        items.append("unregistered:"+str(unregistered))
+        report_view = "pie"
+    elif report_type == "gender":
+        trainees = Trainees.select().where(Trainees.is_deleted==False)
+        male = 0
+        female = 0
+        for trainee in trainees:
+            if trainee.gender=="Male":
+                male += 1
+            else:
+                female += 1
+                
+        items = []
+        items.append("male:"+str(male))
+        items.append("female:"+str(female))
+        report_view = "pie"
+    elif report_type == "race":
+        trainees = Trainees.select().where(Trainees.is_deleted==False)
+        races = Races.select().where(Races.is_deleted==False)
+        
+        trainee_race = [0 for x in range(races.count())] 
+        
+        for trainee in trainees:
+            trainee_race[trainee.race.id-1] += 1
+            
+        items = []
+        for item in races:
+            items.append(item.name + ":"+ str(trainee_race[item.id-1]))
+        report_view = "pie"
+    elif report_type == "religion":
+        trainees = Trainees.select().where(Trainees.is_deleted==False)
+        religions = Religions.select().where(Religions.is_deleted==False)
+        
+        trainee_religion = [0 for x in range(religions.count())] 
+        
+        for trainee in trainees:
+            trainee_religion[trainee.religion.id-1] += 1
+            
+        items = []
+        for item in religions:
+            items.append(item.name + ":"+ str(trainee_religion[item.id-1]))
+        report_view = "pie"
     else:
         trainees = Trainees.select().where(Trainees.is_deleted==False).order_by(Trainees.id)
-    return render_template('report.html', user_name=session['username'], level=session['level'], report_type = report_type, trainees = trainees)
+        report_view = "list"
+    
+    if report_view == "list":
+        return render_template('report_list.html', user_name=session['username'], level=session['level'], report_type = report_type, trainees = trainees)
+    elif report_view == "bar":
+        return render_template('report_bar.html', user_name=session['username'], level=session['level'], report_type = report_type, items = items)
+    else: #pie
+        return render_template('report_pie.html', user_name=session['username'], level=session['level'], report_type = report_type, items = items)
 
 @general.route('/Print-Trainees-Logistic')
 def Print_Logistic():
