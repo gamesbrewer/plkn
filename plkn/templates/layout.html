@@ -1,17 +1,19 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
-<head>
-
+  <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-    <title>REKOD DATA INFORMASI PELATIH PLKN : {% block title %} {% endblock %} </title>
+    <title>REKOD DATA PELATIH PLKN v0.9 : {% block title %} {% endblock %} </title>
 
     <!-- Core CSS - Include with every page -->
     <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ url_for('static', filename='font-awesome/css/font-awesome.css') }}" rel="stylesheet">
-	
+    <link href="{{ url_for('static', filename='font-awesome/css/font-awesome.css') }}" rel="stylesheet" type="text/css">
+
     <!-- Page-Level Plugin CSS - Dashboard -->
     <link href="{{ url_for('static', filename='css/plugins/morris/morris-0.4.3.min.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/plugins/timeline/timeline.css') }}" rel="stylesheet">
@@ -21,139 +23,113 @@
 
     <!-- PLKN CSS -->
     <link href="{{ url_for('static', filename='css/plkn.css') }}" rel="stylesheet">
-</head>
 
-<body>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+  </head>
+
+  <body>
 
     <div id="wrapper">
 
-        <nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="margin-bottom: 0">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="./Dashboard">Dashboard</a>
-            </div>
-            <!-- /.navbar-header -->
+      <!-- Navigation -->
+      <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="./Dashboard">Rekod Data Pelatih PLKN v0.9</a>
+        </div>
+        <!-- Top Menu Items -->
+        <ul class="nav navbar-right top-nav">
 
-            <ul class="nav navbar-top-links navbar-right">
-		<span class="label label-info">SW151</span>
-				Welcome {{ user_name }}({{ level }})
-                <!-- /.dropdown -->
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-user">
-                        <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
-                        </li>
-                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
-                        </li>
-                        <li class="divider"></li>
-                        <li><a href="/Sign-Out"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
-                        </li>
-                    </ul>
-                    <!-- /.dropdown-user -->
-                </li>
-                <!-- /.dropdown -->
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{ user_name }} <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li>
+                <a href="/Sign-Out"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+              </li>
             </ul>
-            <!-- /.navbar-top-links -->
+          </li>
+        </ul>
+        <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+          <ul class="nav navbar-nav side-nav">
+            <li>
+              <a href="./Dashboard"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+            </li>
+            <li class="sidebar-search">
+              {% block sidebarsearch %}
+              {% endblock %}
+            </li>
 
-            <div class="navbar-default navbar-static-side" role="navigation">
-                <div class="sidebar-collapse">
-                    <ul class="nav" id="side-menu">
-                        <li class="sidebar-search">
-							{% block sidebarsearch %}
-							{% endblock %}
-                        </li>
-                        <li>
-                            <a href="./Dashboard"><i class="fa fa-dashboard fa-fw"></i>Dashboard</a>
-                        </li>
+            <li><a href="./Management-Trainees"><i class="fa fa-male fa-fw"></i>Khidmat Pengurusan</a></li>
 
-						<li><a href="./Management-Trainees"><i class="fa fa-male fa-fw"></i>Khidmat Pengurusan</a></li>
-						
-						<li><a href="./Management-Logistics"><i class="fa fa-cutlery fa-fw"></i>Unit Logistik</a></li>
-						
-						<li>
-							<a href="#"><i class="fa fa-check-square-o fa-fw"></i>Unit Kesihatan<span class="fa arrow"></span></a>
-							<ul class="nav nav-second-level">
-								<li><a href="./Management-Healths"><i class="fa fa-bar-chart fa-fw"></i>Rekod Kemasukan</a></li>
-								<li><a href="./Management-Admittances"><i class="fa fa-ambulance fa-fw"></i>Rekod Medikal</a></li>
-							</ul>
-						</li>
-						<li><a href="./Management-Inventories"><i class="fa fa-cutlery fa-fw"></i>Daftar Inventori</a></li>
-						<!------------
-						<li>
-							<a href="#"><i class="fa fa-check-square-o fa-fw"></i>Inventori<span class="fa arrow"></span></a>
-							<ul class="nav nav-second-level">
-								<li><a href="./Management-Inventories"><i class="fa fa-cutlery fa-fw"></i>Daftar Inventori</a></li>
-								<li><a href="./Management-Admittances"><i class="fa fa-ambulance fa-fw"></i>Laporan</a></li>
-							</ul>
-						</li>
-						----->
-						{% if level <= "2" %}
-							<li>
-								<a href="#"><i class="fa fa-pie-chart fa-fw"></i>Reports<span class="fa arrow"></span></a>
-								<ul class="nav nav-second-level">
-									<li><a href="./Report-Trainees?type=all" target="_blank"><i class="fa fa-bar-chart fa-fw"></i>Senarai Nama Peserta</a></li>
-									<li><a href="./Report-Trainees?type=bsn_account" target="_blank"><i class="fa fa-bar-chart fa-fw"></i>Senarai No Akaun Pelatih</a></li>
-									<li><a href="./Report-Trainees?type=allergic" target="_blank"><i class="fa fa-bar-chart fa-fw"></i>Senarai Pelatih Yang Ada Alahan</a></li>
-									<li><a href="./Report-Trainees?type=is_registered" target="_blank"><i class="fa fa-bar-chart fa-fw"></i>Jumlah Telah Daftar</a></li>
-									<li><a href="./Report-Trainees?type=gender" target="_blank"><i class="fa fa-pie-chart fa-fw"></i>Pecahan Jantina</a></li>
-									<li><a href="./Report-Trainees?type=race" target="_blank"><i class="fa fa-pie-chart fa-fw"></i>Pecahan Bangsa</a></li>
-									<li><a href="./Report-Trainees?type=religion" target="_blank"><i class="fa fa-pie-chart fa-fw"></i>Pecahan Agama</a></li>
-								</ul>
-							</li>
-						{% endif %}
-						{% if level <= "1" %}
-							<li>
-								<a href="#"><i class="fa fa-sitemap fa-fw"></i>Operasi<span class="fa arrow"></span></a>
-								<ul class="nav nav-second-level">
-									<li><a href="./Operation-Races"><i class="fa fa-users fa-fw"></i>Kaum</a>
-									<li><a href="./Operation-Companies"><i class="fa fa-table fa-fw"></i>Kompeni</a>
-									<li><a href="./Operation-Religions"><i class="fa fa-users fa-fw"></i>Agama</a>
-									<li><a href="./Operation-Educations"><i class="fa fa-clock-o fa-fw"></i>Pendidikan</a>
-									<li><a href="./Operation-Relations"><i class="fa fa-users fa-fw"></i>Hubungan</a>
-									<li><a href="./Operation-Blood-Groups"><i class="fa fa-users fa-fw"></i>Kumpulan Darah</a>
-									<li><a href="./Management-Inventory-Categories"><i class="fa fa-coffee fa-fw"></i>Kategori</a></li>
-								</ul>
-								<!-- /.nav-second-level -->
-							</li>
-						{% endif %}
-						
-						{% if level <= "1" %}
-{############----------------------------------------------------------------------------------------------------------------------
-							<li>
-								<a href="#"><i class="fa fa-sitemap fa-fw"></i>Administration<span class="fa arrow"></span></a>
-								<ul class="nav nav-second-level">
-									<li>
-										<a href="#"><i class="fa fa-male fa-fw"></i>Users & Access<span class="fa arrow"></span></a>
-										<ul class="nav nav-third-level">
-											<li><a href="./Users"><i class="fa fa-male fa-fw"></i>Users</a></li>
-											<li><a href="./Access-Control"><i class="fa fa-male fa-fw"></i>Access Control List</a></li>
-										</ul>
-										<!-- /.nav-third-level -->
-									</li>
-									<li><a href="./Configs"><i class="fa fa-cog fa-fw"></i>System Configuration</a></li>
-								</ul>
-								<!-- /.nav-second-level -->
-							</li>
-------------------------------------------------------------------------------------------------------------------------############}
-						{% endif %}
-                    </ul>
-                    <!-- /#side-menu -->
-                </div>
-                <!-- /.sidebar-collapse -->
-            </div>
-            <!-- /.navbar-static-side -->
-        </nav>
+            <li><a href="./Management-Logistics"><i class="fa fa-cutlery fa-fw"></i>Unit Logistik</a></li>
 
-		{% block pagewrapper %}
-		{% endblock %}
-        
+            <li>
+              <a href="#"><i class="fa fa-check-square-o fa-fw"></i>Unit Kesihatan<span class="fa arrow"></span></a>
+              <ul class="nav nav-second-level">
+                <li><a href="./Management-Healths"><i class="fa fa-bar-chart fa-fw"></i>Rekod Kemasukan</a></li>
+                <li><a href="./Management-Admittances"><i class="fa fa-ambulance fa-fw"></i>Rekod Medikal</a></li>
+              </ul>
+            </li>
+            <li><a href="./Management-Inventories"><i class="fa fa-cutlery fa-fw"></i>Daftar Inventori</a></li>
+
+            {% if level <= "2" %}
+                           <li>
+                             <a href="#"><i class="fa fa-pie-chart fa-fw"></i>Reports<span class="fa arrow"></span></a>
+                             <ul class="nav nav-second-level">
+                               <li><a href="./Report-Trainees?type=all" target="_blank"><i class="fa fa-bar-chart fa-fw"></i>Senarai Nama Peserta</a></li>
+                               <li><a href="./Report-Trainees?type=bsn_account" target="_blank"><i class="fa fa-bar-chart fa-fw"></i>Senarai No Akaun Pelatih</a></li>
+                               <li><a href="./Report-Trainees?type=allergic" target="_blank"><i class="fa fa-bar-chart fa-fw"></i>Senarai Pelatih Yang Ada Alahan</a></li>
+                               <li><a href="./Report-Trainees?type=is_registered" target="_blank"><i class="fa fa-bar-chart fa-fw"></i>Jumlah Telah Daftar</a></li>
+                               <li><a href="./Report-Trainees?type=gender" target="_blank"><i class="fa fa-pie-chart fa-fw"></i>Pecahan Jantina</a></li>
+                               <li><a href="./Report-Trainees?type=race" target="_blank"><i class="fa fa-pie-chart fa-fw"></i>Pecahan Bangsa</a></li>
+                               <li><a href="./Report-Trainees?type=religion" target="_blank"><i class="fa fa-pie-chart fa-fw"></i>Pecahan Agama</a></li>
+                             </ul>
+                           </li>
+                           {% endif %}
+
+
+                           {% if level <= "1" %}
+                                          <li>
+                                            <a href="#"><i class="fa fa-sitemap fa-fw"></i>Operasi<span class="fa arrow"></span></a>
+                                            <ul class="nav nav-second-level">
+                                              <li><a href="./Operation-Races"><i class="fa fa-users fa-fw"></i>Kaum</a>
+                                              <li><a href="./Operation-Companies"><i class="fa fa-table fa-fw"></i>Kompeni</a>
+                                              <li><a href="./Operation-Religions"><i class="fa fa-users fa-fw"></i>Agama</a>
+                                              <li><a href="./Operation-Educations"><i class="fa fa-clock-o fa-fw"></i>Pendidikan</a>
+                                              <li><a href="./Operation-Relations"><i class="fa fa-users fa-fw"></i>Hubungan</a>
+                                              <li><a href="./Operation-Blood-Groups"><i class="fa fa-users fa-fw"></i>Kumpulan Darah</a>
+                                              <li><a href="./Management-Inventory-Categories"><i class="fa fa-coffee fa-fw"></i>Kategori</a></li>
+                                            </ul>
+                                            <!-- /.nav-second-level -->
+                                          </li>
+                                          {% endif %}
+
+
+                                          <!-- menu link -->
+          </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+      </nav>
+
+
+
+      {% block pagewrapper %}
+      {% endblock %}
+
     </div>
     <!-- /#wrapper -->
 
@@ -172,6 +148,6 @@
     <!-- Page-Level Demo Scripts - Dashboard - Use for reference -->
     <script src="{{ url_for('static', filename='js/demo/dashboard-demo.js') }}"></script>
 
-</body>
+  </body>
 
 </html>
