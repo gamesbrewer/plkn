@@ -64,37 +64,29 @@ $(function() {
     Morris.Bar({
         element: 'morris-bar-chart',
         data: [{
-            y: '2006',
+            y: 'Melayu',
             a: 100,
             b: 90
         }, {
-            y: '2007',
+            y: 'Cina',
             a: 75,
             b: 65
         }, {
-            y: '2008',
+            y: 'India',
             a: 50,
             b: 40
         }, {
-            y: '2009',
+            y: 'Iban',
             a: 75,
             b: 65
         }, {
-            y: '2010',
+            y: 'Melanau',
             a: 50,
             b: 40
-        }, {
-            y: '2011',
-            a: 75,
-            b: 65
-        }, {
-            y: '2012',
-            a: 100,
-            b: 90
         }],
         xkey: 'y',
         ykeys: ['a', 'b'],
-        labels: ['KK', 'Miri'],
+        labels: ['Lelaki', 'Perempuan'],
         hideHover: 'auto',
         resize: true
     });
@@ -102,7 +94,7 @@ $(function() {
     Morris.Line({
         element: 'morris-line-chart',
         data: [{
-            y: '2006',
+            y: '2015',
             a: 100,
             b: 90
         }, {
@@ -137,4 +129,16 @@ $(function() {
         resize: true
     });
 
+    // Donut Chart
+    Morris.Donut({
+        element: 'morris-donut-chart',
+        data: [{
+            label: "Perempuan",
+            value: 160
+        }, {
+            label: "Lelaki",
+            value: 200
+        }],
+        resize: true
+    });
 });
