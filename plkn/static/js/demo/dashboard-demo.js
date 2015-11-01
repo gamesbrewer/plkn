@@ -61,35 +61,7 @@ $(function() {
         resize: true
     });
 
-    Morris.Bar({
-        element: 'morris-bar-chart',
-        data: [{
-            y: 'Melayu',
-            a: 100,
-            b: 90
-        }, {
-            y: 'Cina',
-            a: 75,
-            b: 65
-        }, {
-            y: 'India',
-            a: 50,
-            b: 40
-        }, {
-            y: 'Iban',
-            a: 75,
-            b: 65
-        }, {
-            y: 'Melanau',
-            a: 50,
-            b: 40
-        }],
-        xkey: 'y',
-        ykeys: ['a', 'b'],
-        labels: ['Lelaki', 'Perempuan'],
-        hideHover: 'auto',
-        resize: true
-    });
+    
 
     Morris.Line({
         element: 'morris-line-chart',
@@ -126,19 +98,6 @@ $(function() {
         ykeys: ['a', 'b'],
         labels: ['Series A', 'Series B'],
         hideHover: 'auto',
-        resize: true
-    });
-
-    // Donut Chart
-    Morris.Donut({
-        element: 'morris-donut-chart',
-        data: [{
-            label: "Perempuan",
-            value: 160
-        }, {
-            label: "Lelaki",
-            value: 200
-        }],
         resize: true
     });
 });

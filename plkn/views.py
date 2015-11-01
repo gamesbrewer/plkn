@@ -75,13 +75,49 @@ def Dashboard():
         trainees = Trainees.select().where(Trainees.is_deleted==False)
         registered = 0
         unregistered = 0
+        male = 0
+        female = 0
         for trainee in trainees:
             if trainee.is_registered==True:
                 registered += 1
             else:
                 unregistered += 1
 
-        return render_template('dashboard.html', user_name=session['username'], level=session['level'], count_registered_trainees=registered, count_unregistered_trainees=unregistered)
+            if trainee.gender=="Male":
+                male += 1
+            else:
+                female += 1
+        
+        
+            trainees = Trainees.select().where(Trainees.is_deleted==False)
+            races = Races.select().where(Races.is_deleted==False)
+
+            trainee_race = [0 for x in range(races.count())]
+
+            for trainee in trainees:
+                trainee_race[trainee.race.id-1] += 1
+
+            race_data = []
+            for item in races:
+                race_data.append(item.name + ":"+ str(trainee_race[item.id-1]))
+        """
+        elif report_type == "religion":
+            trainees = Trainees.select().where(Trainees.is_deleted==False)
+            religions = Religions.select().where(Religions.is_deleted==False)
+
+            trainee_religion = [0 for x in range(religions.count())]
+
+            for trainee in trainees:
+                trainee_religion[trainee.religion.id-1] += 1
+
+            items = []
+            for item in religions:
+                items.append(item.name + ":"+ str(trainee_religion[item.id-1]))
+            report_view = "pie"
+        """
+
+        return render_template('dashboard.html', user_name=session['username'], level=session['level'], count_registered_trainees=registered, count_unregistered_trainees=unregistered,
+                                count_male_trainees=male, count_female_trainees=female, race_data = race_data)
         #return 'Logged in as %s' % escape(session['username'])
     return redirect(url_for('.Sign_In', error="You are not logged in"))
 
