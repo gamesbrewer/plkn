@@ -40,11 +40,11 @@
         <div class="panel panel-default">
           <div class="panel-heading">
             {% if trainees %}
-              {% if page > 1 %}
-              <a class="btn btn-info btn-sm" href="./Management-Healths?pageno={{ page - 1 }}">Prev</a>
-              {% endif %}
-              <a class="btn btn-info btn-sm" href="./Management-Healths?pageno={{ page + 1 }}">Next</a>
-              {% endif %}
+            {% if page > 1 %}
+            <a class="btn btn-info btn-sm" href="./Management-Healths?pageno={{ page - 1 }}">Prev</a>
+            {% endif %}
+            <a class="btn btn-info btn-sm" href="./Management-Healths?pageno={{ page + 1 }}">Next</a>
+            {% endif %}
           </div>
           <div class="panel-body">
             <div class="table-responsive">
