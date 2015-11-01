@@ -19,7 +19,7 @@
                         </div>
                         <div class="panel-body">
                             <div class="row">
-								<form action="./Management-Admittances-Edit" role="form" method="post">
+								<form action="./{% if edit and delete %}Management-Admittances-Delete{% elif edit %}Management-Admittances-Edit{% else %}Management-Admittances-New{% endif %}" role="form" method="post">
 									<div class="panel panel-primary">										
 										<div class="panel-heading">
 											Info
@@ -34,6 +34,7 @@
 												<div class="form-group">
 													<label>No KP</label>
 													<input disabled=disabled name="dummy_ic_no" class="form-control" placeholder="No KP"  value="{{ trainee.ic_no }}">
+													<input type="hidden" name="ic_no" value="{{ trainee.ic_no }}">
 													<input type="hidden" name="admittance_id" value="{{ admittance.id }}">
 												</div>
 											</div>

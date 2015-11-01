@@ -400,6 +400,19 @@ def Trainee_Admittance_Edit():
     return render_template('trainee-admittance-form.html', user_name=session['username'], level=session['level'], trainee = trainee, companies = companies,
                            admittance = admittance, edit = True, delete = False, error=error)
 
+@general.route('/Management-Admittances-Report', methods=['POST', 'GET'])
+def Trainee_Admittance_Report():
+    if request.method == 'POST':
+        page_no = 1
+        trainees = Trainees.select().where(Trainees.name.contains(request.form['search']) | Trainees.index_no.contains(request.form['search'])).where(Trainees.is_deleted==False).order_by(Trainees.id).paginate(page_no, 10)
+    else:
+        if request.args.get('pageno'):
+            page_no = int(request.args.get('pageno'))
+        else:
+            page_no = 1
+        trainees = Trainees.select().where(Trainees.is_deleted==False).order_by(Trainees.id).paginate(page_no, 10)
+    return render_template('trainee-admittance-report.html', user_name=session['username'], level=session['level'], trainees = trainees, page = page_no)
+
 @general.route('/Management-Logistics', methods=['POST', 'GET'])
 def Trainee_Logistic():
     if request.method == 'POST':
@@ -412,6 +425,19 @@ def Trainee_Logistic():
             page_no = 1
         trainees = Trainees.select().where(Trainees.is_deleted==False).order_by(Trainees.id).paginate(page_no, 10)
     return render_template('trainee-logistic.html', user_name=session['username'], level=session['level'], trainees = trainees, page = page_no)
+
+@general.route('/Management-Logistics-Print', methods=['POST', 'GET'])
+def Trainee_Logistic_Print():
+    if request.method == 'POST':
+        page_no = 1
+        trainees = Trainees.select().where(Trainees.name.contains(request.form['search']) | Trainees.index_no.contains(request.form['search'])).where(Trainees.is_deleted==False).order_by(Trainees.id).paginate(page_no, 10)
+    else:
+        if request.args.get('pageno'):
+            page_no = int(request.args.get('pageno'))
+        else:
+            page_no = 1
+        trainees = Trainees.select().where(Trainees.is_deleted==False).order_by(Trainees.id).paginate(page_no, 10)
+    return render_template('trainee-logistic-print.html', user_name=session['username'], level=session['level'], trainees = trainees, page = page_no)
 
 @general.route('/Management-Logistics-Edit', methods=['POST', 'GET'])
 def Trainee_Logistic_Edit():
@@ -490,16 +516,23 @@ def Inventory_New():
     categories = InventoryCategories.select().order_by(InventoryCategories.id)
     return render_template('inventory-form.html', user_name=session['username'], level=session['level'], categories = categories, edit = False, error=error)
 
-#------ REPORTS REPORTS REPORTS REPORTS  --------------------------
+#------ REPORTS REPORTS REPORTS REPORTS  ------------------------------------------------------------------------------
 
 @general.route('/Report-Trainees')
 def Report_Trainee():
     report_type = request.args.get('type')
     if report_type == "bsn_account":
         trainees = Trainees.select().where(Trainees.is_deleted==False).where(Trainees.bsn_account_no!="").order_by(Trainees.bsn_account_no)
+        items = []
+        report_view = "list"
+    elif report_type == "medical":
+        trainees = Trainees.select().where(Trainees.is_deleted==False)
+        admittances = Admittances.select().where(Admittances.is_deleted==False)
+        items = admittances
         report_view = "list"
     elif report_type == "allergic":
         trainees = Trainees.select().where(Trainees.is_deleted==False).where(Trainees.is_allergic==True).order_by(Trainees.is_allergic)
+        items = []
         report_view = "list"
     elif report_type == "is_registered":
         trainees = Trainees.select().where(Trainees.is_deleted==False)
@@ -556,10 +589,11 @@ def Report_Trainee():
         report_view = "pie"
     else:
         trainees = Trainees.select().where(Trainees.is_deleted==False).order_by(Trainees.id)
+        items = []
         report_view = "list"
 
     if report_view == "list":
-        return render_template('report_list.html', user_name=session['username'], level=session['level'], report_type = report_type, trainees = trainees)
+        return render_template('report_list.html', user_name=session['username'], level=session['level'], report_type = report_type, trainees = trainees, items = items, admittances = admittances)
     elif report_view == "bar":
         return render_template('report_bar.html', user_name=session['username'], level=session['level'], report_type = report_type, items = items)
     else: #pie
@@ -581,6 +615,13 @@ def Print_Medical():
     admittance = Admittances.select().where(Admittances.id==admittance_id).get()
     companies = Companies.select().order_by(Companies.id)
     return render_template('medical-print.html', user_name=session['username'], level=session['level'], admittance = admittance, companies = companies)
+
+@general.route('/Print-Trainee-Admittances')
+def Print_Admittances():
+    ic_no = request.args.get('ic_no')
+    trainees = Trainees.select().where(Trainees.ic_no==ic_no).where(Trainees.is_deleted==False)
+    admittances = Admittances.select().join(Trainees).where(Trainees.ic_no==ic_no).where(Trainees.is_deleted==False)
+    return render_template('admittances-print.html', user_name=session['username'], level=session['level'], admittances = admittances, trainees = trainees)
 #------ Web SERVICES  --------------------------
 
 @webservice.route('/User/<email>')
