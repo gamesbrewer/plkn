@@ -2,274 +2,291 @@
 {% block title %} {% endblock %}
 {% block pagewrapper %}
 
-        <div id="page-wrapper">
+<div id="page-wrapper">
+
+  <div class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class="row">
+      <div class="col-lg-12">
+        <h1 class="page-header">
+          Unit Logistik
+        </h1>
+        <ol class="breadcrumb">
+          <li class="active">
+            <i class="fa fa-pencil-square-o"></i> Kemaskini rekod logistik pelatih
+          </li>
+        </ol>
+      </div>
+    </div>
+    <!-- /.row -->
+
+    <!-- /.row -->
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <a href="./Print-Trainees-Logistic?ic_no={{ trainee.ic_no }}" target="_blank"><button class="btn btn-sm btn-info">Cetak Borang Permohonan</button></a>
+            <h5 class="panel-title" style="color:red;font-weight:bold;">{{error}}</h5>
+
+          </div>
+          <div class="panel-body">
             <div class="row">
-                <div class="col-lg-12">
-                    <h1 class="page-header">Unit Logistik</h1>
-                </div>
-                <!-- /.col-lg-12 -->
-            </div>
-            <!-- /.row -->
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            Butiran Pelatih <a href="./Print-Trainees-Logistic?ic_no={{ trainee.ic_no }}" target="_blank"><button>Cetak Borang Permohonan</button></a>
-							<h5 class="panel-title" style="color:red;font-weight:bold;">{{error}}</h5>
-							
-                        </div>
-                        <div class="panel-body">
-                            <div class="row">
-								<form action="./Management-Logistics-Edit" role="form" method="post">
-									<div class="panel panel-primary">
-										<div class="panel-heading">
-											Info
-										</div>
-										<div class="panel-body">
-											<div class="col-lg-6">
-												<div class="form-group">
-													<label>Nama</label>
-													<input disabled=disabled name="name" class="form-control" placeholder="Nama" value="{{ trainee.name }}">
-												</div>
-												
-												<div class="form-group">
-													<label>No KP</label>
-													<input disabled=disabled name="dummy_ic_no" class="form-control" placeholder="No KP"  value="{{ trainee.ic_no }}">
-													<input type="hidden" name="ic_no" value="{{ trainee.ic_no }}">
-												</div>
-											</div>
-											<div class="col-lg-6">
-												<div class="form-group">
-													<label>Kompeni</label>
-													<select disabled=disabled name="company" class="form-control">
-														{% for type in companies: %}
-														<option value="{{ type.id }}" {% if type.id == trainee.company.id %} selected=selected {% endif %}>{{ type.name }}</option>
-														{% endfor %}
-													</select>
-												</div>
-												
-												<div class="form-group">
-													<label>No Indeks</label>
-													<input disabled=disabled name="index_no" class="form-control" placeholder="No Indeks" value="{{ trainee.index_no }}">
-												</div>
-											</div>
-										</div>
-									</div>
-									{% if trainee.gender == "Male" %}
-									<div class="panel panel-info">
-										<div class="panel-heading">
-											Pakaian Lelaki
-										</div>
-										<div class="panel-body">
-											<div class="col-lg-3">
-												<div class="form-group">
-													<label>Baju Kelas</label>
-													<select name="shirt_class_male" class="form-control">
-														<option value=""></option>
-														{% for type in shirt_sizes: %}
-														<option value="{{ type.name }}" {% if type.name == trainee.shirt_class_male %} selected=selected {% endif %}>{{ type.name }}</option>
-														{% endfor %}
-													</select>
-												</div>
-											</div>
-											
-											<div class="col-lg-3">
-												<div class="form-group">
-													<label>Baju Sukan</label>
-													<select name="shirt_sport_male" class="form-control">
-														<option value=""></option>
-														{% for type in free_sizes: %}
-														<option value="{{ type.name }}" {% if type.name == trainee.shirt_sport_male %} selected=selected {% endif %}>{{ type.name }}</option>
-														{% endfor %}
-													</select>
-												</div>
-											</div>
-											
-											<div class="col-lg-3">
-												<div class="form-group">
-													<label>Inner</label>
-													<select name="inner_male" class="form-control">
-														<option value=""></option>
-														{% for type in free_sizes: %}
-														<option value="{{ type.name }}" {% if type.name == trainee.inner_male %} selected=selected {% endif %}>{{ type.name }}</option>
-														{% endfor %}
-													</select>
-												</div>
-											</div>
-											
-											<div class="col-lg-3">
-												<div class="form-group">
-													<label>Kasut Kelas</label>
-													<select name="shoe_class_male" class="form-control">
-														<option value=""></option>
-														{% for type in shoe_sizes: %}
-														<option value="{{ type.name }}" {% if type.name == trainee.shoe_class_male %} selected=selected {% endif %}>{{ type.name }}</option>
-														{% endfor %}
-													</select>
-												</div>
-											</div>
-										</div>
-									</div>
-									{% else %}
-									<div class="panel panel-primary">
-										<div class="panel-heading">
-											Pakaian Wanita
-										</div>
-										<div class="panel-body">
-											<div class="col-lg-3">
-												<div class="form-group">
-													<label>Baju Kelas</label>
-													<select name="shirt_class_female" class="form-control">
-														<option value=""></option>
-														{% for type in shirt_sizes: %}
-														<option value="{{ type.name }}" {% if type.name == trainee.shirt_class_female %} selected=selected {% endif %}>{{ type.name }}</option>
-														{% endfor %}
-													</select>
-												</div>
-											</div>
-											
-											<div class="col-lg-3">
-												<div class="form-group">
-													<label>Baju Sukan</label>
-													<select name="shirt_sport_female" class="form-control">
-														<option value=""></option>
-														{% for type in free_sizes: %}
-														<option value="{{ type.name }}" {% if type.name == trainee.shirt_sport_female %} selected=selected {% endif %}>{{ type.name }}</option>
-														{% endfor %}
-													</select>
-												</div>
-											</div>
-											
-											<div class="col-lg-3">
-												<div class="form-group">
-													<label>Inner</label>
-													<select name="inner_female" class="form-control">
-														<option value=""></option>
-														{% for type in free_sizes: %}
-														<option value="{{ type.name }}" {% if type.name == trainee.inner_female %} selected=selected {% endif %}>{{ type.name }}</option>
-														{% endfor %}
-													</select>
-												</div>
-											</div>
-											
-											<div class="col-lg-3">
-												<div class="form-group">
-													<label>Kasut Kelas</label>
-													<select name="shoe_class_female" class="form-control">
-														<option value=""></option>
-														{% for type in shoe_sizes: %}
-														<option value="{{ type.name }}" {% if type.name == trainee.shoe_class_female %} selected=selected {% endif %}>{{ type.name }}</option>
-														{% endfor %}
-													</select>
-												</div>
-											</div>
-										</div>
-									</div>
-									{% endif %}
-									<div class="panel panel-info">
-										<div class="panel-heading">
-											Uniform
-										</div>
-										<div class="panel-body">
-											<div class="col-lg-4">
-												<div class="form-group">
-													<label>Baju Celoreng</label>
-													<select name="shirt_celoreng" class="form-control">
-														<option value=""></option>
-														{% for type in shirt_sizes: %}
-														<option value="{{ type.name }}" {% if type.name == trainee.shirt_celoreng %} selected=selected {% endif %}>{{ type.name }}</option>
-														{% endfor %}
-													</select>
-												</div>
-											</div>
-											<div class="col-lg-4">
-												<div class="form-group">
-													<label>Track Bottom Hitam</label>
-													<select name="track_bottom_black" class="form-control">
-														<option value=""></option>
-														{% for type in free_sizes: %}
-														<option value="{{ type.name }}" {% if type.name == trainee.track_bottom_black %} selected=selected {% endif %}>{{ type.name }}</option>
-														{% endfor %}
-													</select>
-												</div>
-											</div>
-											<div class="col-lg-4">
-												<div class="form-group">
-													<label>Kasut Sukan</label>
-													<select name="shoe_sport" class="form-control">
-														<option value=""></option>
-														{% for type in shoe_sizes: %}
-														<option value="{{ type.name }}" {% if type.name == trainee.shoe_sport %} selected=selected {% endif %}>{{ type.name }}</option>
-														{% endfor %}
-													</select>
-												</div>
-											</div>
-											
-											<div class="col-lg-4">
-												<div class="form-group">
-													<label>Seluar Celoreng</label>
-													<select name="pants_celoreng" class="form-control">
-														<option value=""></option>
-														{% for type in pant_sizes: %}
-														<option value="{{ type.name }}" {% if type.name == trainee.pants_celoreng %} selected=selected {% endif %}>{{ type.name }}</option>
-														{% endfor %}
-													</select>
-												</div>
-											</div>
-											<div class="col-lg-4">
-												<div class="form-group">
-													<label>Seluar Kelas</label>
-													<select name="pants_class" class="form-control">
-														<option value=""></option>
-														{% for type in pant_sizes: %}
-														<option value="{{ type.name }}" {% if type.name == trainee.pants_class %} selected=selected {% endif %}>{{ type.name }}</option>
-														{% endfor %}
-													</select>
-												</div>
-											</div>
-											<div class="col-lg-4">
-												<div class="form-group">
-													<label>Kasut Spike</label>
-													<select name="shoe_spike" class="form-control">
-														<option value=""></option>
-														{% for type in shoe_sizes: %}
-														<option value="{{ type.name }}" {% if type.name == trainee.shoe_spike %} selected=selected {% endif %}>{{ type.name }}</option>
-														{% endfor %}
-													</select>
-												</div>
-											</div>
-											
-											<div class="col-lg-12"><br /></div>
-											
-											<div class="col-lg-4">
-												<div class="form-group">
-													<label>Beret</label>
-													<select name="beret" class="form-control">
-														<option value=""></option>
-														{% for type in beret_sizes: %}
-														<option value="{{ type.name }}" {% if type.name == trainee.beret %} selected=selected {% endif %}>{{ type.name }}</option>
-														{% endfor %}
-													</select>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="col-lg-12">
-										<button type="submit" class="btn btn-default">{% if delete %} Padam {% else %} Simpan {% endif %}</button>
-										<button type="reset" class="btn btn-default">Reset</button>
-									</div>
-								</form>
-								
-                                <!-- /.col-lg-10 (nested) -->
-                            </div>
-                            <!-- /.row (nested) -->
-                        </div>
-                        <!-- /.panel-body -->
+              <form action="./Management-Logistics-Edit" role="form" method="post">
+                <div class="panel panel-primary">
+                  <div class="panel-heading">
+                    Info
+                  </div>
+                  <div class="panel-body">
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label>Nama</label>
+                        <input disabled=disabled name="name" class="form-control" placeholder="Nama" value="{{ trainee.name }}">
+                      </div>
+
+                      <div class="form-group">
+                        <label>No KP</label>
+                        <input disabled=disabled name="dummy_ic_no" class="form-control" placeholder="No KP"  value="{{ trainee.ic_no }}">
+                        <input type="hidden" name="ic_no" value="{{ trainee.ic_no }}">
+                      </div>
                     </div>
-                    <!-- /.panel -->
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label>Kompeni</label>
+                        <select disabled=disabled name="company" class="form-control">
+                          {% for type in companies: %}
+                          <option value="{{ type.id }}" {% if type.id == trainee.company.id %} selected=selected {% endif %}>{{ type.name }}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+
+                      <div class="form-group">
+                        <label>No Indeks</label>
+                        <input disabled=disabled name="index_no" class="form-control" placeholder="No Indeks" value="{{ trainee.index_no }}">
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <!-- /.col-lg-12 -->
+                {% if trainee.gender == "Male" %}
+                <div class="panel panel-info">
+                  <div class="panel-heading">
+                    Pakaian Lelaki
+                  </div>
+                  <div class="panel-body">
+                    <div class="col-lg-3">
+                      <div class="form-group">
+                        <label>Baju Kelas</label>
+                        <select name="shirt_class_male" class="form-control">
+                          <option value=""></option>
+                          {% for type in shirt_sizes: %}
+                          <option value="{{ type.name }}" {% if type.name == trainee.shirt_class_male %} selected=selected {% endif %}>{{ type.name }}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="col-lg-3">
+                      <div class="form-group">
+                        <label>Baju Sukan</label>
+                        <select name="shirt_sport_male" class="form-control">
+                          <option value=""></option>
+                          {% for type in free_sizes: %}
+                          <option value="{{ type.name }}" {% if type.name == trainee.shirt_sport_male %} selected=selected {% endif %}>{{ type.name }}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="col-lg-3">
+                      <div class="form-group">
+                        <label>Inner</label>
+                        <select name="inner_male" class="form-control">
+                          <option value=""></option>
+                          {% for type in free_sizes: %}
+                          <option value="{{ type.name }}" {% if type.name == trainee.inner_male %} selected=selected {% endif %}>{{ type.name }}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="col-lg-3">
+                      <div class="form-group">
+                        <label>Kasut Kelas</label>
+                        <select name="shoe_class_male" class="form-control">
+                          <option value=""></option>
+                          {% for type in shoe_sizes: %}
+                          <option value="{{ type.name }}" {% if type.name == trainee.shoe_class_male %} selected=selected {% endif %}>{{ type.name }}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {% else %}
+                <div class="panel panel-primary">
+                  <div class="panel-heading">
+                    Pakaian Wanita
+                  </div>
+                  <div class="panel-body">
+                    <div class="col-lg-3">
+                      <div class="form-group">
+                        <label>Baju Kelas</label>
+                        <select name="shirt_class_female" class="form-control">
+                          <option value=""></option>
+                          {% for type in shirt_sizes: %}
+                          <option value="{{ type.name }}" {% if type.name == trainee.shirt_class_female %} selected=selected {% endif %}>{{ type.name }}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="col-lg-3">
+                      <div class="form-group">
+                        <label>Baju Sukan</label>
+                        <select name="shirt_sport_female" class="form-control">
+                          <option value=""></option>
+                          {% for type in free_sizes: %}
+                          <option value="{{ type.name }}" {% if type.name == trainee.shirt_sport_female %} selected=selected {% endif %}>{{ type.name }}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="col-lg-3">
+                      <div class="form-group">
+                        <label>Inner</label>
+                        <select name="inner_female" class="form-control">
+                          <option value=""></option>
+                          {% for type in free_sizes: %}
+                          <option value="{{ type.name }}" {% if type.name == trainee.inner_female %} selected=selected {% endif %}>{{ type.name }}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="col-lg-3">
+                      <div class="form-group">
+                        <label>Kasut Kelas</label>
+                        <select name="shoe_class_female" class="form-control">
+                          <option value=""></option>
+                          {% for type in shoe_sizes: %}
+                          <option value="{{ type.name }}" {% if type.name == trainee.shoe_class_female %} selected=selected {% endif %}>{{ type.name }}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {% endif %}
+                <div class="panel panel-info">
+                  <div class="panel-heading">
+                    Uniform
+                  </div>
+                  <div class="panel-body">
+                    <div class="col-lg-4">
+                      <div class="form-group">
+                        <label>Baju Celoreng</label>
+                        <select name="shirt_celoreng" class="form-control">
+                          <option value=""></option>
+                          {% for type in shirt_sizes: %}
+                          <option value="{{ type.name }}" {% if type.name == trainee.shirt_celoreng %} selected=selected {% endif %}>{{ type.name }}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="form-group">
+                        <label>Track Bottom Hitam</label>
+                        <select name="track_bottom_black" class="form-control">
+                          <option value=""></option>
+                          {% for type in free_sizes: %}
+                          <option value="{{ type.name }}" {% if type.name == trainee.track_bottom_black %} selected=selected {% endif %}>{{ type.name }}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="form-group">
+                        <label>Kasut Sukan</label>
+                        <select name="shoe_sport" class="form-control">
+                          <option value=""></option>
+                          {% for type in shoe_sizes: %}
+                          <option value="{{ type.name }}" {% if type.name == trainee.shoe_sport %} selected=selected {% endif %}>{{ type.name }}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                      <div class="form-group">
+                        <label>Seluar Celoreng</label>
+                        <select name="pants_celoreng" class="form-control">
+                          <option value=""></option>
+                          {% for type in pant_sizes: %}
+                          <option value="{{ type.name }}" {% if type.name == trainee.pants_celoreng %} selected=selected {% endif %}>{{ type.name }}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="form-group">
+                        <label>Seluar Kelas</label>
+                        <select name="pants_class" class="form-control">
+                          <option value=""></option>
+                          {% for type in pant_sizes: %}
+                          <option value="{{ type.name }}" {% if type.name == trainee.pants_class %} selected=selected {% endif %}>{{ type.name }}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="form-group">
+                        <label>Kasut Spike</label>
+                        <select name="shoe_spike" class="form-control">
+                          <option value=""></option>
+                          {% for type in shoe_sizes: %}
+                          <option value="{{ type.name }}" {% if type.name == trainee.shoe_spike %} selected=selected {% endif %}>{{ type.name }}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="col-lg-12"><br /></div>
+
+                    <div class="col-lg-4">
+                      <div class="form-group">
+                        <label>Beret</label>
+                        <select name="beret" class="form-control">
+                          <option value=""></option>
+                          {% for type in beret_sizes: %}
+                          <option value="{{ type.name }}" {% if type.name == trainee.beret %} selected=selected {% endif %}>{{ type.name }}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-12">
+                  <button type="submit" class="btn btn-success">{% if delete %} Padam {% else %} Simpan {% endif %}</button>
+                  <button type="reset" class="btn btn-default">Reset</button>
+                </div>
+              </form>
+
+              <!-- /.col-lg-10 (nested) -->
             </div>
-            <!-- /.row -->
+            <!-- /.row (nested) -->
+          </div>
+          <!-- /.panel-body -->
         </div>
+        <!-- /.panel -->
+      </div>
+      <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+
+  </div>
+  <!-- /.container-fluid -->
+</div>
+<!-- /#page-wrapper -->
+
 {% endblock %}
