@@ -455,6 +455,7 @@ def Trainee_Logistic_Edit():
     if request.method == 'POST':
         if request.form['ic_no']:
             ic_no = request.form['ic_no']
+            """
             if Update_Logistic(request.form['ic_no'], request.form['shirt_class_male'], request.form['shirt_class_female'], 
                                request.form['shirt_sport_male'], request.form['shirt_sport_female'], request.form['inner_male'],
                                request.form['inner_female'], request.form['shoe_class_male'], request.form['shoe_class_female'],
@@ -465,6 +466,7 @@ def Trainee_Logistic_Edit():
                 error = "Logistic Updated!"
             else:
                 error = 'Error Updating Trainee Logistic'
+            """
         else:
             error = 'Please Enter All Values'
     # was GET or error occurred

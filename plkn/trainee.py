@@ -221,12 +221,14 @@ def Update_Health(ic_no, new_blood_group, new_height, new_weight, new_bmi, new_i
     else:
         return False
 
+def Update_Logistic():
+    return True
+
 def Update_Logistic(ic_no, new_shirt_class_male, new_shirt_class_female, new_shirt_sport_male, new_shirt_sport_female, 
                     new_inner_male, new_inner_female, new_shoe_class_male, new_shoe_class_female, new_shirt_celoreng, 
                     new_track_bottom_black, new_shoe_sport, new_pants_celoreng, new_pants_class, new_shoe_spike, new_beret):
     try:
         trainee_health = Trainees.select().where(Trainees.ic_no==ic_no).get()
-        """
         trainee_health.shirt_class_male = new_shirt_class_male
         trainee_health.shirt_class_female = new_shirt_class_female
         trainee_health.shirt_sport_male = new_shirt_sport_male
@@ -244,7 +246,6 @@ def Update_Logistic(ic_no, new_shirt_class_male, new_shirt_class_female, new_shi
         trainee_health.beret = new_beret
         trainee_health.created_by = Users.select().where(Users.email==session['email']).get()
         trainee_health.save()
-        """
         return True
     except Trainees.DoesNotExist:
         return False
