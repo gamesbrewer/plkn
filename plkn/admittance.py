@@ -10,6 +10,7 @@ def Create_Admittance(trainee_ic_no, new_details, new_diagnosis, new_blood_press
                                            temperature = new_temperature,
                                            pulse = new_pulse,
                                            respiration = new_respiration,
+                                           is_deleted = False,
                                            created_by = Users.select().where(Users.email==session['email']).get())       
         return True
     except Admittances.DoesNotExist:
