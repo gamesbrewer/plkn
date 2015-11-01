@@ -44,7 +44,7 @@
 
                       <div class="form-group">
                         <label>No KP</label>
-                        <input name="ic_no" class="form-control" placeholder="No KP" {% if edit %} value="{{ trainee.ic_no }}" {% endif %}>
+                        <input id="ic_no" name="ic_no" class="form-control" placeholder="No KP" {% if edit %} value="{{ trainee.ic_no }}" {% endif %}>
                       </div>
 
                       <div class="form-group">
@@ -95,7 +95,7 @@
 
                       <div class="form-group">
                         <label>Umur</label>
-                        <input name="age" class="form-control" placeholder="Umur" {% if edit %} value="{{ trainee.age }}" {% endif %}>
+                        <input id="age" onfocus="getAge()" name="age" class="form-control" placeholder="Umur" {% if edit %} value="{{ trainee.age }}" {% endif %}>
                       </div>
                     </div>
 
