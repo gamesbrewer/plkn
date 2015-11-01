@@ -72,7 +72,7 @@ def Sign_In(error = ''):
 def Dashboard():
     if 'username' in session:
         # TODO
-        return render_template('dashboard.html', user_name=session['username'], level=session['level'], count_registered_trainees=20)
+        return render_template('dashboard.html', user_name=session['username'], level=session['level'], count_registered_trainees=20, count_unregistered_trainees=20)
         #return 'Logged in as %s' % escape(session['username'])
     return redirect(url_for('.Sign_In', error="You are not logged in"))
 
