@@ -486,7 +486,6 @@ def Trainee_Logistic_Edit():
                 inner_male = ""
                 shoe_class_male = ""
             
-            
             if Update_Logistic(ic_no, shirt_class_male, shirt_class_female,
                                shirt_sport_male, shirt_sport_female, inner_male,
                                inner_female, shoe_class_male, shoe_class_female,
