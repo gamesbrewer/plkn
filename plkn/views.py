@@ -72,7 +72,16 @@ def Sign_In(error = ''):
 def Dashboard():
     if 'username' in session:
         # TODO
-        return render_template('dashboard.html', user_name=session['username'], level=session['level'], count_registered_trainees=20, count_unregistered_trainees=20)
+        trainees = Trainees.select().where(Trainees.is_deleted==False)
+        registered = 0
+        unregistered = 0
+        for trainee in trainees:
+            if trainee.is_registered==True:
+                registered += 1
+            else:
+                unregistered += 1
+
+        return render_template('dashboard.html', user_name=session['username'], level=session['level'], count_registered_trainees=registered, count_unregistered_trainees=unregistered)
         #return 'Logged in as %s' % escape(session['username'])
     return redirect(url_for('.Sign_In', error="You are not logged in"))
 
@@ -456,12 +465,31 @@ def Trainee_Logistic_Edit():
     if request.method == 'POST':
         if request.form['ic_no']:
             ic_no = request.form['ic_no']
-            if Update_Logistica(ic_no, request.form['beret']):
-                error = "Logistic Updated! " + str(request.form['beret'])
-            """
-            if Update_Logistic(request.form['ic_no'], request.form['shirt_class_male'], request.form['shirt_class_female'],
-                               request.form['shirt_sport_male'], request.form['shirt_sport_female'], request.form['inner_male'],
-                               request.form['inner_female'], request.form['shoe_class_male'], request.form['shoe_class_female'],
+            gender = request.form['gender']
+            
+            if gender == "Male":
+                shirt_class_male = request.form['shirt_class_male']
+                shirt_sport_male = request.form['shirt_sport_male']
+                inner_male = request.form['inner_male']
+                shoe_class_male = request.form['shoe_class_male']
+                shirt_class_female = ""
+                shirt_sport_female = ""
+                inner_female = ""
+                shoe_class_female = ""
+            else:
+                shirt_class_female = request.form['shirt_class_female']
+                shirt_sport_female = request.form['shirt_sport_female']
+                inner_female = request.form['inner_female']
+                shoe_class_female = request.form['shoe_class_female']
+                shirt_class_male = ""
+                shirt_sport_male = ""
+                inner_male = ""
+                shoe_class_male = ""
+            
+            
+            if Update_Logistic(ic_no, shirt_class_male, shirt_class_female,
+                               shirt_sport_male, shirt_sport_female, inner_male,
+                               inner_female, shoe_class_male, shoe_class_female,
                                request.form['shirt_celoreng'], request.form['track_bottom_black'], request.form['shoe_sport'],
                                request.form['pants_celoreng'], request.form['pants_class'], request.form['shoe_spike'],
                                request.form['beret']):
@@ -469,7 +497,6 @@ def Trainee_Logistic_Edit():
                 error = "Logistic Updated!"
             else:
                 error = 'Error Updating Trainee Logistic'
-            """
         else:
             error = 'Please Enter All Values'
     # was GET or error occurred

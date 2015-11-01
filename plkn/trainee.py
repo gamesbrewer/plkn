@@ -221,36 +221,28 @@ def Update_Health(ic_no, new_blood_group, new_height, new_weight, new_bmi, new_i
     else:
         return False
 
-def Update_Logistica(ic_no, new_beret):
-    try:
-        trainee_health = Trainees.select().where(Trainees.ic_no==ic_no).get()
-    except Trainees.DoesNotExist:
-        return False
-    else:
-        return False
-
 def Update_Logistic(ic_no, new_shirt_class_male, new_shirt_class_female, new_shirt_sport_male, new_shirt_sport_female, 
                     new_inner_male, new_inner_female, new_shoe_class_male, new_shoe_class_female, new_shirt_celoreng, 
                     new_track_bottom_black, new_shoe_sport, new_pants_celoreng, new_pants_class, new_shoe_spike, new_beret):
     try:
-        trainee_health = Trainees.select().where(Trainees.ic_no==ic_no).get()
-        trainee_health.shirt_class_male = new_shirt_class_male
-        trainee_health.shirt_class_female = new_shirt_class_female
-        trainee_health.shirt_sport_male = new_shirt_sport_male
-        trainee_health.shirt_sport_female = new_shirt_sport_female
-        trainee_health.inner_male = new_inner_male
-        trainee_health.inner_female = new_inner_female
-        trainee_health.shoe_class_male = new_shoe_class_male
-        trainee_health.shoe_class_female = new_shoe_class_female
-        trainee_health.shirt_celoreng = new_shirt_celoreng
-        trainee_health.track_bottom_black = new_track_bottom_black
-        trainee_health.shoe_sport = new_shoe_sport
-        trainee_health.pants_celoreng = new_pants_celoreng
-        trainee_health.pants_class = new_pants_class
-        trainee_health.shoe_spike = new_shoe_spike
-        trainee_health.beret = new_beret
-        trainee_health.created_by = Users.select().where(Users.email==session['email']).get()
-        trainee_health.save()
+        trainee_logistic = Trainees.select().where(Trainees.ic_no==ic_no).get()
+        trainee_logistic.shirt_class_male = new_shirt_class_male
+        trainee_logistic.shirt_class_female = new_shirt_class_female
+        trainee_logistic.shirt_sport_male = new_shirt_sport_male
+        trainee_logistic.shirt_sport_female = new_shirt_sport_female
+        trainee_logistic.inner_male = new_inner_male
+        trainee_logistic.inner_female = new_inner_female
+        trainee_logistic.shoe_class_male = new_shoe_class_male
+        trainee_logistic.shoe_class_female = new_shoe_class_female
+        trainee_logistic.shirt_celoreng = new_shirt_celoreng
+        trainee_logistic.track_bottom_black = new_track_bottom_black
+        trainee_logistic.shoe_sport = new_shoe_sport
+        trainee_logistic.pants_celoreng = new_pants_celoreng
+        trainee_logistic.pants_class = new_pants_class
+        trainee_logistic.shoe_spike = new_shoe_spike
+        trainee_logistic.beret = new_beret
+        trainee_logistic.created_by = Users.select().where(Users.email==session['email']).get()
+        trainee_logistic.save()
         return True
     except Trainees.DoesNotExist:
         return False
