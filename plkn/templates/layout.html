@@ -74,15 +74,23 @@
             </li>
             <li><a href="./Management-Trainees"><i class="fa fa-male fa-fw"></i>Khidmat Pengurusan</a></li>
 
-            <li><a href="./Management-Logistics"><i class="fa fa-cutlery fa-fw"></i>Unit Logistik</a></li>
+            <li>
+              <a href="#"><i class="fa fa-cutlery fa-fw"></i>Unit Logistik<span class="fa arrow"></span></a>
+              <ul class="nav nav-second-level">
+                <li><a href="./Management-Logistics"><i class="fa fa-bar-chart fa-fw"></i>Rekod Kemasukan</a></li>
+                <li><a href="./Management-Logistics-Print"><i class="fa fa-bar-chart fa-fw"></i>Cetak</a></li>
+              </ul>
+            </li>
 
             <li>
               <a href="#"><i class="fa fa-check-square-o fa-fw"></i>Unit Kesihatan<span class="fa arrow"></span></a>
               <ul class="nav nav-second-level">
                 <li><a href="./Management-Healths"><i class="fa fa-bar-chart fa-fw"></i>Rekod Kemasukan</a></li>
-                <li><a href="./Management-Admittances"><i class="fa fa-ambulance fa-fw"></i>Rekod Medikal</a></li>
+                <li><a href="./Management-Admittances"><i class="fa fa-ambulance fa-fw"></i>Rawatan Pesakit Luar</a></li>
+                <li><a href="./Management-Admittances-Report"><i class="fa fa-ambulance fa-fw"></i>Rekod Medikal</a></li>
               </ul>
             </li>
+
             <li><a href="./Management-Inventories"><i class="fa fa-cutlery fa-fw"></i>Daftar Inventori</a></li>
 
             {% if level <= "2" %}
