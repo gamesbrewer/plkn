@@ -456,6 +456,8 @@ def Trainee_Logistic_Edit():
     if request.method == 'POST':
         if request.form['ic_no']:
             ic_no = request.form['ic_no']
+            if Update_Logistica(ic_no, request.form['beret']):
+                error = "Logistic Updated! " + str(request.form['beret'])
             """
             if Update_Logistic(request.form['ic_no'], request.form['shirt_class_male'], request.form['shirt_class_female'],
                                request.form['shirt_sport_male'], request.form['shirt_sport_female'], request.form['inner_male'],
@@ -527,11 +529,6 @@ def Report_Trainee():
         trainees = Trainees.select().where(Trainees.is_deleted==False).where(Trainees.bsn_account_no!="").order_by(Trainees.bsn_account_no)
         items = []
         report_view = "list"
-    elif report_type == "medical":
-        trainees = Trainees.select().where(Trainees.is_deleted==False)
-        admittances = Admittances.select().where(Admittances.is_deleted==False)
-        items = admittances
-        report_view = "list"
     elif report_type == "allergic":
         trainees = Trainees.select().where(Trainees.is_deleted==False).where(Trainees.is_allergic==True).order_by(Trainees.is_allergic)
         items = []
@@ -596,7 +593,7 @@ def Report_Trainee():
         report_view = "list"
 
     if report_view == "list":
-        return render_template('report_list.html', user_name=session['username'], level=session['level'], report_type = report_type, trainees = trainees, items = items, admittances = admittances)
+        return render_template('report_list.html', user_name=session['username'], level=session['level'], report_type = report_type, trainees = trainees, items = items)
     elif report_view == "bar":
         return render_template('report_bar.html', user_name=session['username'], level=session['level'], report_type = report_type, items = items)
     else: #pie
