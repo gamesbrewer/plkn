@@ -3,275 +3,275 @@
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>REKOD DATA INFORMASI PELATIH PLKN</title>
     <style>
-    	table{
-    		border: 1px solid #ccc;
-    		width: 900px;
-    	}
+      table{
+      border: 1px solid #ccc;
+      width: 900px;
+      }
 
-    	body{
-    		font-family: sans-serif;
-    		font-size: 11px;
-    	}
+      body{
+      font-family: sans-serif;
+      font-size: 11px;
+      }
     </style>
-</head>
+  </head>
 
-<body>
-	{% for type in trainees: %}
-	<table>
-		<tr align="center">
-			<td style="width:290px;" align="left">
-				Kompeni : {{ type.company.name }} <br>
-				No Indeks : {{ type.index_no }}
-			</td>
-			<td style="width:290px">
-				<h3>Borang Permohonan Stok</h3>
-			</td>
-			<td style="width:290px" align="right">
-				KEW PS-11 <br>
+  <body>
+    {% for type in trainees: %}
+    <table>
+      <tr align="center">
+        <td style="width:290px;" align="left">
+          Kompeni : {{ type.company.name }} <br>
+          No Indeks : {{ type.index_no }}
+        </td>
+        <td style="width:290px">
+          <h3>Borang Permohonan Stok</h3>
+        </td>
+        <td style="width:290px" align="right">
+          KEW PS-11 <br>
 
-				No Permohonan:{{ print_id }}
-			</td>
-		</tr>
+          No Permohonan:{{ print_id }}
+        </td>
+      </tr>
 
-		<tr>
-			<td style="width:300px" valign="top">
-				<table style="width: 90%; height: 100%">
-				<thead>
-					<tr>
-						<th>#</th>
-						<th>Nama</th>
-						<th>Saiz</th>
-						<th>Kuantiti</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>1</td>
-						{% if type.gender == "Male": %}
-							<td>Baju Kelas Lelaki</td>
-							<td>{{ type.shirt_class_male }}</td>
-						{% else: %}
-							<td>Baju Kelas Wanita</td>
-							<td>{{ type.shirt_class_female }}</td>
-						{% endif %}
-						<td></td>
-					</tr>
-					<tr>
-						<td>2</td>
-						{% if type.gender == "Male": %}
-							<td>Baju Sukan Lelaki</td>
-							<td>{{ type.shirt_sport_male }}</td>
-						{% else: %}
-							<td>Baju Sukan Wanita</td>
-							<td>{{ type.shirt_sport_female }}</td>
-						{% endif %}
-						<td></td>
-					</tr>
-					<tr>
-						<td>3</td>
-							<td>Baju Celoreng</td>
-							<td>{{ type.shirt_celoreng }}</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>4</td>
-						{% if type.gender == "Male": %}
-							<td>Inner Lelaki</td>
-							<td>{{ type.inner_male }}</td>
-						{% else: %}
-							<td>Inner Wanita</td>
-							<td>{{ type.inner_female }}</td>
-						{% endif %}
-						<td></td>
-					</tr>
-					<tr>
-						<td>5</td>
-							<td>Seluar Kelas</td>
-							<td>{{ type.pants_class }}</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>6</td>
-							<td>Track Bottom Hitam</td>
-							<td>{{ type.track_bottom_black }}</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>7</td>
-							<td>Seluar Celoreng</td>
-							<td>{{ type.pants_celoreng }}</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>8</td>
-						{% if type.gender == "Male": %}
-							<td>Kasut Kelas Lelaki</td>
-							<td>{{ type.shoe_class_male }}</td>
-						{% else: %}
-							<td>Kasut Kelas Wanita</td>
-							<td>{{ type.shoe_class_female }}</td>
-						{% endif %}
-						<td></td>
-					</tr>
-					<tr>
-						<td>9</td>
-							<td>Kasut Sukan</td>
-							<td>{{ type.shoe_sport }}</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>10</td>
-							<td>Kasut Spike</td>
-							<td>{{ type.shoe_spike }}</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>11</td>
-							<td>Beret</td>
-							<td>{{ type.beret }}</td>
-							<td></td>
-						</tr>
-					</tbody>
-				</table>
+      <tr>
+        <td style="width:300px" valign="top">
+          <table style="width: 90%; height: 100%">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Nama</th>
+                <th>Saiz</th>
+                <th>Kuantiti</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                {% if type.gender == "Male": %}
+                <td>Baju Kelas Lelaki</td>
+                <td>{{ type.shirt_class_male }}</td>
+                {% else: %}
+                <td>Baju Kelas Wanita</td>
+                <td>{{ type.shirt_class_female }}</td>
+                {% endif %}
+                <td></td>
+              </tr>
+              <tr>
+                <td>2</td>
+                {% if type.gender == "Male": %}
+                <td>Baju Sukan Lelaki</td>
+                <td>{{ type.shirt_sport_male }}</td>
+                {% else: %}
+                <td>Baju Sukan Wanita</td>
+                <td>{{ type.shirt_sport_female }}</td>
+                {% endif %}
+                <td></td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>Baju Celoreng</td>
+                <td>{{ type.shirt_celoreng }}</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>4</td>
+                {% if type.gender == "Male": %}
+                <td>Inner Lelaki</td>
+                <td>{{ type.inner_male }}</td>
+                {% else: %}
+                <td>Inner Wanita</td>
+                <td>{{ type.inner_female }}</td>
+                {% endif %}
+                <td></td>
+              </tr>
+              <tr>
+                <td>5</td>
+                <td>Seluar Kelas</td>
+                <td>{{ type.pants_class }}</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>6</td>
+                <td>Track Bottom Hitam</td>
+                <td>{{ type.track_bottom_black }}</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>7</td>
+                <td>Seluar Celoreng</td>
+                <td>{{ type.pants_celoreng }}</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>8</td>
+                {% if type.gender == "Male": %}
+                <td>Kasut Kelas Lelaki</td>
+                <td>{{ type.shoe_class_male }}</td>
+                {% else: %}
+                <td>Kasut Kelas Wanita</td>
+                <td>{{ type.shoe_class_female }}</td>
+                {% endif %}
+                <td></td>
+              </tr>
+              <tr>
+                <td>9</td>
+                <td>Kasut Sukan</td>
+                <td>{{ type.shoe_sport }}</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>10</td>
+                <td>Kasut Spike</td>
+                <td>{{ type.shoe_spike }}</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>11</td>
+                <td>Beret</td>
+                <td>{{ type.beret }}</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
 
-			</td>
-			<td style="width:200px" valign="top">
+        </td>
+        <td style="width:200px" valign="top">
 
-				<table style="width:90%; height:100%">
-				<thead>
-					<tr>
-						<th>#</th>
-						<th>Nama</th>
-						<th>Kuantiti</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>12</td>
-						<td>Tali Pinggang Kelas</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>13</td>
-						<td>Belt 70</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>14</td>
-						<td>Topi Baseball</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>15</td>
-						<td>Stokin Hitam</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>16</td>
-						<td>Stokin Kelabu</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>17</td>
-						<td>Stokin Putih</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>18</td>
-						<td>Pengilat Kasut</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>19</td>
-						<td>Berus Kasut</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>20</td>
-						<td>Tuala</td>
-							<td></td>
-						</tr>
-						<tr>
-							<td><br></td>
-							<td><br></td>
-							<td><br></td>
-						</tr>
-						<tr>
-							<td><br></td>
-							<td><br></td>
-							<td><br></td>
-						</tr>
-					</tbody>
-				</table>
+          <table style="width:90%; height:100%">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Nama</th>
+                <th>Kuantiti</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>12</td>
+                <td>Tali Pinggang Kelas</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>13</td>
+                <td>Belt 70</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>14</td>
+                <td>Topi Baseball</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>15</td>
+                <td>Stokin Hitam</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>16</td>
+                <td>Stokin Kelabu</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>17</td>
+                <td>Stokin Putih</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>18</td>
+                <td>Pengilat Kasut</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>19</td>
+                <td>Berus Kasut</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>20</td>
+                <td>Tuala</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td><br></td>
+                <td><br></td>
+                <td><br></td>
+              </tr>
+              <tr>
+                <td><br></td>
+                <td><br></td>
+                <td><br></td>
+              </tr>
+            </tbody>
+          </table>
 
-			</td>
-			<td style="width:400px" valign="top">
+        </td>
+        <td style="width:400px" valign="top">
 
-				<table style="width:100%; height:100%; border:0 none;" border="1" cellspacing="0" cellpadding="4">
-					<tr style="height: 150px" valign="top">
-						<td style="width:50%">
-						
-							<br>
-							<br>
-							<br>
-							<br>
-							.............................. <br>
-							Tandatangan Pemohon <br><br>
+          <table style="width:100%; height:100%; border:0 none;" border="1" cellspacing="0" cellpadding="4">
+            <tr style="height: 150px" valign="top">
+              <td style="width:50%">
 
-							Nama : {{ type.name }} <br>
-							Jawatan : <br>
-							Tarikh : <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                .............................. <br>
+                Tandatangan Pemohon <br><br>
+
+                Nama : {{ type.name }} <br>
+                Jawatan : <br>
+                Tarikh : <br>
 
 
-						</td>
-						<td style="width:50%">
+              </td>
+              <td style="width:50%">
 
-							<b>Kelulusan</b> <br>	
-							Permohonan diluluskan / tidak diluluskan. <br>
-							<br>
+                <b>Kelulusan</b> <br>
+                Permohonan diluluskan / tidak diluluskan. <br>
+                <br>
 
-							.............................. <br>
-							Tandatangan Pegawai Pelulus <br>
-							Nama : <br>
-							Jawatan : <br>
-							Tarikh : <br>
-						</td>
-					</tr>
-					<tr>
-						<td>
+                .............................. <br>
+                Tandatangan Pegawai Pelulus <br>
+                Nama : <br>
+                Jawatan : <br>
+                Tarikh : <br>
+              </td>
+            </tr>
+            <tr>
+              <td>
 
-							<b>Kemaskini Rekod</b><br>
+                <b>Kemaskini Rekod</b><br>
 
-							Stok telah dikeluarkan dan direkodkan di Kad Petak no ........ <br>
-							<br>
+                Stok telah dikeluarkan dan direkodkan di Kad Petak no ........ <br>
+                <br>
 
-							.............................. <br>
-							Tandatangan Pegawai Stor <br>
-							Nama : <br>
-							Jawatan : <br>
-							Tarikh : <br>
+                .............................. <br>
+                Tandatangan Pegawai Stor <br>
+                Nama : <br>
+                Jawatan : <br>
+                Tarikh : <br>
 
-						</td>
-						<td>
+              </td>
+              <td>
 
-							<b>Perakuan Penerimaan.</b><br>
+                <b>Perakuan Penerimaan.</b><br>
 
-							Disahkan bahawa stok dikeluarkan telah diterima. <br>
-							<br>
+                Disahkan bahawa stok dikeluarkan telah diterima. <br>
+                <br>
 
-							.............................. <br>
-							Tandatangan Pemohon <br><br>
+                .............................. <br>
+                Tandatangan Pemohon <br><br>
 
-							Nama : {{ type.name }} <br>
-							Jawatan : <br>
-							Tarikh : <br>
+                Nama : {{ type.name }} <br>
+                Jawatan : <br>
+                Tarikh : <br>
 
-						</td>
-					</tr>
-				</table>
+              </td>
+            </tr>
+          </table>
 
-			</td>
-		</tr>	
-	</table>
-	{% endfor %}
+        </td>
+      </tr>
+    </table>
+    {% endfor %}
 </body></html>
