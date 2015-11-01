@@ -71,7 +71,8 @@ def Sign_In(error = ''):
 @general.route('/Dashboard')
 def Dashboard():
     if 'username' in session:
-        return render_template('dashboard.html', user_name=session['username'], level=session['level'])
+        # TODO
+        return render_template('dashboard.html', user_name=session['username'], level=session['level'], count_registered_trainees=20)
         #return 'Logged in as %s' % escape(session['username'])
     return redirect(url_for('.Sign_In', error="You are not logged in"))
 
@@ -200,7 +201,7 @@ def Trainee():
         else:
             page_no = 1
         trainees = []
-        
+
     return render_template('trainee.html', user_name=session['username'], level=session['level'], trainees = trainees, page = page_no)
 
 @general.route('/Management-Trainees-New', methods=['POST', 'GET'])
@@ -213,15 +214,15 @@ def Trainee_New():
     relations = Relations.select().order_by(Relations.id)
     if request.method == 'POST':
         if request.form['ic_no']:
-            if Create_Trainee(request.form['name'], request.form['ic_no'], request.form['company'], request.form['index_no'], 
-                              request.form['blok_no'], request.form['room_no'], request.form['bed_no'], 
-                              request.form['gender'], request.form['race'], request.form['religion'], request.form['age'], 
+            if Create_Trainee(request.form['name'], request.form['ic_no'], request.form['company'], request.form['index_no'],
+                              request.form['blok_no'], request.form['room_no'], request.form['bed_no'],
+                              request.form['gender'], request.form['race'], request.form['religion'], request.form['age'],
                               request.form['phone1'], request.form['phone2'],
                               request.form['address1'], request.form['address2'], request.form['address3'],
                               request.form['postcode'], request.form['city'], request.form['state'],
                               request.form['is_married'], request.form['education'], request.form['occupation'], request.form['bsn_account_no'],
                               request.form['is_shooter'], request.form['is_left_handed'], request.form['is_registered'], request.form['report_in_date'],
-                              request.form['kin_name'], request.form['relation'], request.form['kin_address'], 
+                              request.form['kin_name'], request.form['relation'], request.form['kin_address'],
                               request.form['kin_phone'], request.form['kin_occupation']):
                 return redirect(url_for('.Trainee'))
             else:
@@ -242,15 +243,15 @@ def Trainee_Edit():
     relations = Relations.select().order_by(Relations.id)
     if request.method == 'POST':
         if request.form['ic_no']:
-            if Update_Trainee(request.form['ic_no'], request.form['name'], request.form['company'], request.form['index_no'], 
-                              request.form['blok_no'], request.form['room_no'], request.form['bed_no'], 
-                              request.form['gender'], request.form['race'], request.form['religion'], request.form['age'], 
+            if Update_Trainee(request.form['ic_no'], request.form['name'], request.form['company'], request.form['index_no'],
+                              request.form['blok_no'], request.form['room_no'], request.form['bed_no'],
+                              request.form['gender'], request.form['race'], request.form['religion'], request.form['age'],
                               request.form['phone1'], request.form['phone2'],
                               request.form['address1'], request.form['address2'], request.form['address3'],
                               request.form['postcode'], request.form['city'], request.form['state'],
                               request.form['is_married'], request.form['education'], request.form['occupation'], request.form['bsn_account_no'],
                               request.form['is_shooter'], request.form['is_left_handed'], request.form['is_registered'], request.form['report_in_date'],
-                              request.form['kin_name'], request.form['relation'], request.form['kin_address'], 
+                              request.form['kin_name'], request.form['relation'], request.form['kin_address'],
                               request.form['kin_phone'], request.form['kin_occupation']):
                 #return redirect(url_for('.Trainee'))
                 error = "Trainee Updated!"
@@ -317,8 +318,8 @@ def Trainee_Health_Edit():
     if request.method == 'POST':
         if request.form['ic_no']:
             ic_no = request.form['ic_no']
-            if Update_Health(request.form['ic_no'], request.form['blood_group'], request.form['height'], 
-                             request.form['weight'], request.form['bmi'], request.form['is_allergic'] , 
+            if Update_Health(request.form['ic_no'], request.form['blood_group'], request.form['height'],
+                             request.form['weight'], request.form['bmi'], request.form['is_allergic'] ,
                              request.form['allergies'] , request.form['is_food_intolerant'],
                              request.form['food_intolerance'], request.form['reference_no'], request.form['is_declared'],
                              request.form['medicine_journal']):
@@ -332,12 +333,12 @@ def Trainee_Health_Edit():
     if request.method == 'GET':
         ic_no = request.args.get('ic_no')
     trainee = Trainees.select().where(Trainees.ic_no==ic_no).get()
-    return render_template('trainee-health-form.html', user_name=session['username'], level=session['level'], trainee = trainee, races = races, 
+    return render_template('trainee-health-form.html', user_name=session['username'], level=session['level'], trainee = trainee, races = races,
                            companies = companies, religions = religions, educations = educations, relations = relations, blood_groups = blood_groups,
                            error=error)
 
 @general.route('/Management-Admittances', methods=['POST', 'GET'])
-def Trainee_Admittance():    
+def Trainee_Admittance():
     if request.method == 'POST':
         page_no = 1
         admittances = Admittances.select().join(Trainees).where(Trainees.name.contains(request.form['search']) | Trainees.index_no.contains(request.form['search'])).where(Trainees.is_deleted==False).order_by(Admittances.id).paginate(page_no, 10)
@@ -357,7 +358,7 @@ def Trainee_Admittance_New():
     error = ''
     if request.method == 'POST':
         if request.form['ic_no']:
-            if Create_Admittance(request.form['ic_no'], request.form['details'], request.form['diagnosis'], 
+            if Create_Admittance(request.form['ic_no'], request.form['details'], request.form['diagnosis'],
                               request.form['blood_pressure'], request.form['temperature'], request.form['pulse'],
                               request.form['respiration']):
                 return redirect(url_for('.Trainee_Admittance'))
@@ -380,7 +381,7 @@ def Trainee_Admittance_Edit():
     if request.method == 'POST':
         if request.form['admittance_id']:
             admittance_id = request.form['admittance_id']
-            if Update_Admittance(request.form['admittance_id'], request.form['details'], request.form['diagnosis'], 
+            if Update_Admittance(request.form['admittance_id'], request.form['details'], request.form['diagnosis'],
                               request.form['blood_pressure'], request.form['temperature'], request.form['pulse'],
                               request.form['respiration']):
                 #return redirect(url_for('.Trainee_Admittance'))
@@ -420,7 +421,7 @@ def Trainee_Logistic_Edit():
     religions = Religions.select().order_by(Religions.id)
     educations = Educations.select().order_by(Educations.id)
     relations = Relations.select().order_by(Relations.id)
-    
+
     shirt_sizes = ShirtSizes.select().order_by(ShirtSizes.id)
     pant_sizes = PantSizes.select().order_by(PantSizes.id)
     shoe_sizes = ShoeSizes.select().order_by(ShoeSizes.id)
@@ -429,7 +430,7 @@ def Trainee_Logistic_Edit():
     if request.method == 'POST':
         if request.form['ic_no']:
             ic_no = request.form['ic_no']
-            if Update_Logistic(request.form['ic_no'], request.form['shirt_class_male'], request.form['shirt_class_female'], 
+            if Update_Logistic(request.form['ic_no'], request.form['shirt_class_male'], request.form['shirt_class_female'],
                                request.form['shirt_sport_male'], request.form['shirt_sport_female'], request.form['inner_male'],
                                request.form['inner_female'], request.form['shoe_class_male'], request.form['shoe_class_female'],
                                request.form['shirt_celoreng'], request.form['track_bottom_black'], request.form['shoe_sport'],
@@ -445,8 +446,8 @@ def Trainee_Logistic_Edit():
     if request.method == 'GET':
         ic_no = request.args.get('ic_no')
     trainee = Trainees.select().where(Trainees.ic_no==ic_no).get()
-    return render_template('trainee-logistic-form.html', user_name=session['username'], level=session['level'], trainee = trainee, races = races, 
-                           companies = companies, religions = religions, educations = educations, relations = relations, 
+    return render_template('trainee-logistic-form.html', user_name=session['username'], level=session['level'], trainee = trainee, races = races,
+                           companies = companies, religions = religions, educations = educations, relations = relations,
                            shirt_sizes = shirt_sizes, pant_sizes = pant_sizes, shoe_sizes = shoe_sizes, free_sizes = free_sizes, beret_sizes = beret_sizes,
                            error=error)
 
@@ -522,7 +523,7 @@ def Report_Trainee():
                 male += 1
             else:
                 female += 1
-                
+
         items = []
         items.append("male:"+str(male))
         items.append("female:"+str(female))
@@ -530,12 +531,12 @@ def Report_Trainee():
     elif report_type == "race":
         trainees = Trainees.select().where(Trainees.is_deleted==False)
         races = Races.select().where(Races.is_deleted==False)
-        
-        trainee_race = [0 for x in range(races.count())] 
-        
+
+        trainee_race = [0 for x in range(races.count())]
+
         for trainee in trainees:
             trainee_race[trainee.race.id-1] += 1
-            
+
         items = []
         for item in races:
             items.append(item.name + ":"+ str(trainee_race[item.id-1]))
@@ -543,12 +544,12 @@ def Report_Trainee():
     elif report_type == "religion":
         trainees = Trainees.select().where(Trainees.is_deleted==False)
         religions = Religions.select().where(Religions.is_deleted==False)
-        
-        trainee_religion = [0 for x in range(religions.count())] 
-        
+
+        trainee_religion = [0 for x in range(religions.count())]
+
         for trainee in trainees:
             trainee_religion[trainee.religion.id-1] += 1
-            
+
         items = []
         for item in religions:
             items.append(item.name + ":"+ str(trainee_religion[item.id-1]))
@@ -556,7 +557,7 @@ def Report_Trainee():
     else:
         trainees = Trainees.select().where(Trainees.is_deleted==False).order_by(Trainees.id)
         report_view = "list"
-    
+
     if report_view == "list":
         return render_template('report_list.html', user_name=session['username'], level=session['level'], report_type = report_type, trainees = trainees)
     elif report_view == "bar":
@@ -598,15 +599,15 @@ def Employee_Type_Get():
 @general.route('/Print_Receipt')
 def Print_Receipt():
     order_no = request.args.get('order_no')
-    
+
     order = Orders.select().where(Orders.no==order_no).get()
     order_items = Order_Items.select().where(Order_Items.order==order)
-    
+
     if order and order_items:
         import StringIO
         output = StringIO.StringIO()
         make_receipt(order, order_items, output)
-        
+
         pdf_out = output.getvalue()
         output.close()
 
