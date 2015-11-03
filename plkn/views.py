@@ -73,11 +73,18 @@ def Dashboard():
     if 'username' in session:
         # TODO
         trainees = Trainees.select().where(Trainees.is_deleted==False)
+        races = Races.select().where(Races.is_deleted==False)
+        religions = Religions.select().where(Religions.is_deleted==False)
         registered = 0
         unregistered = 0
         male = 0
         female = 0
+        
+        trainee_race = [0 for x in range(races.count())]
+        trainee_religion = [0 for x in range(religions.count())]
         for trainee in trainees:
+            trainee_race[trainee.race.id-1] += 1
+            trainee_religion[trainee.religion.id-1] += 1
             if trainee.is_registered==True:
                 registered += 1
             else:
@@ -88,26 +95,13 @@ def Dashboard():
             else:
                 female += 1
 
-            trainees = Trainees.select().where(Trainees.is_deleted==False)
-            races = Races.select().where(Races.is_deleted==False)
-
-            trainee_race = [0 for x in range(races.count())]
-            for trainee in trainees:
-                trainee_race[trainee.race.id-1] += 1
-
-            race_data = []
-            for item in races:
-                race_data.append(item.name + ":"+ str(trainee_race[item.id-1]))
-
-            religions = Religions.select().where(Religions.is_deleted==False)
-
-            trainee_religion = [0 for x in range(religions.count())]
-            for trainee in trainees:
-                trainee_religion[trainee.religion.id-1] += 1
-
-            religion_data = []
-            for item in religions:
-                religion_data.append(item.name + ":"+ str(trainee_religion[item.id-1]))
+        race_data = []
+        for item in races:
+            race_data.append(item.name + ":"+ str(trainee_race[item.id-1]))
+        
+        religion_data = []
+        for item in religions:
+            religion_data.append(item.name + ":"+ str(trainee_religion[item.id-1]))
 
         return render_template('dashboard.html', user_name=session['username'], level=session['level'], count_registered_trainees=registered, count_unregistered_trainees=unregistered,
                                 count_male_trainees=male, count_female_trainees=female, race_data = race_data, religion_data = religion_data)
@@ -341,7 +335,7 @@ def Trainee_Health():
             page_no = int(request.args.get('pageno'))
         else:
             page_no = 1
-        trainees = Trainees.select().where(Trainees.is_deleted==False).order_by(Trainees.id).paginate(page_no, 10)
+        trainees = [] #trainees = Trainees.select().where(Trainees.is_deleted==False).order_by(Trainees.id).paginate(page_no, 10)
     return render_template('trainee-health.html', user_name=session['username'], level=session['level'], trainees = trainees, page = page_no)
 
 @general.route('/Management-Healths-Edit', methods=['POST', 'GET'])
@@ -448,7 +442,7 @@ def Trainee_Admittance_Report():
             page_no = int(request.args.get('pageno'))
         else:
             page_no = 1
-        trainees = Trainees.select().where(Trainees.is_deleted==False).order_by(Trainees.id).paginate(page_no, 10)
+        trainees = [] #trainees = Trainees.select().where(Trainees.is_deleted==False).order_by(Trainees.id).paginate(page_no, 10)
     return render_template('trainee-admittance-report.html', user_name=session['username'], level=session['level'], trainees = trainees, page = page_no)
 
 @general.route('/Management-Logistics', methods=['POST', 'GET'])
@@ -461,7 +455,7 @@ def Trainee_Logistic():
             page_no = int(request.args.get('pageno'))
         else:
             page_no = 1
-        trainees = Trainees.select().where(Trainees.is_deleted==False).order_by(Trainees.id).paginate(page_no, 10)
+        trainees = [] #trainees = Trainees.select().where(Trainees.is_deleted==False).order_by(Trainees.id).paginate(page_no, 10)
     return render_template('trainee-logistic.html', user_name=session['username'], level=session['level'], trainees = trainees, page = page_no)
 
 @general.route('/Management-Logistics-Print', methods=['POST', 'GET'])
