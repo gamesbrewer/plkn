@@ -21,276 +21,333 @@
     </div>
     <!-- /.row -->
 
-    <div class="row">
-      <div class="col-lg-12">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            Butiran Pelatih
-            <h5 class="panel-title" style="color:red;font-weight:bold;">{{error}}</h5>
-          </div>
-          <div class="panel-body">
-            <div class="row">
-              <form action="./{% if edit and delete %}Management-Trainees-Delete{% elif edit %}Management-Trainees-Edit{% else %}Management-Trainees-New{% endif %}" role="form" method="post">
-                <div class="panel panel-primary">
-                  <div class="panel-heading">
-                    Info
-                  </div>
-                  <div class="panel-body">
-                    <div class="col-lg-6">
-                      <div class="form-group">
-                        <label>Nama Pelatih</label>
-                        <input name="name" class="form-control" placeholder="Nama Pelatih" {% if edit %} value="{{ trainee.name }}" {% endif %}>
-                      </div>
+    <form action="./{% if edit and delete %}Management-Trainees-Delete{% elif edit %}Management-Trainees-Edit{% else %}Management-Trainees-New{% endif %}" role="form" method="post">
+      <div class="row">
+        <div class="col-lg-12">
 
-                      <div class="form-group">
-                        <label>No KP</label>
-                        <input id="ic_no" name="ic_no" class="form-control" placeholder="No KP" {% if edit %} value="{{ trainee.ic_no }}" {% endif %}>
-                      </div>
-
-                      <div class="form-group">
-                        <label>Kompeni</label>
-                        <select name="company" class="form-control">
-                          <option value="" {% if edit and trainee.company == "" %} selected=selected {% endif %} ></option>
-                          {% for type in companies: %}
-                          <option value="{{ type.id }}" {% if edit and type.id == trainee.company.id %} selected=selected {% endif %} >{{ type.name }}</option>
-                          {% endfor %}
-                        </select>
-                      </div>
-
-                      <div class="form-group">
-                        <label>No Indeks</label>
-                        <input name="index_no" class="form-control" placeholder="No Indeks" {% if edit %} value="{{ trainee.index_no }}" {% endif %}>
-                      </div>
-                    </div>
-
-                    <div class="col-lg-3">
-                      <div class="form-group">
-                        <label>Jantina</label>
-                        <select name="gender" class="form-control">
-                          <option value="Male" {% if edit and trainee.gender == "Male" %} selected=selected {% endif %} >Male</option>
-                          <option value="Female" {% if edit and trainee.gender == "Female" %} selected=selected {% endif %} >Female</option>
-                        </select>
-                      </div>
-
-                      <div class="form-group">
-                        <label>Kaum</label>
-                        <select name="race" class="form-control">
-                          <option value="" {% if edit and trainee.race == "" %} selected=selected {% endif %} ></option>
-                          {% for type in races: %}
-                          <option value="{{ type.id }}" {% if edit and type.id == trainee.race.id %} selected=selected {% endif %}>{{ type.name }}</option>
-                          {% endfor %}
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col-lg-3">
-                      <div class="form-group">
-                        <label>Agama</label>
-                        <select name="religion" class="form-control">
-                          <option value="" {% if edit and trainee.religion == "" %} selected=selected {% endif %} ></option>
-                          {% for type in religions: %}
-                          <option value="{{ type.id }}" {% if edit and type.id == trainee.religion.id %} selected=selected {% endif %}>{{ type.name }}</option>
-                          {% endfor %}
-                        </select>
-                      </div>
-
-                      <div class="form-group">
-                        <label>Umur</label>
-                        <input id="age" onfocus="getAge()" name="age" class="form-control" placeholder="Umur" {% if edit %} value="{{ trainee.age }}" {% endif %}>
-                      </div>
-                    </div>
-
-                    <div class="col-lg-12"></div>
-
-                    <div class="col-lg-4">
-                      <div class="form-group">
-                        <label>No Blok</label>
-                        <input name="blok_no" class="form-control" placeholder="No Blok" {% if edit %} value="{{ trainee.blok_no }}" {% endif %}>
-                      </div>
-                    </div>
-                    <div class="col-lg-4">
-                      <div class="form-group">
-                        <label>No Bilik</label>
-                        <input name="room_no" class="form-control" placeholder="No Bilik" {% if edit %} value="{{ trainee.room_no }}" {% endif %}>
-                      </div>
-                    </div>
-                    <div class="col-lg-4">
-                      <div class="form-group">
-                        <label>No Katil</label>
-                        <input name="bed_no" class="form-control" placeholder="No Katil" {% if edit %} value="{{ trainee.bed_no }}" {% endif %}>
-                      </div>
-                    </div>
-
-                    <div class="col-lg-12"></div>
-
-                    <div class="col-lg-6">
-                      <div class="form-group">
-                        <label>No Tel 1</label>
-                        <input name="phone1" class="form-control" placeholder="No Tel 1" {% if edit %} value="{{ trainee.phone1 }}" {% endif %}>
-                      </div>
-                    </div>
-                    <div class="col-lg-6">
-                      <div class="form-group">
-                        <label>No Tel 2</label>
-                        <input name="phone2" class="form-control" placeholder="No Tel 2" {% if edit %} value="{{ trainee.phone2 }}" {% endif %}>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="panel panel-info">
-                  <div class="panel-heading">
-                    Alamat
-                  </div>
-                  <div class="panel-body">
-                    <div class="col-lg-6">
-                      <div class="form-group">
-                        <label>Alamat</label>
-                        <input name="address1" class="form-control" placeholder="Alamat 1" {% if edit %} value="{{ trainee.address1 }}" {% endif %}><br />
-                        <input name="address2" class="form-control" placeholder="Alamat 2" {% if edit %} value="{{ trainee.address2 }}" {% endif %}><br />
-                        <input name="address3" class="form-control" placeholder="Alamat 3" {% if edit %} value="{{ trainee.address3 }}" {% endif %}>
-                      </div>
-                    </div>
-                    <div class="col-lg-6">
-                      <div class="form-group">
-                        <label>Poskod</label>
-                        <input name="postcode" class="form-control" placeholder="Poskod" {% if edit %} value="{{ trainee.postcode }}" {% endif %}>
-                      </div>
-                      <div class="form-group">
-                        <label>Bandar</label>
-                        <input name="city" class="form-control" placeholder="Bandar" {% if edit %} value="{{ trainee.city }}" {% endif %}>
-                      </div>
-                      <div class="form-group">
-                        <label>Negeri</label>
-                        <input name="state" class="form-control" placeholder="Negeri" {% if edit %} value="{{ trainee.state }}" {% endif %}>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="panel panel-primary">
-                  <div class="panel-heading">
-                    Status
-                  </div>
-                  <div class="panel-body">
-                    <div class="col-lg-4">
-                      <div class="form-group">
-                        <label>Status Perkahwinan</label>
-                        <select name="is_married" class="form-control">
-                          <option value="False" {% if edit and trainee.is_married == False %} selected=selected {% endif %}>Single</option>
-                          <option value="True" {% if edit and trainee.is_married == True %} selected=selected {% endif %}>Married</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col-lg-4">
-                      <div class="form-group">
-                        <label>Latihan Menembak</label>
-                        <select name="is_shooter" class="form-control">
-                          <option value="False" {% if edit and trainee.is_shooter == False %} selected=selected {% endif %}>No</option>
-                          <option value="True" {% if edit and trainee.is_shooter == True %} selected=selected {% endif %}>Yes</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col-lg-4">
-                      <div class="form-group">
-                        <label>Status Pendaftaran</label>
-                        <select name="is_registered" class="form-control">
-                          <option value="False" {% if edit and trainee.is_registered == False %} selected=selected {% endif %}>Belum</option>
-                          <option value="True" {% if edit and trainee.is_registered == True %} selected=selected {% endif %}>Sudah</option>
-                        </select>
-                      </div>
-                    </div>
-
-                    <div class="col-lg-4">
-                      <div class="form-group">
-                        <label>Taraf Pendidikan</label>
-                        <select name="education" class="form-control">
-                          {% for type in educations: %}
-                          <option value="{{ type.id }}" {% if edit and type.id == trainee.education.id %} selected=selected {% endif %}>{{ type.name }}</option>
-                          {% endfor %}
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col-lg-4">
-                      <div class="form-group">
-                        <label>Tangan</label>
-                        <select name="is_left_handed" class="form-control">
-                          <option value="False" {% if edit and trainee.is_left_handed == False %} selected=selected {% endif %}>Kanan</option>
-                          <option value="True" {% if edit and trainee.is_left_handed == True %} selected=selected {% endif %}>Kidal</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col-lg-4">
-                      <div class="form-group">
-                        <label>Tarikh Lapor</label>
-                        <input name="report_in_date" class="form-control" placeholder="Masukkan Tarikh Lapor" {% if edit %} value="{{ trainee.report_in_date }}" {% endif %}>
-                      </div>
-                    </div>
-                    <div class="col-lg-4">
-                      <div class="form-group">
-                        <label>Kerjaya Semasa</label>
-                        <input name="occupation" class="form-control" placeholder="Masukkan Kerjaya Semasa" {% if edit %} value="{{ trainee.occupation }}" {% endif %}>
-                      </div>
-                    </div>
-                    <div class="col-lg-4">
-                      <div class="form-group">
-                        <label>No Akaun BSN</label>
-                        <input name="bsn_account_no" class="form-control" placeholder="Masukkan No Akaun BSN" {% if edit %} value="{{ trainee.bsn_account_no }}" {% endif %}>
-                      </div>
-                    </div>
-
-                  </div>
-                </div>
-                <div class="panel panel-info">
-                  <div class="panel-heading">
-                    Maklumat Waris
-                  </div>
-                  <div class="panel-body">
-                    <div class="col-lg-12">
-                      <div class="form-group">
-                        <label>Nama Waris</label>
-                        <input name="kin_name" class="form-control" placeholder="Masukkan Nama Waris" {% if edit %} value="{{ trainee.kin_name }}" {% endif %}>
-                      </div>
-                      <div class="form-group">
-                        <label>Hubungan Dengan Waris</label>
-                        <select name="relation" class="form-control">
-                          {% for type in relations: %}
-                          <option value="{{ type.id }}" {% if edit and type.id == trainee.relation.id %} selected=selected {% endif %}>{{ type.name }}</option>
-                          {% endfor %}
-                        </select>
-                      </div>
-                      <div class="form-group">
-                        <label>Alamat Waris</label>
-                        <textarea name="kin_address" class="form-control" rows="3">{% if edit %} {{ trainee.kin_address }} {% endif %}</textarea>
-                      </div>
-                      <div class="form-group">
-                        <label>Telefon Waris</label>
-                        <input name="kin_phone" class="form-control" placeholder="Masukkan Telefon Waris" {% if edit %} value="{{ trainee.kin_phone }}" {% endif %}>
-                      </div>
-                      <div class="form-group">
-                        <label>Pekerjaan Waris</label>
-                        <input name="kin_occupation" class="form-control" placeholder="Masukkan Telefon Waris" {% if edit %} value="{{ trainee.kin_occupation }}" {% endif %}>
-                      </div>
-
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-12">
-                  <button type="submit" class="btn btn-success">{% if delete %} Padam {% else %} Simpan {% endif %}</button>
-                  <button type="reset" class="btn btn-default">Reset</button>
-                </div>
-              </form>
-
-              <!-- /.col-lg-10 (nested) -->
+          <div class="panel panel-primary">
+            <Div class="panel-heading">
+              Butiran Pelatih
+              <h5 class="panel-title" style="color:red;font-weight:bold;">{{error}}</h5>
             </div>
-            <!-- /.row (nested) -->
+
+            <div class="panel-body">
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label>Nama Pelatih</label>
+                    <input name="name" class="form-control" placeholder="Nama Pelatih" {% if edit %} value="{{ trainee.name }}" {% endif %}>
+                  </div>
+                </div>
+                <!-- 6 -->
+
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label>No KP</label>
+                    <input id="ic_no" name="ic_no" class="form-control" placeholder="No KP" {% if edit %} value="{{ trainee.ic_no }}" {% endif %}>
+                  </div>
+                </div>
+                <!-- 6 -->
+              </div>
+              <!-- /.row -->
+
+              <div class="row">
+                <div class="col-lg-3">
+                  <div class="form-group">
+                    <label>Jantina</label>
+                    <select name="gender" class="form-control">
+                      <option value="Male" {% if edit and trainee.gender == "Male" %} selected=selected {% endif %} >Lelaki</option>
+                      <option value="Female" {% if edit and trainee.gender == "Female" %} selected=selected {% endif %} >Perempuan</option>
+                    </select>
+                  </div>
+                </div>
+                <!-- 3 -->
+
+                <div class="col-lg-3">
+                  <div class="form-group">
+                    <label>Agama</label>
+                    <select name="religion" class="form-control">
+                      <option value="" {% if edit and trainee.religion == "" %} selected=selected {% endif %} ></option>
+                      {% for type in religions: %}
+                      <option value="{{ type.id }}" {% if edit and type.id == trainee.religion.id %} selected=selected {% endif %}>{{ type.name }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+                <!-- 3 -->
+
+                <div class="col-lg-3">
+                  <div class="form-group">
+                    <label>Kaum</label>
+                    <select name="race" class="form-control">
+                      <option value="" {% if edit and trainee.race == "" %} selected=selected {% endif %} ></option>
+                      {% for type in races: %}
+                      <option value="{{ type.id }}" {% if edit and type.id == trainee.race.id %} selected=selected {% endif %}>{{ type.name }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+                <!-- 3 -->
+
+                <div class="col-lg-3">
+                  <div class="form-group">
+                    <label>Umur</label>
+                    <input id="age" onfocus="getAge()" name="age" class="form-control" placeholder="Umur" {% if edit %} value="{{ trainee.age }}" {% endif %}>
+                  </div>
+                </div>
+                <!-- 3 -->
+              </div>
+              <!-- /.row -->
+            </div>
+            <!-- panel-body -->
           </div>
-          <!-- /.panel-body -->
+          <!-- panel -->
+
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              Maklumat pendaftaran kem
+            </div>
+
+            <div class="panel-body">
+              <div class="row">
+                <div class="col-lg-3">
+                  <div class="form-group">
+                    <label>No Indeks</label>
+                    <input name="index_no" class="form-control" placeholder="No Indeks" {% if edit %} value="{{ trainee.index_no }}" {% endif %}>
+                  </div>
+                </div>
+                <!-- 3 -->
+
+                <div class="col-lg-3">
+                  <div class="form-group">
+                    <label>Kompeni</label>
+                    <select name="company" class="form-control">
+                      <option value="" {% if edit and trainee.company == "" %} selected=selected {% endif %} ></option>
+                      {% for type in companies: %}
+                      <option value="{{ type.id }}" {% if edit and type.id == trainee.company.id %} selected=selected {% endif %} >{{ type.name }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+                <!-- 3 -->
+
+                <div class="col-lg-3">
+                  <div class="form-group">
+                    <label>No Bilik</label>
+                    <input name="room_no" class="form-control" placeholder="No Bilik" {% if edit %} value="{{ trainee.room_no }}" {% endif %}>
+                  </div>
+                </div>
+                <!-- 3 -->
+
+                <div class="col-lg-3">
+                  <div class="form-group">
+                    <label>No Katil</label>
+                    <input name="bed_no" class="form-control" placeholder="No Katil" {% if edit %} value="{{ trainee.bed_no }}" {% endif %}>
+                  </div>
+                </div>
+                <!-- 3 -->
+              </div>
+              <!--- row -->
+            </div>
+            <!-- panel-body -->
+          </div>
+          <!-- panel -->
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              Alamat
+            </div>
+
+            <div class="panel-body">
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label>Alamat</label>
+                    <input name="address1" class="form-control" placeholder="Alamat 1" {% if edit %} value="{{ trainee.address1 }}" {% endif %}><br />
+                    <input name="address2" class="form-control" placeholder="Alamat 2" {% if edit %} value="{{ trainee.address2 }}" {% endif %}><br />
+                    <input name="address3" class="form-control" placeholder="Alamat 3" {% if edit %} value="{{ trainee.address3 }}" {% endif %}>
+                  </div>
+
+                  <div class="form-group">
+                    <label>Poskod</label>
+                    <input name="postcode" class="form-control" placeholder="Poskod" {% if edit %} value="{{ trainee.postcode }}" {% endif %}>
+                  </div>
+                </div>
+                <!-- 6 -->
+
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label>Bandar</label>
+                    <input name="city" class="form-control" placeholder="Bandar" {% if edit %} value="{{ trainee.city }}" {% endif %}>
+                  </div>
+
+                  <div class="form-group">
+                    <label>Negeri</label>
+                    <input name="state" class="form-control" placeholder="Negeri" {% if edit %} value="{{ trainee.state }}" {% endif %}>
+                  </div>
+
+                  <div class="form-group">
+                    <label>No Tel 1</label>
+                    <input name="phone1" class="form-control" placeholder="No Tel 1" {% if edit %} value="{{ trainee.phone1 }}" {% endif %}>
+                  </div>
+
+                  <div class="form-group">
+                    <label>No Tel 2</label>
+                    <input name="phone2" class="form-control" placeholder="No Tel 2" {% if edit %} value="{{ trainee.phone2 }}" {% endif %}>
+                  </div>
+                </div>
+                <!-- 6 -->
+              </div>
+              <!-- row -->
+            </div>
+            <!-- panel-body -->
+          </div>
+          <!-- panel -->
+
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              Status pelatih
+            </div>
+
+            <div class="panel-body">
+              <div class="row">
+                <div class="col-lg-3">
+                  <div class="form-group">
+                    <label>Status Perkahwinan</label>
+                    <select name="is_married" class="form-control">
+                      <option value="False" {% if edit and trainee.is_married == False %} selected=selected {% endif %}>Bujang</option>
+                      <option value="True" {% if edit and trainee.is_married == True %} selected=selected {% endif %}>Berkahwin</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label>Tangan</label>
+                    <select name="is_left_handed" class="form-control">
+                      <option value="False" {% if edit and trainee.is_left_handed == False %} selected=selected {% endif %}>Kanan</option>
+                      <option value="True" {% if edit and trainee.is_left_handed == True %} selected=selected {% endif %}>Kidal</option>
+                    </select>
+                  </div>
+                </div>
+                <!-- 3 -->
+
+                <div class="col-lg-3">
+                  <div class="form-group">
+                    <label>Taraf Pendidikan</label>
+                    <select name="education" class="form-control">
+                      {% for type in educations: %}
+                      <option value="{{ type.id }}" {% if edit and type.id == trainee.education.id %} selected=selected {% endif %}>{{ type.name }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label>No Akaun BSN</label>
+                    <input name="bsn_account_no" class="form-control" placeholder="Masukkan No Akaun BSN" {% if edit %} value="{{ trainee.bsn_account_no }}" {% endif %}>
+                  </div>
+                </div>
+                <!-- 3 -->
+
+                <div class="col-lg-3">
+                  <div class="form-group">
+                    <label>Kerjaya Semasa</label>
+                    <input name="occupation" class="form-control" placeholder="Masukkan Kerjaya Semasa" {% if edit %} value="{{ trainee.occupation }}" {% endif %}>
+                  </div>
+
+                  <div class="form-group">
+                    <label>Status Pendaftaran</label>
+                    <select name="is_registered" class="form-control">
+                      <option value="False" {% if edit and trainee.is_registered == False %} selected=selected {% endif %}>Belum</option>
+                      <option value="True" {% if edit and trainee.is_registered == True %} selected=selected {% endif %}>Sudah</option>
+                    </select>
+                  </div>
+                </div>
+                <!-- 3 -->
+
+                <div class="col-lg-3">
+                  <div class="form-group">
+                    <label>Latihan Menembak</label>
+                    <select name="is_shooter" class="form-control">
+                      <option value="False" {% if edit and trainee.is_shooter == False %} selected=selected {% endif %}>Tidak</option>
+                      <option value="True" {% if edit and trainee.is_shooter == True %} selected=selected {% endif %}>Ya</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label>Tarikh Lapor</label>
+                    <input name="report_in_date" class="form-control" placeholder="Masukkan Tarikh Lapor" {% if edit %} value="{{ trainee.report_in_date }}" {% endif %}>
+                  </div>'
+                </div>
+                <!-- 3 -->
+              </div>
+              <!-- row -->
+            </div>
+            <!-- panel-body -->
+          </div>
+          <!-- panel -->
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              Maklumat waris
+            </div>
+
+            <div class="panel-body">
+              <div class="row">
+                <div class="col-lg-4">
+                  <div class="form-group">
+                    <label>Nama Waris</label>
+                    <input name="kin_name" class="form-control" placeholder="Masukkan Nama Waris" {% if edit %} value="{{ trainee.kin_name }}" {% endif %}>
+                  </div>
+                  <div class="form-group">
+                    <label>Hubungan Dengan Waris</label>
+                    <select name="relation" class="form-control">
+                      {% for type in relations: %}
+                      <option value="{{ type.id }}" {% if edit and type.id == trainee.relation.id %} selected=selected {% endif %}>{{ type.name }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+                <!-- 4 -->
+
+                <div class="col-lg-4">
+                  <div class="form-group">
+                    <label>Telefon Waris</label>
+                    <input name="kin_phone" class="form-control" placeholder="Masukkan Telefon Waris" {% if edit %} value="{{ trainee.kin_phone }}" {% endif %}>
+                  </div>
+                  <div class="form-group">
+                    <label>Pekerjaan Waris</label>
+                    <input name="kin_occupation" class="form-control" placeholder="Masukkan Telefon Waris" {% if edit %} value="{{ trainee.kin_occupation }}" {% endif %}>
+                  </div>
+                </div>
+                <!-- 4 -->
+
+                <div class="col-lg-4">
+                  <div class="form-group">
+                    <label>Alamat Waris</label>
+                    <textarea name="kin_address" class="form-control" rows="3">{% if edit %} {{ trainee.kin_address }} {% endif %}</textarea>
+                  </div>
+                </div>
+                <!-- 4 -->
+
+              </div>
+              <!-- row -->
+            </div>
+            <!-- panel-body -->
+          </div>
+          <!-- panel -->
+
         </div>
-        <!-- /.panel -->
+        <!-- 12 -->
+
+        <div class="col-lg-12">
+          <button type="submit" class="btn btn-success">{% if delete %} Padam {% else %} Daftar {% endif %}</button>
+          <button type="reset" class="btn btn-default">Reset</button>
+        </div>
+        <!-- 12 -->
+
       </div>
-      <!-- /.col-lg-12 -->
-    </div>
-    <!-- /.row -->
+      <!-- /.row -->
+    </form>
 
   </div>
   <!-- /.container-fluid -->
