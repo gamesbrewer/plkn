@@ -247,7 +247,6 @@ def Trainee_New():
     if request.method == 'POST':
         if request.form['ic_no']:
             if Create_Trainee(request.form['name'], request.form['ic_no'], request.form['company'], request.form['index_no'],
-                              #request.form['blok_no'],
                               request.form['room_no'], request.form['bed_no'],
                               request.form['gender'], request.form['race'], request.form['religion'], request.form['age'],
                               request.form['phone1'], request.form['phone2'],
@@ -277,7 +276,7 @@ def Trainee_Edit():
     if request.method == 'POST':
         if request.form['ic_no']:
             if Update_Trainee(request.form['ic_no'], request.form['name'], request.form['company'], request.form['index_no'],
-                              request.form['blok_no'], request.form['room_no'], request.form['bed_no'],
+                              request.form['room_no'], request.form['bed_no'],
                               request.form['gender'], request.form['race'], request.form['religion'], request.form['age'],
                               request.form['phone1'], request.form['phone2'],
                               request.form['address1'], request.form['address2'], request.form['address3'],

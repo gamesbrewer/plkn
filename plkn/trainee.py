@@ -2,7 +2,6 @@ from flask import session
 from models import *
 
 def Create_Trainee(new_name, new_ic_no, new_company_id, new_index_no,
-                   #new_blok_no,
                    new_room_no, new_bed_no, new_gender, new_race_id, new_religion_id, new_age, new_phone1, new_phone2,
                    new_address1, new_address2, new_address3, new_postcode, new_city, new_state,
                    new_is_married, new_education_id, new_occupation, new_bsn_account_no, new_is_shooter,
@@ -104,7 +103,6 @@ def Create_Trainee(new_name, new_ic_no, new_company_id, new_index_no,
                                       ic_no = new_ic_no,
                                       company = company_placed,
                                       index_no = "SW151" + '{:0>3}'.format(str(new_index.male if new_gender == "Male" else new_index.female)),
-                                      #blok_no = new_blok_no,
                                       room_no = dorm.room_no,
                                       bed_no = dorm.occupancy,
                                       gender = new_gender,
@@ -141,7 +139,6 @@ def Create_Trainee(new_name, new_ic_no, new_company_id, new_index_no,
         return False
 
 def Update_Trainee(ic_no, new_name, new_company_id, new_index_no,
-                   #new_blok_no,
                    new_room_no, new_bed_no, new_gender, new_race_id, new_religion_id, new_age, new_phone1, new_phone2,
                    new_address1, new_address2, new_address3, new_postcode, new_city, new_state,
                    new_is_married, new_education_id, new_occupation, new_bsn_account_no, new_is_shooter,
@@ -152,7 +149,6 @@ def Update_Trainee(ic_no, new_name, new_company_id, new_index_no,
         update_trainee.name = new_name
         update_trainee.company = Companies.select().where(Companies.id==new_company_id).get()
         update_trainee.index_no = new_index_no
-        #update_trainee.blok_no = new_blok_no
         update_trainee.room_no = new_room_no
         update_trainee.bed_no = new_bed_no
         update_trainee.gender = new_gender
