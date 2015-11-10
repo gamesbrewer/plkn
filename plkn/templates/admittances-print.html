@@ -11,7 +11,7 @@
     <div class="row">
       <div class="col-lg-12">
         <h1 class="page-header">
-          Unit Kesihatan <small>Rekod Medikal</small>
+          Unit Kesihatan <small>Rekod Lawatan Bagi Pelatih</small>
         </h1>
         <ol class="breadcrumb">
           <li class="active">
@@ -29,60 +29,46 @@
           <div class="panel-heading">
 
           </div>
-          <div class="panel-body">
-            <div class="table-responsive">
+          <div class="panel-div">
+
+
+
+            <body class="table-responsive">
 
               <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                {% for trainee in trainees: %}
                 <thead>
                   <tr>
-                    <th>#</th>
-                    <th>Nama</th>
-                    <th>No KP</th>
-                    {% if report_type == "bsn_account": %}
-                    <th>No Akaun BSN</th>
-                    {% elif report_type == "allergic": %}
-                    <th>No Indeks</th>
-                    <th>Kompeni</th>
-                    <th>Alahan/Penyakit</th>
-                    {% else: %}
-                    <th>No Indeks</th>
-                    <th>Kompeni</th>
-                    {% endif %}
+                    <th class="success" width="15%">Nama</th class="success">
+                    <td>{{ trainee.name }}</td>
+                    <th class="success" width="15%">No KP</th class="success">
+                    <td>{{ trainee.ic_no }}</td>
+                  </tr>
+                  <tr>
+                    <th class="success">No Indeks</th class="success">
+                    <td>{{ trainee.index_no }}</td>
+                    <th class="success">Kompeni</th class="success">
+                    <td>{{ trainee.company.name }}</td>
                   </tr>
                 </thead>
                 <tbody>
-                  {% for trainee in trainees: %}
-                  <tr class="{{ loop.cycle('odd', 'even') }}">
-                    <td>{{loop.index}}</td>
-                    <td>{{ trainee.name }}</td>
-                    <td>{{ trainee.ic_no }}</td>
-                    {% if report_type == "bsn_account": %}
-                    <td>{{ trainee.bsn_account_no }}</td>
-                    {% elif report_type == "allergic": %}
-                    <td>{{ trainee.index_no }}</td>
-                    <td>{{ trainee.company.name }}</td>
-                    <td>{{ trainee.company.allergies }}</td>
-                    {% else: %}
-                    <td>{{ trainee.index_no }}</td>
-                    <td>{{ trainee.company.name }}</td>
-                    {% endif %}
-                  </tr>
-
                   <tr>
-                    <td></td>
-                    <td colspan="4">
+                    <td colspan="8">
                       <table class="table table-striped table-bordered table-hover" id="subtable">
                         <thead>
                           <tr>
+                            <th>#</th>
                             <th>Tarikh</th>
                             <th>Butir</th>
                             <th>Diagnosis</th>
+                            <th></th>
                           </tr>
                         </thead>
                         <tbody>
                           {% for item in admittances: %}
                           {% if item.trainee.ic_no == trainee.ic_no: %}
-                          <tr>
+                          <tr class="{{ loop.cycle('odd', 'even') }}">
+                            <td>{{loop.index}}</td>
                             <td>
                               {{ item.timestamp }}
                             </td>
@@ -92,6 +78,9 @@
                             <td>
                               {{ item.diagnosis }}
                             </td>
+                            <td>
+                              <a href="/Print-Admittances?id={{ item.id }}" target="_blank"><button class="btn btn-sm btn-primary">Cetak</button></a>
+                            </td>
                           </tr>
                           {% endif %}
                           {% endfor %}
@@ -100,23 +89,25 @@
                     </td>
                   </tr>
 
-                  {% endfor %}
+
                 </tbody>
+
+                {% endfor %}
               </table>
 
 
-            </div>
-            <!-- /.table-responsive -->
           </div>
-          <!-- /.panel-body -->
+          <!-- /.table-responsive -->
         </div>
-        <!-- /.panel -->
+        <!-- /.panel-body -->
       </div>
-      <!-- /.col-lg-12 -->
+      <!-- /.panel -->
     </div>
-    <!-- /.row -->
+    <!-- /.col-lg-12 -->
   </div>
-  <!-- /.container-fluid -->
+  <!-- /.row -->
+</div>
+<!-- /.container-fluid -->
 
 </div>
 <!-- /#page-wrapper -->
