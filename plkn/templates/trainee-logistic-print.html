@@ -2,7 +2,7 @@
 {% block title %} {% endblock %}
 
 {% block sidebarsearch %}
-<form action="./Management-Logistics" role="form" method="post">
+<form action="./Management-Logistics-Print" role="form" method="post">
   <div class="input-group custom-search-form">
     <input name="search" type="text" class="form-control" placeholder="Search...">
     <span class="input-group-btn">
@@ -41,9 +41,9 @@
           <div class="panel-heading">
             {% if trainees %}
               {% if page > 1 %}
-              <a class="btn btn-info btn-sm" href="./Management-Logistics?pageno={{ page - 1 }}">Prev</a>
+              <a class="btn btn-info btn-sm" href="./Management-Logistics-Print?pageno={{ page - 1 }}">Prev</a>
               {% endif %}
-              <a class="btn btn-info btn-sm" href="./Management-Logistics?pageno={{ page + 1 }}">Next</a>
+              <a class="btn btn-info btn-sm" href="./Management-Logistics-Print?pageno={{ page + 1 }}">Next</a>
             {% endif %}
           </div>
 
