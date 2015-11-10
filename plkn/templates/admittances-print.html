@@ -11,7 +11,7 @@
     <div class="row">
       <div class="col-lg-12">
         <h1 class="page-header">
-          Unit Kesihatan <small>Rekod Lawatan Bagi Pelatih</small>
+          Unit Kesihatan <small>Rekod medikal</small>
         </h1>
         <ol class="breadcrumb">
           <li class="active">
@@ -25,89 +25,95 @@
     <!-- /.row -->
     <div class="row">
       <div class="col-lg-12">
+        {% for trainee in trainees: %}
         <div class="panel panel-default">
           <div class="panel-heading">
+            <form action="#" role="form" method="post">
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label> Nama</label>
+                    <input disabled=disabled value="{{ trainee.name }}">
+                  </div>
+                </div>
+                <!-- 6 -->
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label> No KP</label>
+                    <input disabled=disabled value="{{ trainee.ic_no }}">
+                  </div>
+                </div>
+                <!-- 6 -->
+              </div>
+
+              <div class="row">
+
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label> No Indeks</label>
+                    <input disabled=disabled value="{{ trainee.index_no }}">
+                  </div>
+                </div>
+                <!-- 6 -->
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label> Kompeni</label>
+                    <input disabled=disabled value="{{ trainee.company.name }}">
+                  </div>
+                </div>
+                <!-- 6 -->
+              </div>
+            </form>
 
           </div>
-          <div class="panel-div">
-
-
-
-            <body class="table-responsive">
-
-              <table class="table table-striped table-bordered table-hover" id="dataTables-example">
-                {% for trainee in trainees: %}
+          <div class="panel-body">
+            <div class="table-responsive">
+              <table class="table table-striped table-bordered table-hover">
                 <thead>
                   <tr>
-                    <th class="success" width="15%">Nama</th class="success">
-                    <td>{{ trainee.name }}</td>
-                    <th class="success" width="15%">No KP</th class="success">
-                    <td>{{ trainee.ic_no }}</td>
-                  </tr>
-                  <tr>
-                    <th class="success">No Indeks</th class="success">
-                    <td>{{ trainee.index_no }}</td>
-                    <th class="success">Kompeni</th class="success">
-                    <td>{{ trainee.company.name }}</td>
+                    <th>#</th>
+                    <th>Tarikh</th>
+                    <th>Butir</th>
+                    <th>Diagnosis</th>
+                    <th></th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td colspan="8">
-                      <table class="table table-striped table-bordered table-hover" id="subtable">
-                        <thead>
-                          <tr>
-                            <th>#</th>
-                            <th>Tarikh</th>
-                            <th>Butir</th>
-                            <th>Diagnosis</th>
-                            <th></th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {% for item in admittances: %}
-                          {% if item.trainee.ic_no == trainee.ic_no: %}
-                          <tr class="{{ loop.cycle('odd', 'even') }}">
-                            <td>{{loop.index}}</td>
-                            <td>
-                              {{ item.timestamp }}
-                            </td>
-                            <td>
-                              {{ item.details }}
-                            </td>
-                            <td>
-                              {{ item.diagnosis }}
-                            </td>
-                            <td>
-                              <a href="/Print-Admittances?id={{ item.id }}" target="_blank"><button class="btn btn-sm btn-primary">Cetak</button></a>
-                            </td>
-                          </tr>
-                          {% endif %}
-                          {% endfor %}
-                        </tbody>
-                      </table>
+                  {% for item in admittances: %}
+                  {% if item.trainee.ic_no == trainee.ic_no: %}
+                  <tr class="{{ loop.cycle('odd', 'even') }}">
+                    <td>{{loop.index}}</td>
+                    <td>
+                      {{ item.timestamp }}
+                    </td>
+                    <td>
+                      {{ item.details }}
+                    </td>
+                    <td>
+                      {{ item.diagnosis }}
+                    </td>
+                    <td>
+                      <a href="/Print-Admittances?id={{ item.id }}" target="_blank"><button class="btn btn-sm btn-primary">Cetak</button></a>
                     </td>
                   </tr>
-
-
+                  {% endif %}
+                  {% endfor %}
                 </tbody>
-
-                {% endfor %}
               </table>
 
-
+            </div>
+            <!-- /.table-responsive -->
           </div>
-          <!-- /.table-responsive -->
+          <!-- /.panel-body -->
         </div>
-        <!-- /.panel-body -->
+        <!-- /.panel -->
+        {% endfor %}
       </div>
-      <!-- /.panel -->
+      <!-- /.col-lg-12 -->
     </div>
-    <!-- /.col-lg-12 -->
+    <!-- /.row -->
   </div>
-  <!-- /.row -->
-</div>
-<!-- /.container-fluid -->
+  <!-- /.container-fluid -->
 
 </div>
 <!-- /#page-wrapper -->
