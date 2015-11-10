@@ -1,7 +1,8 @@
 from flask import session
 from models import *
 
-def Create_Trainee(new_name, new_ic_no, new_company_id, new_index_no, new_blok_no,
+def Create_Trainee(new_name, new_ic_no, new_company_id, new_index_no,
+                   #new_blok_no,
                    new_room_no, new_bed_no, new_gender, new_race_id, new_religion_id, new_age, new_phone1, new_phone2,
                    new_address1, new_address2, new_address3, new_postcode, new_city, new_state,
                    new_is_married, new_education_id, new_occupation, new_bsn_account_no, new_is_shooter,
@@ -17,7 +18,7 @@ def Create_Trainee(new_name, new_ic_no, new_company_id, new_index_no, new_blok_n
             new_index.male = new_index.male + 2
         else:
             new_index.female = new_index.female + 2
-            
+
         #set company, bed & room no based on race
         group = GroupPlacement.select().where(GroupPlacement.race==new_race_id).get()
         if group.alpha == 0:
@@ -99,11 +100,11 @@ def Create_Trainee(new_name, new_ic_no, new_company_id, new_index_no, new_blok_n
                     dorm = Dormitory.select().where(Dormitory.room_no=="BP5A").get()
                     dorm.occupancy = dorm.occupancy + 1
         #########  RULES SET HERE ##############################################################3
-        new_trainee = Trainees.create(name = new_name, 
+        new_trainee = Trainees.create(name = new_name,
                                       ic_no = new_ic_no,
                                       company = company_placed,
                                       index_no = "SW151" + '{:0>3}'.format(str(new_index.male if new_gender == "Male" else new_index.female)),
-                                      blok_no = new_blok_no,
+                                      #blok_no = new_blok_no,
                                       room_no = dorm.room_no,
                                       bed_no = dorm.occupancy,
                                       gender = new_gender,
@@ -139,7 +140,8 @@ def Create_Trainee(new_name, new_ic_no, new_company_id, new_index_no, new_blok_n
     else:
         return False
 
-def Update_Trainee(ic_no, new_name, new_company_id, new_index_no, new_blok_no,
+def Update_Trainee(ic_no, new_name, new_company_id, new_index_no,
+                   #new_blok_no,
                    new_room_no, new_bed_no, new_gender, new_race_id, new_religion_id, new_age, new_phone1, new_phone2,
                    new_address1, new_address2, new_address3, new_postcode, new_city, new_state,
                    new_is_married, new_education_id, new_occupation, new_bsn_account_no, new_is_shooter,
@@ -150,7 +152,7 @@ def Update_Trainee(ic_no, new_name, new_company_id, new_index_no, new_blok_no,
         update_trainee.name = new_name
         update_trainee.company = Companies.select().where(Companies.id==new_company_id).get()
         update_trainee.index_no = new_index_no
-        update_trainee.blok_no = new_blok_no
+        #update_trainee.blok_no = new_blok_no
         update_trainee.room_no = new_room_no
         update_trainee.bed_no = new_bed_no
         update_trainee.gender = new_gender
@@ -221,8 +223,8 @@ def Update_Health(ic_no, new_blood_group, new_height, new_weight, new_bmi, new_i
     else:
         return False
 
-def Update_Logistic(ic_no, new_shirt_class_male, new_shirt_class_female, new_shirt_sport_male, new_shirt_sport_female, 
-                    new_inner_male, new_inner_female, new_shoe_class_male, new_shoe_class_female, new_shirt_celoreng, 
+def Update_Logistic(ic_no, new_shirt_class_male, new_shirt_class_female, new_shirt_sport_male, new_shirt_sport_female,
+                    new_inner_male, new_inner_female, new_shoe_class_male, new_shoe_class_female, new_shirt_celoreng,
                     new_track_bottom_black, new_shoe_sport, new_pants_celoreng, new_pants_class, new_shoe_spike, new_beret):
     try:
         trainee_logistic = Trainees.select().where(Trainees.ic_no==ic_no).get()

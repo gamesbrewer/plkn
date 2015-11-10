@@ -79,7 +79,7 @@ def Dashboard():
         unregistered = 0
         male = 0
         female = 0
-        
+
         trainee_race = [0 for x in range(races.count())]
         trainee_religion = [0 for x in range(religions.count())]
         for trainee in trainees:
@@ -98,7 +98,7 @@ def Dashboard():
         race_data = []
         for item in races:
             race_data.append(item.name + ":"+ str(trainee_race[item.id-1]))
-        
+
         religion_data = []
         for item in religions:
             religion_data.append(item.name + ":"+ str(trainee_religion[item.id-1]))
@@ -247,7 +247,8 @@ def Trainee_New():
     if request.method == 'POST':
         if request.form['ic_no']:
             if Create_Trainee(request.form['name'], request.form['ic_no'], request.form['company'], request.form['index_no'],
-                              request.form['blok_no'], request.form['room_no'], request.form['bed_no'],
+                              #request.form['blok_no'],
+                              request.form['room_no'], request.form['bed_no'],
                               request.form['gender'], request.form['race'], request.form['religion'], request.form['age'],
                               request.form['phone1'], request.form['phone2'],
                               request.form['address1'], request.form['address2'], request.form['address3'],
@@ -489,7 +490,7 @@ def Trainee_Logistic_Edit():
         if request.form['ic_no']:
             ic_no = request.form['ic_no']
             gender = request.form['gender']
-            
+
             if gender == "Male":
                 shirt_class_male = request.form['shirt_class_male']
                 shirt_sport_male = request.form['shirt_sport_male']
@@ -508,7 +509,7 @@ def Trainee_Logistic_Edit():
                 shirt_sport_male = ""
                 inner_male = ""
                 shoe_class_male = ""
-            
+
             if Update_Logistic(ic_no, shirt_class_male, shirt_class_female,
                                shirt_sport_male, shirt_sport_female, inner_male,
                                inner_female, shoe_class_male, shoe_class_female,
