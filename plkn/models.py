@@ -249,7 +249,6 @@ class Inventories(peewee.Model):
     category = peewee.ForeignKeyField(InventoryCategories, null=True)
     code = peewee.CharField(null=True)
     unit_price = peewee.DecimalField(null=True)
-    quantity = peewee.IntegerField(null=True)
     is_deleted = peewee.BooleanField(default=False)
     created_by = peewee.ForeignKeyField(Users)
     timestamp = peewee.DateTimeField(default=datetime.datetime.now)
@@ -257,6 +256,34 @@ class Inventories(peewee.Model):
     class Meta:
         database = database
 
+class Orders(peewee.Model):
+    unit_from = peewee.CharField(null=True)
+    unit_to = peewee.CharField(null=True)
+    order_no = peewee.CharField(null=True)
+    checkout_no = peewee.CharField(null=True)
+    order_required_date = peewee.DateTimeField(null=True, default=datetime.datetime.now)
+    is_deleted = peewee.BooleanField(default=False)
+    created_by = peewee.ForeignKeyField(Users)
+    timestamp = peewee.DateTimeField(default=datetime.datetime.now)
+
+    class Meta:
+        database = database
+
+class OrderItems(peewee.Model):
+    order = peewee.ForeignKeyField(Orders, null=False)
+    inventory = peewee.ForeignKeyField(Inventories, null=False)
+    quantity_ordered = peewee.IntegerField(null=True)
+    quantity_approved = peewee.IntegerField(null=True)
+    quantity_taken = peewee.IntegerField(null=True)
+    unit_price = peewee.DecimalField(null=True)
+    full_price = peewee.DecimalField(null=True)
+    notes = peewee.TextField(null=True)
+    is_deleted = peewee.BooleanField(default=False)
+    created_by = peewee.ForeignKeyField(Users)
+    timestamp = peewee.DateTimeField(default=datetime.datetime.now)
+    
+    class Meta:
+        database = database
 #------------ Database Creation & Initialization ---------------------------------------
 
 if __name__ == "__main__":
@@ -372,4 +399,13 @@ if __name__ == "__main__":
         Inventories.create_table()
     except peewee.OperationalError:
         print "Inventories table already exists!"
-  
+    
+    try:
+        Orders.create_table()
+    except peewee.OperationalError:
+        print "Orders table already exists!"
+    
+    try:
+        OrderItems.create_table()
+    except peewee.OperationalError:
+        print "OrderItems table already exists!"

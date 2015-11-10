@@ -1,0 +1,103 @@
+{% extends "layout.html" %}
+{% block title %} {% endblock %}
+{% block pagewrapper %}
+
+<div id="page-wrapper">
+  <div class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class="row">
+      <div class="col-lg-12">
+        <h1 class="page-header">
+          {% if edit and delete %} Padam {% elif edit %} Kemaskini {% else %} Daftar {% endif %} Pengeluaran Inventori <small></small>
+        </h1>
+        <ol class="breadcrumb">
+          <li class="active">
+            <i class="fa fa-pencil-square-o"></i> Borang Pengeluaran Inventori
+          </li>
+        </ol>
+      </div>
+    </div>
+    <!-- /.row -->
+
+    <form action="./Management-Inventories-Checkout-New" role="form" method="post">
+      <div class="row">
+        <div class="col-lg-12">
+
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              Butiran Pengeluaran Inventori
+              <h5 class="panel-title" style="color:red;font-weight:bold;">{{error}}</h5>
+            </div>
+
+            <div class="panel-body">
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label>Daripada</label>
+                    <input name="unit_from" class="form-control" placeholder="Daripada">
+                  </div>
+                </div>
+                <!-- 6 -->
+
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label>Kepada</label>
+                    <input name="unit_to" class="form-control" placeholder="Kepada">
+                  </div>
+                </div>
+                <!-- 6 -->
+
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label>No Pesanan</label>
+                    <input name="order_no" class="form-control" placeholder="No Pesanan">
+                  </div>
+                </div>
+                <!-- 6 -->
+				
+				<div class="col-lg-6">
+                  <div class="form-group">
+                    <label>Tarikh Bekalan Dikehendaki</label>
+                    <input name="order_required_date" class="form-control" placeholder="Tarikh">
+                  </div>
+                </div>
+                <!-- 6 -->
+
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label>Kategori</label>
+                    <select name="category" class="form-control">
+					  <option value=""></option>
+                      {% for type in categories: %}
+                      <option value="{{ type.id }}" {% if edit and type.id == inventory.category.id %} selected=selected {% endif %}>{{ type.name }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+                <!-- 6 -->
+              </div>
+              <!-- panel-body -->
+            </div>
+            <!-- panel -->
+          </div>
+          <!-- 12 -->
+
+          <div class="col-lg-12">
+            <button type="submit" class="btn btn-success">{% if delete %} Padam {% else %} Daftar {% endif %}</button>
+            <button type="reset" class="btn btn-default">Reset</button>
+          </div>
+          <!-- 12 -->
+
+        </div>
+        <!-- 12 -->
+      </div>
+      <!-- /.row -->
+    </form>
+
+  </div>
+  <!-- /.container-fluid -->
+</div>
+<!-- /#page-wrapper -->
+
+{% endblock %}

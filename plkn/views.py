@@ -79,12 +79,12 @@ def Dashboard():
         unregistered = 0
         male = 0
         female = 0
-
+        
         trainee_race = [0 for x in range(races.count())]
         trainee_religion = [0 for x in range(religions.count())]
         for trainee in trainees:
-            trainee_race[trainee.race.id-1] += 1
-            trainee_religion[trainee.religion.id-1] += 1
+            if trainee.race: trainee_race[trainee.race.id-1] += 1
+            if trainee.religion: trainee_religion[trainee.religion.id-1] += 1
             if trainee.is_registered==True:
                 registered += 1
             else:
@@ -98,7 +98,7 @@ def Dashboard():
         race_data = []
         for item in races:
             race_data.append(item.name + ":"+ str(trainee_race[item.id-1]))
-
+        
         religion_data = []
         for item in religions:
             religion_data.append(item.name + ":"+ str(trainee_religion[item.id-1]))
@@ -226,15 +226,19 @@ def Blood_Group_New():
 def Trainee():
     if request.method == 'POST':
         page_no = 1
-        trainees = Trainees.select().where(Trainees.name.contains(request.form['search']) | Trainees.ic_no.contains(request.form['search'])).where(Trainees.is_deleted==False).order_by(Trainees.id).paginate(page_no, 10)
+        search_for = request.form['search']
+        trainees = Trainees.select().where(Trainees.name.contains(search_for) | Trainees.ic_no.contains(search_for) | Trainees.index_no.contains(search_for)).where(Trainees.is_deleted==False).order_by(Trainees.id).paginate(page_no, 10)
     else:
         if request.args.get('pageno'):
             page_no = int(request.args.get('pageno'))
+            search_for = request.args.get('search')
+            trainees = Trainees.select().where(Trainees.name.contains(search_for) | Trainees.ic_no.contains(search_for) | Trainees.index_no.contains(search_for)).where(Trainees.is_deleted==False).order_by(Trainees.id).paginate(page_no, 10)
         else:
             page_no = 1
-        trainees = []
+            search_for = ""
+            trainees = []
 
-    return render_template('trainee.html', user_name=session['username'], level=session['level'], trainees = trainees, page = page_no)
+    return render_template('trainee.html', user_name=session['username'], level=session['level'], trainees = trainees, page = page_no, search = search_for)
 
 @general.route('/Management-Trainees-New', methods=['POST', 'GET'])
 def Trainee_New():
@@ -247,6 +251,7 @@ def Trainee_New():
     if request.method == 'POST':
         if request.form['ic_no']:
             if Create_Trainee(request.form['name'], request.form['ic_no'], request.form['company'], request.form['index_no'],
+                              #request.form['blok_no'], 
                               request.form['room_no'], request.form['bed_no'],
                               request.form['gender'], request.form['race'], request.form['religion'], request.form['age'],
                               request.form['phone1'], request.form['phone2'],
@@ -276,6 +281,7 @@ def Trainee_Edit():
     if request.method == 'POST':
         if request.form['ic_no']:
             if Update_Trainee(request.form['ic_no'], request.form['name'], request.form['company'], request.form['index_no'],
+                              #request.form['blok_no'], 
                               request.form['room_no'], request.form['bed_no'],
                               request.form['gender'], request.form['race'], request.form['religion'], request.form['age'],
                               request.form['phone1'], request.form['phone2'],
@@ -329,14 +335,18 @@ def Trainee_Delete():
 def Trainee_Health():
     if request.method == 'POST':
         page_no = 1
-        trainees = Trainees.select().where(Trainees.name.contains(request.form['search']) | Trainees.index_no.contains(request.form['search'])).where(Trainees.is_deleted==False).order_by(Trainees.id).paginate(page_no, 10)
+        search_for = request.form['search']
+        trainees = Trainees.select().where(Trainees.name.contains(search_for) | Trainees.ic_no.contains(search_for) | Trainees.index_no.contains(search_for)).where(Trainees.is_deleted==False).order_by(Trainees.id).paginate(page_no, 10)
     else:
         if request.args.get('pageno'):
             page_no = int(request.args.get('pageno'))
+            search_for = request.args.get('search')
+            trainees = Trainees.select().where(Trainees.name.contains(search_for) | Trainees.ic_no.contains(search_for) | Trainees.index_no.contains(search_for)).where(Trainees.is_deleted==False).order_by(Trainees.id).paginate(page_no, 10)
         else:
             page_no = 1
-        trainees = [] #trainees = Trainees.select().where(Trainees.is_deleted==False).order_by(Trainees.id).paginate(page_no, 10)
-    return render_template('trainee-health.html', user_name=session['username'], level=session['level'], trainees = trainees, page = page_no)
+            search_for = ""
+            trainees = []
+    return render_template('trainee-health.html', user_name=session['username'], level=session['level'], trainees = trainees, page = page_no, search = search_for)
 
 @general.route('/Management-Healths-Edit', methods=['POST', 'GET'])
 def Trainee_Health_Edit():
@@ -449,14 +459,18 @@ def Trainee_Admittance_Report():
 def Trainee_Logistic():
     if request.method == 'POST':
         page_no = 1
-        trainees = Trainees.select().where(Trainees.name.contains(request.form['search']) | Trainees.index_no.contains(request.form['search'])).where(Trainees.is_deleted==False).order_by(Trainees.id).paginate(page_no, 10)
+        search_for = request.form['search']
+        trainees = Trainees.select().where(Trainees.name.contains(search_for) | Trainees.ic_no.contains(search_for) | Trainees.index_no.contains(search_for)).where(Trainees.is_deleted==False).order_by(Trainees.id).paginate(page_no, 10)
     else:
         if request.args.get('pageno'):
             page_no = int(request.args.get('pageno'))
+            search_for = request.args.get('search')
+            trainees = Trainees.select().where(Trainees.name.contains(search_for) | Trainees.ic_no.contains(search_for) | Trainees.index_no.contains(search_for)).where(Trainees.is_deleted==False).order_by(Trainees.id).paginate(page_no, 10)
         else:
             page_no = 1
-        trainees = [] #trainees = Trainees.select().where(Trainees.is_deleted==False).order_by(Trainees.id).paginate(page_no, 10)
-    return render_template('trainee-logistic.html', user_name=session['username'], level=session['level'], trainees = trainees, page = page_no)
+            search_for = ""
+            trainees = []
+    return render_template('trainee-logistic.html', user_name=session['username'], level=session['level'], trainees = trainees, page = page_no, search = search_for)
 
 @general.route('/Management-Logistics-Print', methods=['POST', 'GET'])
 def Trainee_Logistic_Print():
@@ -489,7 +503,7 @@ def Trainee_Logistic_Edit():
         if request.form['ic_no']:
             ic_no = request.form['ic_no']
             gender = request.form['gender']
-
+            
             if gender == "Male":
                 shirt_class_male = request.form['shirt_class_male']
                 shirt_sport_male = request.form['shirt_sport_male']
@@ -508,7 +522,7 @@ def Trainee_Logistic_Edit():
                 shirt_sport_male = ""
                 inner_male = ""
                 shoe_class_male = ""
-
+            
             if Update_Logistic(ic_no, shirt_class_male, shirt_class_female,
                                shirt_sport_male, shirt_sport_female, inner_male,
                                inner_female, shoe_class_male, shoe_class_female,
@@ -569,6 +583,49 @@ def Inventory_New():
     categories = InventoryCategories.select().order_by(InventoryCategories.id)
     return render_template('inventory-form.html', user_name=session['username'], level=session['level'], categories = categories, edit = False, error=error)
 
+@general.route('/Management-Inventories-Checkout')
+def Inventory_Checkout():
+    orders = Orders.select().order_by(Orders.id)
+    return render_template('inventory-checkout.html', user_name=session['username'], level=session['level'], orders = orders)
+
+@general.route('/Management-Inventories-Checkout-New', methods=['POST', 'GET'])
+def Inventory_Checkout_New():
+    error = ''
+    if request.method == 'POST':
+        if request.form['order_no']:
+            order_no = request.form['order_no']
+            if Create_Order(request.form['unit_from'], request.form['unit_to'], request.form['order_no'], 
+                            request.form['order_required_date'], request.form['category']):
+                return redirect(url_for('.Inventory_Checkout_Item_Update', order_no = order_no))
+            else:
+                error = 'Error Occured, Order Already Exist'
+        else:
+            error = 'Please Enter All Values'
+    # was GET or error occurred
+    categories = InventoryCategories.select().order_by(InventoryCategories.id)
+    return render_template('inventory-checkout-form.html', user_name=session['username'], level=session['level'], categories = categories, edit = False, error=error)
+
+@general.route('/Management-Inventories-Checkout-Item-Update', methods=['POST', 'GET'])
+def Inventory_Checkout_Item_Update():
+    error = ''
+    if request.method == 'POST':
+        #auto update all form items
+        """
+        if request.form['unit_from']:
+            if Create_Order_Item(request.form['unit_from'], request.form['unit_to'], request.form['order_no'],
+                                 request.form['checkout_no'], request.form['order_required_date'], request.form['category']):
+                return redirect(url_for('.Inventory_Checkout_Item_Update'))
+            else:
+                error = 'Error Occured, Order Already Exist'
+        else:
+            error = 'Please Enter All Values'
+        """
+    # was GET or error occurred
+    order_no = request.args.get('order_no')
+    order = Orders.select().where(Orders.order_no==order_no).get()
+    order_items = OrderItems.select().join(Orders).where(Orders.order_no==order_no)
+    return render_template('inventory-checkout-item-form.html', user_name=session['username'], level=session['level'], order = order, order_items = order_items, edit = True, error=error)
+    
 #------ REPORTS REPORTS REPORTS REPORTS  ------------------------------------------------------------------------------
 
 @general.route('/Report-Trainees')
