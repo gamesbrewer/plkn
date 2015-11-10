@@ -304,6 +304,18 @@ def Delete_Trainee(ic_no):
     else:
         return False
 
+def Undelete_Trainee(ic_no):
+    try:
+        delete_trainee = Trainees.select().where(Trainees.ic_no==ic_no).get()
+        delete_trainee.is_deleted = False
+        delete_trainee.created_by = Users.select().where(Users.email==session['email']).get()
+        delete_trainee.save()
+        return True
+    except Trainees.DoesNotExist:
+        return False
+    else:
+        return False
+
 def Update_Health(ic_no, new_blood_group, new_height, new_weight, new_bmi, new_is_allergic, new_allergies, new_is_food_intolerant,
                   new_food_intolerance, new_reference_no, new_is_declared, new_medicine_journal):
     try:

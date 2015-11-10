@@ -331,6 +331,36 @@ def Trainee_Delete():
     return render_template('trainee-form.html', user_name=session['username'], level=session['level'], trainee = trainee, races = races, edit = True,
                            delete = True, companies = companies, religions = religions, educations = educations, relations = relations, error=error)
 
+@general.route('/Operation-Deleted-Trainees', methods=['POST', 'GET'])
+def Trainee_View_Deleted():
+    if request.method == 'POST':
+        page_no = 1
+        search_for = request.form['search']
+        trainees = Trainees.select().where(Trainees.name.contains(search_for) | Trainees.ic_no.contains(search_for)).where(Trainees.is_deleted==True).order_by(Trainees.id).paginate(page_no, 10)
+    else:
+        if request.args.get('pageno'):
+            page_no = int(request.args.get('pageno'))
+            search_for = request.args.get('search')
+            trainees = Trainees.select().where(Trainees.name.contains(search_for) | Trainees.ic_no.contains(search_for)).where(Trainees.is_deleted==True).order_by(Trainees.id).paginate(page_no, 10)
+        else:
+            page_no = 1
+            search_for = ""
+            trainees = []
+    if request.args.get('error'):
+        error = request.args.get('error')
+    else:
+        error = ""
+    return render_template('trainee-deleted.html', user_name=session['username'], level=session['level'], trainees = trainees, page = page_no, search = search_for, error=error)
+
+@general.route('/Operation-Trainees-Undelete', methods=['POST', 'GET'])
+def Trainee_Undelete():
+    ic_no = request.args.get('ic_no')
+    if Undelete_Trainee(ic_no):
+        return redirect(url_for('.Trainee'))
+    else:
+        error = 'Error Deleting Trainee Info'
+        return redirect(url_for('.Trainee', error=error))
+
 @general.route('/Management-Healths', methods=['POST', 'GET'])
 def Trainee_Health():
     if request.method == 'POST':
