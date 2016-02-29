@@ -118,6 +118,7 @@ class FreeSizes(peewee.Model):
 
 class Trainees(peewee.Model):
     #trainee details
+    camp = peewee.CharField(null=True) #system column
     name = peewee.CharField(null=True)
     ic_no = peewee.CharField(null=False)
     company = peewee.ForeignKeyField(Companies, null=True)
@@ -192,6 +193,7 @@ class Trainees(peewee.Model):
         database = database
 
 class LastIndex(peewee.Model):
+    camp = peewee.CharField(null=True) #system column
     male = peewee.IntegerField()
     female = peewee.IntegerField()
 
@@ -199,6 +201,7 @@ class LastIndex(peewee.Model):
         database = database
 
 class GroupPlacement(peewee.Model):
+    camp = peewee.CharField(null=True) #system column
     race = peewee.ForeignKeyField(Races, null=True)
     alpha = peewee.IntegerField(null=True)
     bravo = peewee.IntegerField(null=True)
@@ -208,6 +211,7 @@ class GroupPlacement(peewee.Model):
         database = database
 
 class Dormitory(peewee.Model):
+    camp = peewee.CharField(null=True) #system column
     room_no = peewee.CharField(null=True)
     occupancy = peewee.IntegerField(null=True)
 
@@ -215,12 +219,14 @@ class Dormitory(peewee.Model):
         database = database
 
 class LastPrintCount(peewee.Model):
+    camp = peewee.CharField(null=True) #system column
     no = peewee.IntegerField()
 
     class Meta:
         database = database
 
 class Admittances(peewee.Model):
+    camp = peewee.CharField(null=True) #system column
     trainee = peewee.ForeignKeyField(Trainees, null=True)
     details = peewee.TextField(null=True)
     diagnosis = peewee.TextField(null=True)
@@ -352,39 +358,70 @@ if __name__ == "__main__":
     except peewee.OperationalError:
         print "FreeSizes table already exists!"
 
+########################################################################################################
+
     try:
         Trainees.create_table()
+        print "Trainees table created"
     except peewee.OperationalError:
         print "Trainees table already exists!"
 
     try:
         LastIndex.create_table()
-        new_index = LastIndex.create(no = 1)
+        new_index = LastIndex.create(camp="SW", no = 1)
+        new_index = LastIndex.create(camp="SR", no = 1)
+        new_index = LastIndex.create(camp="JP", no = 1)
+        new_index = LastIndex.create(camp="BM", no = 1)
+        new_index = LastIndex.create(camp="BS", no = 1)
+        print "LastIndex table created"
     except peewee.OperationalError:
         print "LastIndex table already exists!"
         
     try:
         LastPrintCount.create_table()
-        new_print = LastPrintCount.create(no = 0)
+        new_print = LastPrintCount.create(camp="SW", no = 0)
+        new_print = LastPrintCount.create(camp="SR", no = 0)
+        new_print = LastPrintCount.create(camp="JP", no = 0)
+        new_print = LastPrintCount.create(camp="BM", no = 0)
+        new_print = LastPrintCount.create(camp="BS", no = 0)
+        print "LastPrintCount table created"
     except peewee.OperationalError:
         print "LastPrintCount table already exists!"
 
     try:
         GroupPlacement.create_table()
-        #new_races = Races.select()
-        #for looped_race in new_races:
-        #    GroupPlacement.create(race=looped_race, alpha=0, bravo=0, charlie=0)
+        new_races = Races.select()
+        for looped_race in new_races:
+            GroupPlacement.create(camp="SW", race=looped_race, alpha=0, bravo=0, charlie=0)
+            GroupPlacement.create(camp="SR", race=looped_race, alpha=0, bravo=0, charlie=0)
+            GroupPlacement.create(camp="JP", race=looped_race, alpha=0, bravo=0, charlie=0)
+            GroupPlacement.create(camp="BM", race=looped_race, alpha=0, bravo=0, charlie=0)
+            GroupPlacement.create(camp="BS", race=looped_race, alpha=0, bravo=0, charlie=0)
+        print "GroupPlacement table created"
     except peewee.OperationalError:
         print "GroupPlacement table already exists!"
         
     try:
-        #Dormitory.create_table()
+        Dormitory.create_table()
         for x in range(1, 9):
-            #Dormitory.create(room_no="BL" + str(x), occupancy=0)
-            Dormitory.create(room_no="BP" + str(x), occupancy=0)
+            Dormitory.create(camp="SW", room_no="BL" + str(x), occupancy=0)
+            Dormitory.create(camp="SW", room_no="BP" + str(x), occupancy=0)
+            Dormitory.create(camp="BM", room_no="BL" + str(x), occupancy=0)
+            Dormitory.create(camp="BM", room_no="BP" + str(x), occupancy=0)
+            Dormitory.create(camp="JP", room_no="BLOK " + str(x), occupancy=0)
+            Dormitory.create(camp="JP", room_no="BLOK " + str(x) + "P", occupancy=0)
+        for x in range(1, 13):
+            Dormitory.create(camp="BS", room_no="WA" + str(x), occupancy=0)
+            Dormitory.create(camp="BS", room_no="WA" + str(x), occupancy=0)
+        for x in range(1, 9):    
+            Dormitory.create(camp="SR", room_no="L" + str(x) + "A", occupancy=0)
+            Dormitory.create(camp="SR", room_no="L" + str(x) + "B", occupancy=0)
+            Dormitory.create(camp="SR", room_no="P" + str(x) + "A", occupancy=0)
+            Dormitory.create(camp="SR", room_no="P" + str(x) + "B", occupancy=0)
+        print "Dormitory table created"
     except peewee.OperationalError:
         print "Dormitory table already exists!"
-
+########################################################################################################
     try:
         Admittances.create_table()
     except peewee.OperationalError:

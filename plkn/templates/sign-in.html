@@ -35,8 +35,18 @@
 
                         <form class="sign-in-up-form" action="./Sign-In" role="form" method="post">
                             <fieldset>
+								<div class="form-group">
+									<select name="camp" class="form-control" autofocus>
+									  <option value="ALL">SEMUA</option>
+									  <option value="SW">SIMILAJAU</option>
+									  <option value="SR">SUNGAI RAIT</option>
+									  <option value="JP">JUNACO PARK</option>
+									  <option value="BM">BUMIMAS</option>
+									  <option value="BS">BUKIT SABAN</option>
+									</select>
+								</div>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="E-mail" name="email" type="email" autofocus>
+                                    <input class="form-control" placeholder="E-mail" name="email" type="email">
                                 </div>
                                 <div class="form-group">
                                     <input class="form-control" placeholder="Password" name="password" type="password" value="">

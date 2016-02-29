@@ -60,7 +60,7 @@ def Sign_In(error = ''):
     if request.method == 'POST':
         if request.form['email'] and request.form['password']:
             if Authenticate(request.form['email'], request.form['password']):
-                return redirect(url_for(Log_User_In(request.form['email'])))
+                return redirect(url_for(Log_User_In(request.form['email'], request.form['camp'])))
             else:
                 error = 'Invalid email or password'
         else:
@@ -68,10 +68,9 @@ def Sign_In(error = ''):
     # was GET or the credentials were invalid
     return render_template('sign-in.html', error=error)
 
-@general.route('/Dashboard')
-def Dashboard():
+@general.route('/Allboard')
+def Allboard():
     if 'username' in session:
-        # TODO
         trainees = Trainees.select().where(Trainees.is_deleted==False)
         races = Races.select().where(Races.is_deleted==False)
         religions = Religions.select().where(Religions.is_deleted==False)
@@ -103,8 +102,49 @@ def Dashboard():
         for item in religions:
             religion_data.append(item.name + ":"+ str(trainee_religion[item.id-1]))
 
-        return render_template('dashboard.html', user_name=session['username'], level=session['level'], count_registered_trainees=registered, count_unregistered_trainees=unregistered,
-                                count_male_trainees=male, count_female_trainees=female, race_data = race_data, religion_data = religion_data)
+        return render_template('allboard.html', user_name=session['username'], level=session['level'], camp=session['camp'], 
+                               campname=session['campname'], count_registered_trainees=registered, count_unregistered_trainees=unregistered,
+                               count_male_trainees=male, count_female_trainees=female, race_data = race_data, religion_data = religion_data)
+        #return 'Logged in as %s' % escape(session['username'])
+    return redirect(url_for('.Sign_In', error="You are not logged in"))
+
+@general.route('/Dashboard')
+def Dashboard():
+    if 'username' in session:
+        trainees = Trainees.select().where(Trainees.camp==session['camp']).where(Trainees.is_deleted==False)
+        races = Races.select().where(Races.is_deleted==False)
+        religions = Religions.select().where(Religions.is_deleted==False)
+        registered = 0
+        unregistered = 0
+        male = 0
+        female = 0
+        
+        trainee_race = [0 for x in range(races.count())]
+        trainee_religion = [0 for x in range(religions.count())]
+        for trainee in trainees:
+            if trainee.race: trainee_race[trainee.race.id-1] += 1
+            if trainee.religion: trainee_religion[trainee.religion.id-1] += 1
+            if trainee.is_registered==True:
+                registered += 1
+            else:
+                unregistered += 1
+
+            if trainee.gender=="Male":
+                male += 1
+            else:
+                female += 1
+
+        race_data = []
+        for item in races:
+            race_data.append(item.name + ":"+ str(trainee_race[item.id-1]))
+        
+        religion_data = []
+        for item in religions:
+            religion_data.append(item.name + ":"+ str(trainee_religion[item.id-1]))
+
+        return render_template('dashboard.html', user_name=session['username'], level=session['level'], camp=session['camp'], 
+                               campname=session['campname'], count_registered_trainees=registered, count_unregistered_trainees=unregistered,
+                               count_male_trainees=male, count_female_trainees=female, race_data = race_data, religion_data = religion_data)
         #return 'Logged in as %s' % escape(session['username'])
     return redirect(url_for('.Sign_In', error="You are not logged in"))
 
@@ -227,18 +267,19 @@ def Trainee():
     if request.method == 'POST':
         page_no = 1
         search_for = request.form['search']
-        trainees = Trainees.select().where(Trainees.name.contains(search_for) | Trainees.ic_no.contains(search_for) | Trainees.index_no.contains(search_for)).where(Trainees.is_deleted==False).order_by(Trainees.id).paginate(page_no, 10)
+        trainees = Trainees.select().where(Trainees.camp==session['camp']).where(Trainees.name.contains(search_for) | Trainees.ic_no.contains(search_for) | Trainees.index_no.contains(search_for)).where(Trainees.is_deleted==False).order_by(Trainees.id).paginate(page_no, 10)
     else:
         if request.args.get('pageno'):
             page_no = int(request.args.get('pageno'))
             search_for = request.args.get('search')
-            trainees = Trainees.select().where(Trainees.name.contains(search_for) | Trainees.ic_no.contains(search_for) | Trainees.index_no.contains(search_for)).where(Trainees.is_deleted==False).order_by(Trainees.id).paginate(page_no, 10)
+            trainees = Trainees.select().where(Trainees.camp==session['camp']).where(Trainees.name.contains(search_for) | Trainees.ic_no.contains(search_for) | Trainees.index_no.contains(search_for)).where(Trainees.is_deleted==False).order_by(Trainees.id).paginate(page_no, 10)
         else:
             page_no = 1
             search_for = ""
             trainees = []
 
-    return render_template('trainee.html', user_name=session['username'], level=session['level'], trainees = trainees, page = page_no, search = search_for)
+    return render_template('trainee.html', user_name=session['username'], level=session['level'], camp=session['camp'], 
+                           trainees = trainees, page = page_no, search = search_for)
 
 @general.route('/Management-Trainees-New', methods=['POST', 'GET'])
 def Trainee_New():
@@ -267,8 +308,9 @@ def Trainee_New():
         else:
             error = 'Please Enter All Values'
     # was GET or error occurred
-    return render_template('trainee-form.html', user_name=session['username'], level=session['level'], races = races, edit = False, delete = False,
-                           companies = companies, religions = religions, educations = educations, relations = relations, error=error)
+    return render_template('trainee-form.html', user_name=session['username'], level=session['level'], camp=session['camp'], 
+                            races = races, edit = False, delete = False, companies = companies, 
+                            religions = religions, educations = educations, relations = relations, error=error)
 
 @general.route('/Management-Trainees-Edit', methods=['POST', 'GET'])
 def Trainee_Edit():
