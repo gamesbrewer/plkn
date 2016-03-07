@@ -345,7 +345,7 @@ def Trainee_Edit():
     else:
         ic_no = request.args.get('ic_no')
     trainee = Trainees.select().where(Trainees.ic_no==ic_no).get()
-    return render_template('trainee-form.html', user_name=session['username'], level=session['level'], trainee = trainee, races = races, edit = True,
+    return render_template('trainee-form.html', user_name=session['username'], level=session['level'], camp=session['camp'], trainee = trainee, races = races, edit = True,
                            delete = False, companies = companies, religions = religions, educations = educations, relations = relations, error=error)
 
 @general.route('/Management-Trainees-Delete', methods=['POST', 'GET'])
@@ -370,7 +370,7 @@ def Trainee_Delete():
     else:
         ic_no = request.args.get('ic_no')
     trainee = Trainees.select().where(Trainees.ic_no==ic_no).get()
-    return render_template('trainee-form.html', user_name=session['username'], level=session['level'], trainee = trainee, races = races, edit = True,
+    return render_template('trainee-form.html', user_name=session['username'], level=session['level'], camp=session['camp'], trainee = trainee, races = races, edit = True,
                            delete = True, companies = companies, religions = religions, educations = educations, relations = relations, error=error)
 
 @general.route('/Operation-Deleted-Trainees', methods=['POST', 'GET'])
@@ -392,7 +392,7 @@ def Trainee_View_Deleted():
         error = request.args.get('error')
     else:
         error = ""
-    return render_template('trainee-deleted.html', user_name=session['username'], level=session['level'], trainees = trainees, page = page_no, search = search_for, error=error)
+    return render_template('trainee-deleted.html', user_name=session['username'], level=session['level'], camp=session['camp'], trainees = trainees, page = page_no, search = search_for, error=error)
 
 @general.route('/Operation-Trainees-Undelete', methods=['POST', 'GET'])
 def Trainee_Undelete():
@@ -418,7 +418,7 @@ def Trainee_Health():
             page_no = 1
             search_for = ""
             trainees = []
-    return render_template('trainee-health.html', user_name=session['username'], level=session['level'], trainees = trainees, page = page_no, search = search_for)
+    return render_template('trainee-health.html', user_name=session['username'], level=session['level'], camp=session['camp'], trainees = trainees, page = page_no, search = search_for)
 
 @general.route('/Management-Healths-Edit', methods=['POST', 'GET'])
 def Trainee_Health_Edit():
@@ -447,7 +447,7 @@ def Trainee_Health_Edit():
     if request.method == 'GET':
         ic_no = request.args.get('ic_no')
     trainee = Trainees.select().where(Trainees.ic_no==ic_no).get()
-    return render_template('trainee-health-form.html', user_name=session['username'], level=session['level'], trainee = trainee, races = races,
+    return render_template('trainee-health-form.html', user_name=session['username'], level=session['level'], camp=session['camp'], trainee = trainee, races = races,
                            companies = companies, religions = religions, educations = educations, relations = relations, blood_groups = blood_groups,
                            error=error)
 
@@ -465,7 +465,7 @@ def Trainee_Admittance():
         admittances = []
         trainees = []
 
-    return render_template('trainee-admittance.html', user_name=session['username'], level=session['level'], admittances = admittances, trainees = trainees, page = page_no)
+    return render_template('trainee-admittance.html', user_name=session['username'], level=session['level'], camp=session['camp'], admittances = admittances, trainees = trainees, page = page_no)
 
 @general.route('/Management-Admittances-New', methods=['POST', 'GET'])
 def Trainee_Admittance_New():
@@ -486,8 +486,8 @@ def Trainee_Admittance_New():
             ic_no = request.args.get('ic_no')
         trainee = Trainees.select().where(Trainees.ic_no==ic_no).get()
         admittance = []
-    return render_template('trainee-admittance-form.html', user_name=session['username'], level=session['level'], trainee = trainee,
-                           admittance = admittance, edit = False, delete = False, error=error)
+    return render_template('trainee-admittance-form.html', user_name=session['username'], level=session['level'], camp=session['camp'], 
+                           trainee = trainee, admittance = admittance, edit = False, delete = False, error=error)
 
 @general.route('/Management-Admittances-Edit', methods=['POST', 'GET'])
 def Trainee_Admittance_Edit():
@@ -511,8 +511,8 @@ def Trainee_Admittance_Edit():
     admittance = Admittances.select().where(Admittances.id==admittance_id).get()
     companies = Companies.select().order_by(Companies.id)
     trainee = Trainees.select().where(Trainees.ic_no==admittance.trainee.ic_no).get()
-    return render_template('trainee-admittance-form.html', user_name=session['username'], level=session['level'], trainee = trainee, companies = companies,
-                           admittance = admittance, edit = True, delete = False, error=error)
+    return render_template('trainee-admittance-form.html', user_name=session['username'], level=session['level'], camp=session['camp'], 
+                           trainee = trainee, companies = companies, admittance = admittance, edit = True, delete = False, error=error)
 
 @general.route('/Management-Admittances-Report', methods=['POST', 'GET'])
 def Trainee_Admittance_Report():
@@ -525,7 +525,8 @@ def Trainee_Admittance_Report():
         else:
             page_no = 1
         trainees = [] #trainees = Trainees.select().where(Trainees.is_deleted==False).order_by(Trainees.id).paginate(page_no, 10)
-    return render_template('trainee-admittance-report.html', user_name=session['username'], level=session['level'], trainees = trainees, page = page_no)
+    return render_template('trainee-admittance-report.html', user_name=session['username'], level=session['level'], camp=session['camp'], 
+                           trainees = trainees, page = page_no)
 
 @general.route('/Management-Logistics', methods=['POST', 'GET'])
 def Trainee_Logistic():
@@ -542,7 +543,8 @@ def Trainee_Logistic():
             page_no = 1
             search_for = ""
             trainees = []
-    return render_template('trainee-logistic.html', user_name=session['username'], level=session['level'], trainees = trainees, page = page_no, search = search_for)
+    return render_template('trainee-logistic.html', user_name=session['username'], level=session['level'], camp=session['camp'], 
+                           trainees = trainees, page = page_no, search = search_for)
 
 @general.route('/Management-Logistics-Print', methods=['POST', 'GET'])
 def Trainee_Logistic_Print():
@@ -555,7 +557,8 @@ def Trainee_Logistic_Print():
         else:
             page_no = 1
         trainees = Trainees.select().where(Trainees.camp==session['camp']).where(Trainees.is_deleted==False).order_by(Trainees.id).paginate(page_no, 10)
-    return render_template('trainee-logistic-print.html', user_name=session['username'], level=session['level'], trainees = trainees, page = page_no)
+    return render_template('trainee-logistic-print.html', user_name=session['username'], level=session['level'], camp=session['camp'], 
+                           trainees = trainees, page = page_no)
 
 @general.route('/Management-Logistics-Edit', methods=['POST', 'GET'])
 def Trainee_Logistic_Edit():
@@ -611,10 +614,10 @@ def Trainee_Logistic_Edit():
     if request.method == 'GET':
         ic_no = request.args.get('ic_no')
     trainee = Trainees.select().where(Trainees.ic_no==ic_no).get()
-    return render_template('trainee-logistic-form.html', user_name=session['username'], level=session['level'], trainee = trainee, races = races,
-                           companies = companies, religions = religions, educations = educations, relations = relations,
-                           shirt_sizes = shirt_sizes, pant_sizes = pant_sizes, shoe_sizes = shoe_sizes, free_sizes = free_sizes, beret_sizes = beret_sizes,
-                           error=error)
+    return render_template('trainee-logistic-form.html', user_name=session['username'], level=session['level'], camp=session['camp'], 
+                           trainee = trainee, races = races, companies = companies, religions = religions, educations = educations, 
+                           relations = relations, shirt_sizes = shirt_sizes, pant_sizes = pant_sizes, shoe_sizes = shoe_sizes, 
+                           free_sizes = free_sizes, beret_sizes = beret_sizes, error=error)
 
 @general.route('/Management-Inventory-Categories')
 def Inventory_Category():
