@@ -226,7 +226,7 @@ class LastPrintCount(peewee.Model):
         database = database
 
 class Admittances(peewee.Model):
-    camp = peewee.CharField(null=True) #system column
+    #camp = peewee.CharField(null=True) #system column
     trainee = peewee.ForeignKeyField(Trainees, null=True)
     details = peewee.TextField(null=True)
     diagnosis = peewee.TextField(null=True)
