@@ -25,9 +25,35 @@ def Authenticate(check_email, check_password):
         else:
             return False
 
-def Log_User_In(email): # goes to dashboard page
+def camp_to_routes(camp):
+    switcher = {
+        "ALL": ".Allboard",
+        "SW": ".Dashboard",
+        "SR": ".Dashboard",
+        "JP": ".Dashboard",
+        "BM": ".Dashboard",
+        "BS": ".Dashboard",
+    }
+    return switcher.get(camp, "")
+
+def camp_full_name(camp):
+    switcher = {
+        "ALL": "ALL",
+        "SW": "SIMILAJAU",
+        "SR": "SUNGAI RAIT",
+        "JP": "JUNACO PARK",
+        "BM": "BUMIMAS",
+        "BS": "BUKIT SABAN",
+    }
+    return switcher.get(camp, "")
+
+def Log_User_In(email, camp): # goes to dashboard page
     user = Users.select().where(Users.email==email).get()
     session['email'] = email
+    session['camp'] = camp
+    session['campname'] = camp_full_name(camp)
     session['username'] = user.full_name
     session['level'] = user.level
-    return '.Dashboard'
+
+    return camp_to_routes(camp)
+    #return '.Dashboard'

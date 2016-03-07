@@ -9,7 +9,7 @@
     <div class="row">
       <div class="col-lg-12">
         <h1 class="page-header">
-          Daftar Inventori
+          Inventori
         </h1>
         <ol class="breadcrumb">
           <li class="active">
@@ -40,6 +40,7 @@
                     <th>Nama</th>
                     <th>No Kod</th>
                     <th>Harga Seyunit</th>
+                    <th></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -49,7 +50,6 @@
                     <td>{{ type.item }}</td>
                     <td>{{ type.code }}</td>
                     <td>{{ type.unit_price }}</td>
-                    <!--
                     <td>
                       <a href=""><button class="btn btn-sm btn-primary" >Kemaskini</button></a>
                       {% if level <= "2" %}
@@ -58,7 +58,6 @@
 
 
                     </td>
-                    -->
                   </tr>
                   {% endfor %}
                 </tbody>

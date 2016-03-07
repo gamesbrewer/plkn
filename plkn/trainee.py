@@ -1,5 +1,9 @@
 from flask import session
 from models import *
+from alpha_camps import *
+from bravo_camps import *
+from charlie_camps import *
+from delta_camps import *
 
 def Create_Trainee(new_name, new_ic_no, new_company_id, new_index_no, #new_blok_no,
                    new_room_no, new_bed_no, new_gender, new_race_id, new_religion_id, new_age, new_phone1, new_phone2,
@@ -14,32 +18,45 @@ def Create_Trainee(new_name, new_ic_no, new_company_id, new_index_no, #new_blok_
             #filled gender, & race
             #########  RULES SET HERE ##############################################################3
             #set index no based on gender
-            new_index = LastIndex.select().where(LastIndex.id==1).get()
+            new_index = LastIndex.select().where(LastIndex.camp==session['camp']).get()
             if new_gender == "Male":
                 new_index.male = new_index.male + 2
             else:
                 new_index.female = new_index.female + 2
                 
             #set company, bed & room no based on race
-            group = GroupPlacement.select().where(GroupPlacement.race==new_race_id).get()
+            group = GroupPlacement.select().where(GroupPlacement.camp==session['camp']).where(GroupPlacement.race==new_race_id).get()
             if group.alpha == 0:
                 group.alpha = 1
                 #put into alpha
                 company_placed = Companies.select().where(Companies.name=="Alpha").get()
                 #put into room--------------------------------------
                 if new_gender == "Male":
-                    dorm = Dormitory.select().where(Dormitory.room_no=="BL1").get()
+                    dorm = Dormitory.select().where(Dormitory.room_no==alpha_male_dorm_1(session['camp'])).get()
                     if dorm.occupancy < 25:
                         dorm.occupancy = dorm.occupancy + 1
-                    else:
-                        dorm = Dormitory.select().where(Dormitory.room_no=="BL2").get()
+                    elif dorm.occupancy >= 25:
+                        dorm = Dormitory.select().where(Dormitory.room_no==alpha_male_dorm_2(session['camp'])).get()
                         dorm.occupancy = dorm.occupancy + 1
+                    elif dorm.occupancy >= 25: #BS has 3 dorms/camps
+                        dorm = Dormitory.select().where(Dormitory.room_no==alpha_male_dorm_3(session['camp'])).get()
+                        dorm.occupancy = dorm.occupancy + 1
+                    elif dorm.occupancy >= 25: #SR has 4 dorms/camps
+                        dorm = Dormitory.select().where(Dormitory.room_no==alpha_male_dorm_4(session['camp'])).get()
+                        dorm.occupancy = dorm.occupancy + 1
+                        
                 else:
-                    dorm = Dormitory.select().where(Dormitory.room_no=="BP7").get()
+                    dorm = Dormitory.select().where(Dormitory.room_no==alpha_female_dorm_1(session['camp'])).get()
                     if dorm.occupancy < 25:
                         dorm.occupancy = dorm.occupancy + 1
-                    else:
-                        dorm = Dormitory.select().where(Dormitory.room_no=="BP8").get()
+                    elif dorm.occupancy >= 25:
+                        dorm = Dormitory.select().where(Dormitory.room_no==alpha_female_dorm_2(session['camp'])).get()
+                        dorm.occupancy = dorm.occupancy + 1
+                    elif dorm.occupancy >= 25: #BS has 3 dorms/camps
+                        dorm = Dormitory.select().where(Dormitory.room_no==alpha_female_dorm_3(session['camp'])).get()
+                        dorm.occupancy = dorm.occupancy + 1
+                    elif dorm.occupancy >= 25: #SR has 4 dorms/camps
+                        dorm = Dormitory.select().where(Dormitory.room_no==alpha_female_dorm_4(session['camp'])).get()
                         dorm.occupancy = dorm.occupancy + 1
             elif group.bravo == 0:
                 group.bravo = 1
@@ -47,18 +64,31 @@ def Create_Trainee(new_name, new_ic_no, new_company_id, new_index_no, #new_blok_
                 company_placed = Companies.select().where(Companies.name=="Bravo").get()
                 #put into room--------------------------------------
                 if new_gender == "Male":
-                    dorm = Dormitory.select().where(Dormitory.room_no=="BL3").get()
+                    dorm = Dormitory.select().where(Dormitory.room_no==bravo_male_dorm_1(session['camp'])).get()
                     if dorm.occupancy < 25:
                         dorm.occupancy = dorm.occupancy + 1
-                    else:
-                        dorm = Dormitory.select().where(Dormitory.room_no=="BL4").get()
+                    elif dorm.occupancy >= 25:
+                        dorm = Dormitory.select().where(Dormitory.room_no==bravo_male_dorm_2(session['camp'])).get()
                         dorm.occupancy = dorm.occupancy + 1
+                    elif dorm.occupancy >= 25: #BS has 3 dorms/camps
+                        dorm = Dormitory.select().where(Dormitory.room_no==bravo_male_dorm_3(session['camp'])).get()
+                        dorm.occupancy = dorm.occupancy + 1
+                    elif dorm.occupancy >= 25: #SR has 4 dorms/camps
+                        dorm = Dormitory.select().where(Dormitory.room_no==bravo_male_dorm_4(session['camp'])).get()
+                        dorm.occupancy = dorm.occupancy + 1
+                        
                 else:
-                    dorm = Dormitory.select().where(Dormitory.room_no=="BP5").get()
+                    dorm = Dormitory.select().where(Dormitory.room_no==bravo_female_dorm_1(session['camp'])).get()
                     if dorm.occupancy < 25:
                         dorm.occupancy = dorm.occupancy + 1
-                    else:
-                        dorm = Dormitory.select().where(Dormitory.room_no=="BP6").get()
+                    elif dorm.occupancy >= 25:
+                        dorm = Dormitory.select().where(Dormitory.room_no==bravo_female_dorm_2(session['camp'])).get()
+                        dorm.occupancy = dorm.occupancy + 1
+                    elif dorm.occupancy >= 25: #BS has 3 dorms/camps
+                        dorm = Dormitory.select().where(Dormitory.room_no==bravo_female_dorm_3(session['camp'])).get()
+                        dorm.occupancy = dorm.occupancy + 1
+                    elif dorm.occupancy >= 25: #SR has 4 dorms/camps
+                        dorm = Dormitory.select().where(Dormitory.room_no==bravo_female_dorm_4(session['camp'])).get()
                         dorm.occupancy = dorm.occupancy + 1
             elif group.charlie == 0:
                 group.charlie = 1
@@ -66,18 +96,31 @@ def Create_Trainee(new_name, new_ic_no, new_company_id, new_index_no, #new_blok_
                 company_placed = Companies.select().where(Companies.name=="Charlie").get()
                 #put into room--------------------------------------
                 if new_gender == "Male":
-                    dorm = Dormitory.select().where(Dormitory.room_no=="BL5").get()
+                    dorm = Dormitory.select().where(Dormitory.room_no==charlie_male_dorm_1(session['camp'])).get()
                     if dorm.occupancy < 25:
                         dorm.occupancy = dorm.occupancy + 1
-                    else:
-                        dorm = Dormitory.select().where(Dormitory.room_no=="BL6").get()
+                    elif dorm.occupancy >= 25:
+                        dorm = Dormitory.select().where(Dormitory.room_no==charlie_male_dorm_2(session['camp'])).get()
                         dorm.occupancy = dorm.occupancy + 1
+                    elif dorm.occupancy >= 25: #BS has 3 dorms/camps
+                        dorm = Dormitory.select().where(Dormitory.room_no==charlie_male_dorm_3(session['camp'])).get()
+                        dorm.occupancy = dorm.occupancy + 1
+                    elif dorm.occupancy >= 25: #SR has 4 dorms/camps
+                        dorm = Dormitory.select().where(Dormitory.room_no==charlie_male_dorm_4(session['camp'])).get()
+                        dorm.occupancy = dorm.occupancy + 1
+                        
                 else:
-                    dorm = Dormitory.select().where(Dormitory.room_no=="BP3").get()
+                    dorm = Dormitory.select().where(Dormitory.room_no==charlie_female_dorm_1(session['camp'])).get()
                     if dorm.occupancy < 25:
                         dorm.occupancy = dorm.occupancy + 1
-                    else:
-                        dorm = Dormitory.select().where(Dormitory.room_no=="BP6A").get()
+                    elif dorm.occupancy >= 25:
+                        dorm = Dormitory.select().where(Dormitory.room_no==charlie_female_dorm_2(session['camp'])).get()
+                        dorm.occupancy = dorm.occupancy + 1
+                    elif dorm.occupancy >= 25: #BS has 3 dorms/camps
+                        dorm = Dormitory.select().where(Dormitory.room_no==charlie_female_dorm_3(session['camp'])).get()
+                        dorm.occupancy = dorm.occupancy + 1
+                    elif dorm.occupancy >= 25: #SR has 4 dorms/camps
+                        dorm = Dormitory.select().where(Dormitory.room_no==charlie_female_dorm_4(session['camp'])).get()
                         dorm.occupancy = dorm.occupancy + 1
             else:
                 group.alpha = 0
@@ -87,25 +130,39 @@ def Create_Trainee(new_name, new_ic_no, new_company_id, new_index_no, #new_blok_
                 company_placed = Companies.select().where(Companies.name=="Delta").get()
                 #put into room--------------------------------------
                 if new_gender == "Male":
-                    dorm = Dormitory.select().where(Dormitory.room_no=="BL7").get()
+                    dorm = Dormitory.select().where(Dormitory.room_no==delta_male_dorm_1(session['camp'])).get()
                     if dorm.occupancy < 25:
                         dorm.occupancy = dorm.occupancy + 1
-                    else:
-                        dorm = Dormitory.select().where(Dormitory.room_no=="BL8").get()
+                    elif dorm.occupancy >= 25:
+                        dorm = Dormitory.select().where(Dormitory.room_no==delta_male_dorm_2(session['camp'])).get()
                         dorm.occupancy = dorm.occupancy + 1
+                    elif dorm.occupancy >= 25: #BS has 3 dorms/camps
+                        dorm = Dormitory.select().where(Dormitory.room_no==delta_male_dorm_3(session['camp'])).get()
+                        dorm.occupancy = dorm.occupancy + 1
+                    elif dorm.occupancy >= 25: #SR has 4 dorms/camps
+                        dorm = Dormitory.select().where(Dormitory.room_no==delta_male_dorm_4(session['camp'])).get()
+                        dorm.occupancy = dorm.occupancy + 1
+                        
                 else:
-                    dorm = Dormitory.select().where(Dormitory.room_no=="BP2").get()
+                    dorm = Dormitory.select().where(Dormitory.room_no==delta_female_dorm_1(session['camp'])).get()
                     if dorm.occupancy < 25:
                         dorm.occupancy = dorm.occupancy + 1
-                    else:
-                        dorm = Dormitory.select().where(Dormitory.room_no=="BP5A").get()
+                    elif dorm.occupancy >= 25:
+                        dorm = Dormitory.select().where(Dormitory.room_no==delta_female_dorm_2(session['camp'])).get()
+                        dorm.occupancy = dorm.occupancy + 1
+                    elif dorm.occupancy >= 25: #BS has 3 dorms/camps
+                        dorm = Dormitory.select().where(Dormitory.room_no==delta_female_dorm_3(session['camp'])).get()
+                        dorm.occupancy = dorm.occupancy + 1
+                    elif dorm.occupancy >= 25: #SR has 4 dorms/camps
+                        dorm = Dormitory.select().where(Dormitory.room_no==delta_female_dorm_4(session['camp'])).get()
                         dorm.occupancy = dorm.occupancy + 1
             #########  RULES SET HERE ##############################################################
 
         new_trainee = Trainees.create(name = new_name, 
                                       ic_no = new_ic_no,
+                                      camp = session['camp'],
                                       company = None if new_race_id == "" else company_placed,
-                                      index_no = "" if new_gender == "" else "SW151" + '{:0>3}'.format(str(new_index.male if new_gender == "Male" else new_index.female)),
+                                      index_no = "" if new_gender == "" else session['camp'] + "151" + '{:0>3}'.format(str(new_index.male if new_gender == "Male" else new_index.female)),
                                       #blok_no = new_blok_no,
                                       room_no = "" if new_race_id == "" else dorm.room_no,
                                       bed_no = "" if new_race_id == "" else dorm.occupancy,
@@ -155,32 +212,45 @@ def Update_Trainee(ic_no, new_name, new_company_id, new_index_no, #new_blok_no,
             #filled gender, & race
             #########  RULES SET HERE ##############################################################3
             #set index no based on gender
-            new_index = LastIndex.select().where(LastIndex.id==1).get()
+            new_index = LastIndex.select().where(LastIndex.camp==session['camp']).get()
             if new_gender == "Male":
                 new_index.male = new_index.male + 2
             else:
                 new_index.female = new_index.female + 2
                 
             #set company, bed & room no based on race
-            group = GroupPlacement.select().where(GroupPlacement.race==new_race_id).get()
+            group = GroupPlacement.select().where(GroupPlacement.camp==session['camp']).where(GroupPlacement.race==new_race_id).get()
             if group.alpha == 0:
                 group.alpha = 1
                 #put into alpha
                 company_placed = Companies.select().where(Companies.name=="Alpha").get()
                 #put into room--------------------------------------
                 if new_gender == "Male":
-                    dorm = Dormitory.select().where(Dormitory.room_no=="BL1").get()
+                    dorm = Dormitory.select().where(Dormitory.room_no==alpha_male_dorm_1(session['camp'])).get()
                     if dorm.occupancy < 25:
                         dorm.occupancy = dorm.occupancy + 1
-                    else:
-                        dorm = Dormitory.select().where(Dormitory.room_no=="BL2").get()
+                    elif dorm.occupancy >= 25:
+                        dorm = Dormitory.select().where(Dormitory.room_no==alpha_male_dorm_2(session['camp'])).get()
                         dorm.occupancy = dorm.occupancy + 1
+                    elif dorm.occupancy >= 25: #BS has 3 dorms/camps
+                        dorm = Dormitory.select().where(Dormitory.room_no==alpha_male_dorm_3(session['camp'])).get()
+                        dorm.occupancy = dorm.occupancy + 1
+                    elif dorm.occupancy >= 25: #SR has 4 dorms/camps
+                        dorm = Dormitory.select().where(Dormitory.room_no==alpha_male_dorm_4(session['camp'])).get()
+                        dorm.occupancy = dorm.occupancy + 1
+                        
                 else:
-                    dorm = Dormitory.select().where(Dormitory.room_no=="BP7").get()
+                    dorm = Dormitory.select().where(Dormitory.room_no==alpha_female_dorm_1(session['camp'])).get()
                     if dorm.occupancy < 25:
                         dorm.occupancy = dorm.occupancy + 1
-                    else:
-                        dorm = Dormitory.select().where(Dormitory.room_no=="BP8").get()
+                    elif dorm.occupancy >= 25:
+                        dorm = Dormitory.select().where(Dormitory.room_no==alpha_female_dorm_2(session['camp'])).get()
+                        dorm.occupancy = dorm.occupancy + 1
+                    elif dorm.occupancy >= 25: #BS has 3 dorms/camps
+                        dorm = Dormitory.select().where(Dormitory.room_no==alpha_female_dorm_3(session['camp'])).get()
+                        dorm.occupancy = dorm.occupancy + 1
+                    elif dorm.occupancy >= 25: #SR has 4 dorms/camps
+                        dorm = Dormitory.select().where(Dormitory.room_no==alpha_female_dorm_4(session['camp'])).get()
                         dorm.occupancy = dorm.occupancy + 1
             elif group.bravo == 0:
                 group.bravo = 1
@@ -188,18 +258,31 @@ def Update_Trainee(ic_no, new_name, new_company_id, new_index_no, #new_blok_no,
                 company_placed = Companies.select().where(Companies.name=="Bravo").get()
                 #put into room--------------------------------------
                 if new_gender == "Male":
-                    dorm = Dormitory.select().where(Dormitory.room_no=="BL3").get()
+                    dorm = Dormitory.select().where(Dormitory.room_no==bravo_male_dorm_1(session['camp'])).get()
                     if dorm.occupancy < 25:
                         dorm.occupancy = dorm.occupancy + 1
-                    else:
-                        dorm = Dormitory.select().where(Dormitory.room_no=="BL4").get()
+                    elif dorm.occupancy >= 25:
+                        dorm = Dormitory.select().where(Dormitory.room_no==bravo_male_dorm_2(session['camp'])).get()
                         dorm.occupancy = dorm.occupancy + 1
+                    elif dorm.occupancy >= 25: #BS has 3 dorms/camps
+                        dorm = Dormitory.select().where(Dormitory.room_no==bravo_male_dorm_3(session['camp'])).get()
+                        dorm.occupancy = dorm.occupancy + 1
+                    elif dorm.occupancy >= 25: #SR has 4 dorms/camps
+                        dorm = Dormitory.select().where(Dormitory.room_no==bravo_male_dorm_4(session['camp'])).get()
+                        dorm.occupancy = dorm.occupancy + 1
+                        
                 else:
-                    dorm = Dormitory.select().where(Dormitory.room_no=="BP5").get()
+                    dorm = Dormitory.select().where(Dormitory.room_no==bravo_female_dorm_1(session['camp'])).get()
                     if dorm.occupancy < 25:
                         dorm.occupancy = dorm.occupancy + 1
-                    else:
-                        dorm = Dormitory.select().where(Dormitory.room_no=="BP6").get()
+                    elif dorm.occupancy >= 25:
+                        dorm = Dormitory.select().where(Dormitory.room_no==bravo_female_dorm_2(session['camp'])).get()
+                        dorm.occupancy = dorm.occupancy + 1
+                    elif dorm.occupancy >= 25: #BS has 3 dorms/camps
+                        dorm = Dormitory.select().where(Dormitory.room_no==bravo_female_dorm_3(session['camp'])).get()
+                        dorm.occupancy = dorm.occupancy + 1
+                    elif dorm.occupancy >= 25: #SR has 4 dorms/camps
+                        dorm = Dormitory.select().where(Dormitory.room_no==bravo_female_dorm_4(session['camp'])).get()
                         dorm.occupancy = dorm.occupancy + 1
             elif group.charlie == 0:
                 group.charlie = 1
@@ -207,18 +290,31 @@ def Update_Trainee(ic_no, new_name, new_company_id, new_index_no, #new_blok_no,
                 company_placed = Companies.select().where(Companies.name=="Charlie").get()
                 #put into room--------------------------------------
                 if new_gender == "Male":
-                    dorm = Dormitory.select().where(Dormitory.room_no=="BL5").get()
+                    dorm = Dormitory.select().where(Dormitory.room_no==charlie_male_dorm_1(session['camp'])).get()
                     if dorm.occupancy < 25:
                         dorm.occupancy = dorm.occupancy + 1
-                    else:
-                        dorm = Dormitory.select().where(Dormitory.room_no=="BL6").get()
+                    elif dorm.occupancy >= 25:
+                        dorm = Dormitory.select().where(Dormitory.room_no==charlie_male_dorm_2(session['camp'])).get()
                         dorm.occupancy = dorm.occupancy + 1
+                    elif dorm.occupancy >= 25: #BS has 3 dorms/camps
+                        dorm = Dormitory.select().where(Dormitory.room_no==charlie_male_dorm_3(session['camp'])).get()
+                        dorm.occupancy = dorm.occupancy + 1
+                    elif dorm.occupancy >= 25: #SR has 4 dorms/camps
+                        dorm = Dormitory.select().where(Dormitory.room_no==charlie_male_dorm_4(session['camp'])).get()
+                        dorm.occupancy = dorm.occupancy + 1
+                        
                 else:
-                    dorm = Dormitory.select().where(Dormitory.room_no=="BP3").get()
+                    dorm = Dormitory.select().where(Dormitory.room_no==charlie_female_dorm_1(session['camp'])).get()
                     if dorm.occupancy < 25:
                         dorm.occupancy = dorm.occupancy + 1
-                    else:
-                        dorm = Dormitory.select().where(Dormitory.room_no=="BP6A").get()
+                    elif dorm.occupancy >= 25:
+                        dorm = Dormitory.select().where(Dormitory.room_no==charlie_female_dorm_2(session['camp'])).get()
+                        dorm.occupancy = dorm.occupancy + 1
+                    elif dorm.occupancy >= 25: #BS has 3 dorms/camps
+                        dorm = Dormitory.select().where(Dormitory.room_no==charlie_female_dorm_3(session['camp'])).get()
+                        dorm.occupancy = dorm.occupancy + 1
+                    elif dorm.occupancy >= 25: #SR has 4 dorms/camps
+                        dorm = Dormitory.select().where(Dormitory.room_no==charlie_female_dorm_4(session['camp'])).get()
                         dorm.occupancy = dorm.occupancy + 1
             else:
                 group.alpha = 0
@@ -228,22 +324,35 @@ def Update_Trainee(ic_no, new_name, new_company_id, new_index_no, #new_blok_no,
                 company_placed = Companies.select().where(Companies.name=="Delta").get()
                 #put into room--------------------------------------
                 if new_gender == "Male":
-                    dorm = Dormitory.select().where(Dormitory.room_no=="BL7").get()
+                    dorm = Dormitory.select().where(Dormitory.room_no==delta_male_dorm_1(session['camp'])).get()
                     if dorm.occupancy < 25:
                         dorm.occupancy = dorm.occupancy + 1
-                    else:
-                        dorm = Dormitory.select().where(Dormitory.room_no=="BL8").get()
+                    elif dorm.occupancy >= 25:
+                        dorm = Dormitory.select().where(Dormitory.room_no==delta_male_dorm_2(session['camp'])).get()
                         dorm.occupancy = dorm.occupancy + 1
+                    elif dorm.occupancy >= 25: #BS has 3 dorms/camps
+                        dorm = Dormitory.select().where(Dormitory.room_no==delta_male_dorm_3(session['camp'])).get()
+                        dorm.occupancy = dorm.occupancy + 1
+                    elif dorm.occupancy >= 25: #SR has 4 dorms/camps
+                        dorm = Dormitory.select().where(Dormitory.room_no==delta_male_dorm_4(session['camp'])).get()
+                        dorm.occupancy = dorm.occupancy + 1
+                        
                 else:
-                    dorm = Dormitory.select().where(Dormitory.room_no=="BP2").get()
+                    dorm = Dormitory.select().where(Dormitory.room_no==delta_female_dorm_1(session['camp'])).get()
                     if dorm.occupancy < 25:
                         dorm.occupancy = dorm.occupancy + 1
-                    else:
-                        dorm = Dormitory.select().where(Dormitory.room_no=="BP5A").get()
+                    elif dorm.occupancy >= 25:
+                        dorm = Dormitory.select().where(Dormitory.room_no==delta_female_dorm_2(session['camp'])).get()
+                        dorm.occupancy = dorm.occupancy + 1
+                    elif dorm.occupancy >= 25: #BS has 3 dorms/camps
+                        dorm = Dormitory.select().where(Dormitory.room_no==delta_female_dorm_3(session['camp'])).get()
+                        dorm.occupancy = dorm.occupancy + 1
+                    elif dorm.occupancy >= 25: #SR has 4 dorms/camps
+                        dorm = Dormitory.select().where(Dormitory.room_no==delta_female_dorm_4(session['camp'])).get()
                         dorm.occupancy = dorm.occupancy + 1
             #########  RULES SET HERE ##############################################################
             update_trainee.company = company_placed
-            update_trainee.index_no = "SW151" + '{:0>3}'.format(str(new_index.male if new_gender == "Male" else new_index.female))
+            update_trainee.index_no = session['camp'] + "151" + '{:0>3}'.format(str(new_index.male if new_gender == "Male" else new_index.female))
             update_trainee.room_no = dorm.room_no
             update_trainee.bed_no = dorm.occupancy
         else:
