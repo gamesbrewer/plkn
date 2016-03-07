@@ -23,11 +23,11 @@
     <div class="row">
       <div class="col-lg-12">
         <h1 class="page-header">
-          Unit Kesihatan <small>Rekod medikal</small>
+          Unit Kesihatan <small>Rekod medikal pelatih</small>
         </h1>
         <ol class="breadcrumb">
           <li class="active">
-            <i class="fa fa-tasks"></i> Senarai pelatih
+            <i class="fa fa-tasks"></i> Senarai Pelatih
           </li>
         </ol>
       </div>
@@ -40,11 +40,12 @@
         <div class="panel panel-default">
           <div class="panel-heading">
             {% if trainees %}
-            {% if page > 1 %}
-            <a class="btn btn-info btn-sm" href="./Management-Admittances-Report?pageno={{ page - 1 }}">Prev</a>
-            {% endif %}
-            <a class="btn btn-info btn-sm" href="./Management-Admittances-Report?pageno={{ page + 1 }}">Next</a>
-            {% endif %}
+              {% if page > 1 %}
+              <a class="btn btn-info btn-sm" href="./Management-Admittances-Report?pageno={{ page - 1 }}">Prev</a>
+              {% endif %}
+              <a class="btn btn-info btn-sm" href="./Management-Admittances-Report?pageno={{ page + 1 }}">Next</a>
+              {% endif %}
+
           </div>
           <div class="panel-body">
             <div class="table-responsive">
@@ -68,7 +69,7 @@
                     <td>{{ type.name }}</td>
                     <td>{{ type.index_no }}</td>
                     <td>
-                      <a href="/Print-Trainee-Admittances?ic_no={{ type.ic_no }}" target="_blank"><button class="btn btn-sm btn-primary">Lihat rekod</button></a>
+                      <a href="/Print-Trainee-Admittances?ic_no={{ type.ic_no }}" target="_blank"><button class="btn btn-sm btn-primary">Rekod Lawatan</button></a>
                     </td>
                   </tr>
                   {% endfor %}
