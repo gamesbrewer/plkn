@@ -60,6 +60,7 @@
                   {% for type in admittances: %}
                   <tr class="{{ loop.cycle('odd', 'even') }}">
                     <td>{{loop.index}}</td>
+					<td>{{ type.trainee.camp }}</td>
                     <td>{{ type.trainee.ic_no }}</td>
                     <td>{{ type.trainee.name }}</td>
                     <td>{{ type.trainee.index_no }}</td>

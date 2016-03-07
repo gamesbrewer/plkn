@@ -455,8 +455,9 @@ def Trainee_Health_Edit():
 def Trainee_Admittance():
     if request.method == 'POST':
         page_no = 1
-        admittances = Admittances.select().join(Trainees).where(Trainees.name.contains(request.form['search']) | Trainees.index_no.contains(request.form['search'])).where(Trainees.is_deleted==False).order_by(Admittances.id).paginate(page_no, 10)
-        trainees = Trainees.select().where(Trainees.camp==session['camp']).where(Trainees.name.contains(request.form['search']) | Trainees.index_no.contains(request.form['search'])).where(Trainees.is_deleted==False).order_by(Trainees.id).paginate(page_no, 10)
+        search_for = request.form['search']
+        admittances = Admittances.select().join(Trainees).where(Trainees.camp==session['camp']).where(Trainees.name.contains(search_for) | Trainees.ic_no.contains(search_for) | Trainees.index_no.contains(search_for)).where(Trainees.is_deleted==False).order_by(Admittances.id).paginate(page_no, 10)
+        trainees = Trainees.select().where(Trainees.camp==session['camp']).where(Trainees.name.contains(search_for) | Trainees.ic_no.contains(search_for) | Trainees.index_no.contains(search_for)).where(Trainees.is_deleted==False).order_by(Trainees.id).paginate(page_no, 10)
     else:
         if request.args.get('pageno'):
             page_no = int(request.args.get('pageno'))
