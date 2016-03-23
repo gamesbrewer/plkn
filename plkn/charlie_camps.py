@@ -1,7 +1,7 @@
 def charlie_male_dorm_1(camp):
     switcher = {
         "SW": "BL5",
-        "SR": "L77A",
+        "SR": "L7A",
         "JP": "BLOK 5",
         "BM": "MANGGIS",
         "BS": "WC1",
