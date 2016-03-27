@@ -515,20 +515,24 @@ def Trainee_Admittance_Edit():
     trainee = Trainees.select().where(Trainees.ic_no==admittance.trainee.ic_no).get()
     return render_template('trainee-admittance-form.html', user_name=session['username'], level=session['level'], camp=session['camp'], 
                            trainee = trainee, companies = companies, admittance = admittance, edit = True, delete = False, error=error)
-
+            
 @general.route('/Management-Admittances-Report', methods=['POST', 'GET'])
 def Trainee_Admittance_Report():
     if request.method == 'POST':
         page_no = 1
-        trainees = Trainees.select().where(Trainees.camp==session['camp']).where(Trainees.name.contains(request.form['search']) | Trainees.index_no.contains(request.form['search'])).where(Trainees.is_deleted==False).order_by(Trainees.id).paginate(page_no, 10)
+        search_for = request.form['search']
+        trainees = Trainees.select().where(Trainees.camp==session['camp']).where(Trainees.name.contains(search_for) | Trainees.ic_no.contains(search_for) | Trainees.index_no.contains(search_for)).where(Trainees.is_deleted==False).order_by(Trainees.id).paginate(page_no, 10)
     else:
         if request.args.get('pageno'):
             page_no = int(request.args.get('pageno'))
+            search_for = request.args.get('search')
+            trainees = Trainees.select().where(Trainees.camp==session['camp']).where(Trainees.name.contains(search_for) | Trainees.ic_no.contains(search_for) | Trainees.index_no.contains(search_for)).where(Trainees.is_deleted==False).order_by(Trainees.id).paginate(page_no, 10)
         else:
             page_no = 1
-        trainees = [] #trainees = Trainees.select().where(Trainees.is_deleted==False).order_by(Trainees.id).paginate(page_no, 10)
+            search_for = ""
+            trainees = []
     return render_template('trainee-admittance-report.html', user_name=session['username'], level=session['level'], camp=session['camp'], 
-                           trainees = trainees, page = page_no)
+                           trainees = trainees, page = page_no, search = search_for)
 
 @general.route('/Management-Logistics', methods=['POST', 'GET'])
 def Trainee_Logistic():
