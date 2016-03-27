@@ -111,11 +111,11 @@ def Allboard():
 @general.route('/Dashboard')
 def Dashboard():
     if 'username' in session:
-        trainees = Trainees.select().where(Trainees.camp==session['camp']).where(Trainees.is_deleted==False)
+        trainees = Trainees.select().where(Trainees.camp==session['camp']).where(Trainees.is_registered==True).where(Trainees.is_deleted==False)
         races = Races.select().where(Races.is_deleted==False)
         religions = Religions.select().where(Religions.is_deleted==False)
-        registered = 0
-        unregistered = 0
+        registered = Trainees.select().where(Trainees.camp==session['camp']).where(Trainees.is_registered==True).where(Trainees.is_deleted==False).count()
+        unregistered = Trainees.select().where(Trainees.camp==session['camp']).where(Trainees.is_registered==False).where(Trainees.is_deleted==False).count()
         male = 0
         female = 0
         
@@ -124,11 +124,12 @@ def Dashboard():
         for trainee in trainees:
             if trainee.race: trainee_race[trainee.race.id-1] += 1
             if trainee.religion: trainee_religion[trainee.religion.id-1] += 1
+            """
             if trainee.is_registered==True:
                 registered += 1
             else:
                 unregistered += 1
-
+            """
             if trainee.gender=="Male":
                 male += 1
             else:
@@ -551,13 +552,13 @@ def Trainee_Logistic():
 def Trainee_Logistic_Print():
     if request.method == 'POST':
         page_no = 1
-        trainees = Trainees.select().where(Trainees.camp==session['camp']).where(Trainees.name.contains(request.form['search']) | Trainees.index_no.contains(request.form['search'])).where(Trainees.is_deleted==False).order_by(Trainees.id).paginate(page_no, 10)
+        trainees = Trainees.select().where(Trainees.camp==session['camp']).where(Trainees.name.contains(request.form['search']) | Trainees.index_no.contains(request.form['search'])).where(Trainees.is_registered==True).where(Trainees.is_deleted==False).order_by(Trainees.id).paginate(page_no, 10)
     else:
         if request.args.get('pageno'):
             page_no = int(request.args.get('pageno'))
         else:
             page_no = 1
-        trainees = Trainees.select().where(Trainees.camp==session['camp']).where(Trainees.is_deleted==False).order_by(Trainees.id).paginate(page_no, 10)
+        trainees = Trainees.select().where(Trainees.camp==session['camp']).where(Trainees.is_registered==True).where(Trainees.is_deleted==False).order_by(Trainees.id).paginate(page_no, 10)
     return render_template('trainee-logistic-print.html', user_name=session['username'], level=session['level'], camp=session['camp'], 
                            trainees = trainees, page = page_no)
 
