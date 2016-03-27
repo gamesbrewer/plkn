@@ -42,9 +42,9 @@
             {% if trainees %}
 
             {% if page > 1 %}
-            <a class="btn btn-info btn-sm" href="./Management-Logistics?pageno={{ page - 1 }}">Prev</a>
+            <a class="btn btn-info btn-sm" href="./Management-Logistics?pageno={{ page - 1 }}&search={{ search }}">Prev</a>
             {% endif %}
-            <a class="btn btn-info btn-sm" href="./Management-Logistics?pageno={{ page + 1 }}">Next</a>
+            <a class="btn btn-info btn-sm" href="./Management-Logistics?pageno={{ page + 1 }}&search={{ search }}">Next</a>
 
             {% endif %}
           </div>
